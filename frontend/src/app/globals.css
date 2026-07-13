@@ -9,6 +9,38 @@
   --color-copy: #35473a;
   --color-tint: #f7fcef;
   --color-outline: #596158;
+  --color-canvas: #f8f9f8;
+  --color-brand-deep: #244f17;
+  --color-hero-sky-deep: #116296;
+  --color-hero-sky: #4a9fd3;
+  --color-hero-sky-soft: #b9e2f5;
+  --color-hero-glass: #eef8fb;
+  --background-image-course-overlay: linear-gradient(
+    180deg,
+    rgb(8 8 8 / 0.05) 22%,
+    rgb(8 8 8 / 0.82) 100%
+  );
+  --background-image-hero: linear-gradient(
+    155deg,
+    var(--color-hero-sky-deep) 0%,
+    var(--color-hero-sky) 52%,
+    var(--color-hero-sky-soft) 100%
+  );
+  --background-image-hero-glow: radial-gradient(
+      circle at 78% 15%,
+      rgb(255 255 255 / 0.42),
+      transparent 24%
+    ),
+    radial-gradient(
+      circle at 18% 76%,
+      rgb(255 255 255 / 0.2),
+      transparent 30%
+    );
+  --background-image-hero-horizon: linear-gradient(
+    180deg,
+    transparent,
+    rgb(15 87 139 / 0.28)
+  );
 
   --font-sans: var(--font-geist-sans);
   --font-mono: var(--font-geist-mono);
@@ -25,6 +57,12 @@
   --container-therapeutic-tags: 22rem;
   --container-video-copy: 26ch;
   --container-video-action: 20rem;
+  --container-courses: 60.5rem;
+  --container-courses-title: 29rem;
+  --container-course-feature-copy: 45ch;
+  --container-course-card-title: 15rem;
+  --container-course-card-copy: 28ch;
+  --container-hero-doctor: 32rem;
 
   --spacing-page: clamp(1.25rem, 4vw, 2.5rem);
   --spacing-card: 13.65rem;
@@ -34,6 +72,20 @@
   --spacing-section: clamp(1.25rem, 2.25vw, 2rem);
   --spacing-video-play: 4.125rem;
   --spacing-video-action-height: 3.375rem;
+  --spacing-course-feature: 20.25rem;
+  --spacing-course-icon: 2rem;
+  --spacing-course-action: 2.125rem;
+  --spacing-hero: max(42rem, 100svh);
+  --spacing-hero-horizon: 48%;
+  --spacing-hero-doctor: 60%;
+  --spacing-hero-wordmark: clamp(10rem, 24vh, 13rem);
+  --spacing-navbar-logo: 4.5rem;
+  --spacing-navbar-logo-mobile: 3.5rem;
+  --spacing-navbar-menu: 2.75rem;
+  --spacing-navbar-menu-max: 28rem;
+  --spacing-navbar-gutter: clamp(1.75rem, 4vw, 3.125rem);
+  --spacing-stats: 17rem;
+  --spacing-stats-inset: clamp(2rem, 5.5vw, 4rem);
 
   --text-progress: 0.6875rem;
   --text-body: 0.9375rem;
@@ -44,6 +96,16 @@
   --text-feature-title: clamp(1.875rem, 2.8vw, 2.375rem);
   --text-feature-copy: clamp(1.0625rem, 1.6vw, 1.375rem);
   --text-tag: 1rem;
+  --text-courses-title: clamp(2.25rem, 3.65vw, 2.5rem);
+  --text-course-feature-title: clamp(1.375rem, 2.4vw, 1.5rem);
+  --text-course-card-title: 1.125rem;
+  --text-course-copy: 0.75rem;
+  --text-course-label: 0.625rem;
+  --text-course-eyebrow: 0.5rem;
+  --text-course-meta: 0.5625rem;
+  --text-hero-wordmark: clamp(8rem, 26vw, 19rem);
+  --text-stat: clamp(1.25rem, 2.5vw, 1.875rem);
+  --text-stat-label: 0.6875rem;
 
   --leading-progress: 1.4;
   --leading-body: 1.3;
@@ -51,17 +113,30 @@
   --leading-display: 1.1;
   --leading-section-title: 1.25;
   --leading-feature-copy: 1.3;
+  --leading-courses-title: 1;
+  --leading-course-copy: 1.55;
+  --leading-stat-label: 1.2;
 
   --tracking-card-title: -0.035em;
   --tracking-display: -0.055em;
   --tracking-section-title: -0.035em;
+  --tracking-courses-title: 0.015em;
+  --tracking-course-label: 0.08em;
+  --tracking-hero-wordmark: -0.075em;
+  --tracking-nav: 0.06em;
 
   --aspect-therapeutic: 1.18;
   --aspect-video-card: 1.3;
+  --aspect-course-feature-mobile: 1.45;
+  --aspect-course-card: 0.795;
   --grid-template-columns-therapeutic-header: minmax(0, 1.06fr) minmax(0, 0.94fr);
   --grid-template-columns-therapeutic: minmax(0, 1.05fr) minmax(0, 1.7fr)
     minmax(0, 1fr);
   --shadow-media: 0 0.25rem 1.25rem rgb(8 8 8 / 0.12);
+  --shadow-course: 0 0.75rem 2rem rgb(8 8 8 / 0.07);
+  --shadow-navbar: 0 0.5rem 1.5rem rgb(8 8 8 / 0.12);
+  --shadow-stats: 0 1rem 2.5rem rgb(8 8 8 / 0.16);
+  --drop-shadow-hero-doctor: 0 1.25rem 1.5rem rgb(8 8 8 / 0.2);
 }
 
 body {

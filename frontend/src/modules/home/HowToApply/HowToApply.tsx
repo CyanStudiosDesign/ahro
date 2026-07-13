@@ -57,13 +57,13 @@ export function HowToApply() {
     >
       <div className="mx-auto w-full max-w-content pb-0 pt-card-y sm:pb-16 lg:pt-card-x">
         <header className="px-page text-left sm:px-0 sm:text-center">
-          <h1
+          <h2
             id="how-to-apply-title"
             className="text-display-mobile font-strong leading-display tracking-display sm:text-display"
           >
             How to apply to
             <span className="block text-brand">AHRO Institute</span>
-          </h1>
+          </h2>
 
           <nav
             className="-mx-page mt-header-gap mb-12 overflow-x-auto px-page text-ink [scrollbar-width:none] [&::-webkit-scrollbar]:hidden lg:mx-0 lg:px-0"
