@@ -1,0 +1,69 @@
+@import "tailwindcss";
+
+@theme inline {
+  --color-surface: #ffffff;
+  --color-ink: #080808;
+  --color-muted: #737b8d;
+  --color-brand: #2d631e;
+  --color-line: #e7e8e7;
+  --color-copy: #35473a;
+  --color-tint: #f7fcef;
+  --color-outline: #596158;
+
+  --font-sans: var(--font-geist-sans);
+  --font-mono: var(--font-geist-mono);
+  --font-weight-strong: 650;
+
+  --container-content: 65.5rem;
+  --container-wide: 82.75rem;
+  --container-copy: 30ch;
+  --container-copy-intro: 23ch;
+  --container-copy-mobile: 38ch;
+  --container-therapeutic-title: 23ch;
+  --container-therapeutic-intro: 49ch;
+  --container-therapeutic-copy: 30ch;
+  --container-therapeutic-tags: 22rem;
+  --container-video-copy: 26ch;
+  --container-video-action: 20rem;
+
+  --spacing-page: clamp(1.25rem, 4vw, 2.5rem);
+  --spacing-card: 13.65rem;
+  --spacing-card-x: 2.4rem;
+  --spacing-card-y: 2.75rem;
+  --spacing-header-gap: 1.5rem;
+  --spacing-section: clamp(1.25rem, 2.25vw, 2rem);
+  --spacing-video-play: 4.125rem;
+  --spacing-video-action-height: 3.375rem;
+
+  --text-progress: 0.6875rem;
+  --text-body: 0.9375rem;
+  --text-card-title: clamp(1.25rem, 1.8vw, 1.5rem);
+  --text-display: clamp(2.75rem, 5vw, 4.25rem);
+  --text-display-mobile: clamp(2.5rem, 12vw, 3.5rem);
+  --text-section-title: clamp(2.5rem, 3.8vw, 3.25rem);
+  --text-feature-title: clamp(1.875rem, 2.8vw, 2.375rem);
+  --text-feature-copy: clamp(1.0625rem, 1.6vw, 1.375rem);
+  --text-tag: 1rem;
+
+  --leading-progress: 1.4;
+  --leading-body: 1.3;
+  --leading-card: 1.15;
+  --leading-display: 1.1;
+  --leading-section-title: 1.25;
+  --leading-feature-copy: 1.3;
+
+  --tracking-card-title: -0.035em;
+  --tracking-display: -0.055em;
+  --tracking-section-title: -0.035em;
+
+  --aspect-therapeutic: 1.18;
+  --aspect-video-card: 1.3;
+  --grid-template-columns-therapeutic-header: minmax(0, 1.06fr) minmax(0, 0.94fr);
+  --grid-template-columns-therapeutic: minmax(0, 1.05fr) minmax(0, 1.7fr)
+    minmax(0, 1fr);
+  --shadow-media: 0 0.25rem 1.25rem rgb(8 8 8 / 0.12);
+}
+
+body {
+  @apply m-0 bg-surface font-sans text-ink;
+}

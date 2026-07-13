@@ -1,0 +1,1 @@
+export { TherapeuticAreas } from "./TherapeuticAreas";
