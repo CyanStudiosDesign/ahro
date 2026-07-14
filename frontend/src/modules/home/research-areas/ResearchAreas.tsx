@@ -1,32 +1,58 @@
 "use client";
 
 import React, { useState } from "react";
-import { ArrowLeft, ArrowRight} from "lucide-react";
+import { ArrowLeft, ArrowRight } from "lucide-react";
 import Image from "next/image";
-import { researchCards } from "./index";
+import { researchCards as defaultResearchCards, defaultResearchIntro } from "./index";
+import { urlFor } from "@/sanity/img";
 
-const categories = ["Biology", "Disease", "Clinical Research", "Innovation"];
+interface ResearchAreasProps {
+  intro?: {
+    researchIntro?: {
+      tagLabel?: string;
+      heading?: string;
+    };
+  };
+  cards?: Array<{
+    _id: string;
+    image: any;
+    title: string;
+    description: string;
+    categories?: Array<{ name: string }>;
+  }>;
+}
 
-export default function ResearchAreas() {
+export default function ResearchAreas({ intro, cards }: ResearchAreasProps) {
   const [activeCategory, setActiveCategory] = useState("Disease");
+
+  const tag = intro?.researchIntro?.tagLabel || defaultResearchIntro.tagLabel;
+  const heading = intro?.researchIntro?.heading || defaultResearchIntro.heading;
+  
+  // Resolve research cards from prop or fallback to default mockup
+  const displayCards = cards && cards.length > 0 
+    ? cards.map((card) => ({
+        id: card._id,
+        image: card.image ? urlFor(card.image)?.url() : null,
+        title: card.title,
+        description: card.description,
+      }))
+    : defaultResearchCards;
 
   return (
     <section className="w-full bg-white px-6 py-16 md:px-12 lg:px-24 font-sans text-[#1A201C]">
       <div className="max-w-7xl mx-auto flex flex-col items-center text-center">
         <div className="inline-flex items-center gap-2 mb-6">
           <div className="px-4 py-1.5 rounded-full border border-[#D5E2D4] bg-white text-sm font-medium text-[#2E472A] shadow-sm">
-            <span>Research Areas</span>
+            <span>{tag}</span>
           </div>
         </div>
 
         <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold tracking-tight max-w-4xl leading-stat-label mb-10">
-          Our Interdisciplinary Approach{" "}
-          <span className="text-[#2F5227]">Ensures Rigorous and Scalable</span>{" "}
-          Innovation.
+          {heading}
         </h2>
 
         <div className="flex flex-wrap justify-center gap-3 mb-14">
-          {categories.map((category) => {
+          {defaultResearchIntro.categories.map((category) => {
             const isActive = activeCategory === category;
             return (
               <button
@@ -45,8 +71,9 @@ export default function ResearchAreas() {
         </div>
 
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 w-full mb-12 text-left items-start">
-          {researchCards.map((card, index) => {
+          {displayCards.map((card, index) => {
             const isOdd = index % 2 === 0;
+            if (!card.image) return null;
 
             return (
               <div
