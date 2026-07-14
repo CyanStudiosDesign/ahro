@@ -29,7 +29,7 @@ export function TherapeuticAreas() {
   return (
     <section
       id="research"
-      className="border-t border-ink bg-surface px-section py-12 text-ink md:pt-14 md:pb-10"
+      className=" bg-surface px-section py-12 text-ink md:pt-14 md:pb-10"
       aria-labelledby="therapeutic-areas-title"
     >
       <div className="mx-auto max-w-wide">
