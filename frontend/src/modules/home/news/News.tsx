@@ -8,7 +8,7 @@ import {
   MapPin,
   Sparkles,
 } from "lucide-react";
-import { Carousel } from "@/components/ui/Carousel";
+import { Carousel } from "@/components/ui/carousel/Carousel";
 import newsItems from "./index"
 
 
@@ -82,7 +82,7 @@ export default function News() {
           gap={24}
           navStyle="outside"
           indicator="progress"
-          speedFactor={0.09}
+          speedFactor={0.1}
           className="mt-10"
         />
 

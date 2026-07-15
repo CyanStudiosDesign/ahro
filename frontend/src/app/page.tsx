@@ -13,6 +13,8 @@ import {
   SCHOOLS_QUERY,
   APPLY_PAGE_QUERY,
 } from "@/sanity/queries";
+import News from "@/modules/home/news/News";
+import Events from "@/modules/home/events/Events";
 
 export const revalidate = 10; // revalidate page every 10 seconds for dynamic content updates
 
@@ -60,7 +62,14 @@ export default async function Home() {
         <TherapeuticAreas data={therapeuticData || undefined} />
       )}
 
+      <News />
+
       <Courses schools={schoolsData || undefined} />
+
+      
+      <Events />
+
+      
       <HowToApply data={applyData || undefined} />
     </main>
   );

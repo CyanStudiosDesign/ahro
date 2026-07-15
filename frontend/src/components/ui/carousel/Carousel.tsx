@@ -1,8 +1,8 @@
 "use client";
 
 import * as React from "react";
-import { cn } from "../../lib/utils";
-import { ArrowLeft, ArrowRight } from "lucide-react";
+import { cn } from "@/lib/utils";
+import { ChevronLeft, ChevronRight } from "lucide-react";
 
 const LERP = (a: number, b: number, t: number) => a + (b - a) * t;
 
@@ -115,15 +115,13 @@ export const Carousel = React.forwardRef<HTMLDivElement, CarouselProps>(
     }, []);
 
     React.useEffect(() => {
-      if (!autoplay) return;
-      if (timerRef.current) clearInterval(timerRef.current);
-      timerRef.current = setInterval(() => {
-        setIdx((i) => (i >= maxIdx ? 0 : Math.min(i + scrollBy, maxIdx)));
-      }, interval);
+      if (autoplay) {
+        startAutoplay();
+      }
       return () => {
         if (timerRef.current) clearInterval(timerRef.current);
       };
-    }, [autoplay, interval, maxIdx, scrollBy]);
+    }, [autoplay, startAutoplay]);
 
     const ctx = {
       idx,
@@ -151,7 +149,7 @@ export const Carousel = React.forwardRef<HTMLDivElement, CarouselProps>(
           onKeyDown={handleKeyDown}
           role="region"
           aria-roledescription="carousel"
-        className={cn("carousel-root w-full relative outline-none select-none rounded-xl", className)}
+          className={cn("carousel-root w-full relative outline-none select-none focus-ring-visible rounded-xl", className)}
           {...props}
         >
           <CarouselViewport
@@ -370,13 +368,13 @@ export const CarouselPrevious = React.forwardRef<
       disabled={idx === 0}
       aria-label="Previous slide"
       className={cn(
-        "absolute top-1/2 -translate-y-1/2 h-12 w-12 rounded-full border border-[#26301f] bg-[#f8fff0] text-[#182016] flex items-center justify-center cursor-pointer z-10 transition-all hover:bg-[#edf7e4] disabled:opacity-25 disabled:pointer-events-none shadow-sm",
-        isInside ? "left-3.5" : "-left-14",
+        "absolute top-1/2 -translate-y-1/2 h-9 w-9 rounded-full border border-border bg-surface text-fg flex items-center justify-center cursor-pointer z-(--z-sticky) transition-all disabled:opacity-25 disabled:pointer-events-none shadow-sm focus-ring-visible",
+        isInside ? "left-3.5" : "-left-11",
         className
       )}
       {...props}
     >
-      <ArrowLeft size={22} strokeWidth={1.8} />
+      <ChevronLeft size={18} strokeWidth={2.5} className="text-fg-muted" />
     </button>
   );
 });
@@ -402,13 +400,13 @@ export const CarouselNext = React.forwardRef<
       disabled={idx >= maxIdx}
       aria-label="Next slide"
       className={cn(
-        "absolute top-1/2 -translate-y-1/2 h-12 w-12 rounded-full border border-[#26301f] bg-[#f8fff0] text-[#182016] flex items-center justify-center cursor-pointer z-10 transition-all hover:bg-[#edf7e4] disabled:opacity-25 disabled:pointer-events-none shadow-sm",
-        isInside ? "right-3.5" : "-right-14",
+        "absolute top-1/2 -translate-y-1/2 h-9 w-9 rounded-full border border-border bg-surface text-fg flex items-center justify-center cursor-pointer z-(--z-sticky) transition-all disabled:opacity-25 disabled:pointer-events-none shadow-sm focus-ring-visible",
+        isInside ? "right-3.5" : "-right-11",
         className
       )}
       {...props}
     >
-      <ArrowRight size={22} strokeWidth={1.8} />
+      <ChevronRight size={18} strokeWidth={2.5} className="text-fg-muted" />
     </button>
   );
 });
@@ -419,7 +417,7 @@ function CarouselAutoplayToggle() {
     <button
       onClick={() => (isPlaying ? stopAutoplay() : startAutoplay())}
       aria-label={isPlaying ? "Pause autoplay" : "Start autoplay"}
-      className="absolute bottom-2.5 right-2.5 h-6 w-6 rounded-full border border-[#26301f]/50 bg-white/95 text-[#182016] flex items-center justify-center cursor-pointer z-10 text-xs shadow-sm"
+      className="absolute bottom-2.5 right-2.5 h-6 w-6 rounded-full border border-border/50 bg-surface/95 text-fg flex items-center justify-center cursor-pointer z-(--z-sticky) text-xs shadow-sm focus-ring-visible"
     >
       {isPlaying ? "⏸" : "▶"}
     </button>
@@ -453,8 +451,8 @@ function CarouselIndicator() {
               onClick={() => goto(stepIndex)}
               aria-label={`Go to page ${dotPosition + 1}`}
               className={cn(
-                "h-1.5 transition-all duration-200 ease-out border-none p-0 cursor-pointer",
-                isActive ? "w-5 rounded-sm bg-[#315c25]" : "w-1.5 rounded-full bg-[#e1e4dd]"
+                "h-1.5 transition-all duration-200 ease-out border-none p-0 cursor-pointer focus-ring-visible",
+                isActive ? "w-5 rounded-sm bg-inverse" : "w-1.5 rounded-full bg-subtle"
               )}
             />
           );
@@ -466,7 +464,7 @@ function CarouselIndicator() {
   if (indicator === "numbers") {
     const currentStep = steps.indexOf(idx) !== -1 ? steps.indexOf(idx) + 1 : 1;
     return (
-      <div className="text-center pt-2.5 text-xs font-medium text-[#4f544d]">
+      <div className="text-center pt-2.5 text-xs font-medium text-fg-subtle">
         {currentStep} / {steps.length}
       </div>
     );
@@ -476,10 +474,10 @@ function CarouselIndicator() {
     const currentStepIndex = steps.indexOf(idx) !== -1 ? steps.indexOf(idx) : 0;
     const pct = Math.round(((currentStepIndex + 1) / steps.length) * 100);
     return (
-      <div className="mt-3 h-0.5 w-full bg-[#e1e4dd] rounded-full overflow-hidden">
+      <div className="mt-3 h-0.5 w-full bg-subtle rounded-full overflow-hidden">
         <div
           style={{ width: `${pct}%` }}
-          className="h-full bg-[#315c25] rounded-full transition-all duration-350 ease-out"
+          className="h-full bg-inverse rounded-full transition-all duration-350 ease-out"
         />
       </div>
     );
