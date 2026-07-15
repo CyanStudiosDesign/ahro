@@ -9,72 +9,59 @@ export default defineType({
       name: 'title',
       title: 'Article Title',
       type: 'string',
-      validation: (Rule) => Rule.required().max(120),
+      validation: (Rule) => Rule.required(),
     }),
     defineField({
       name: 'slug',
-      title: 'URL Slug',
+      title: 'Slug',
       type: 'slug',
-      description: 'Click "Generate" to automatically build a clean URL layout from the title.',
-      options: {
-        source: 'title',
-        maxLength: 96,
-      },
-      validation: (Rule) => Rule.required().error('A unique slug is required for frontend dynamic routing.'),
-    }),
-    defineField({
-      name: 'categoryTag',
-      title: 'Category Tag',
-      type: 'string',
-      options: {
-        list: [
-          { title: 'Fellowship', value: 'fellowship' },
-          { title: 'Summit', value: 'summit' },
-          { title: 'Academic', value: 'academic' },
-        ],
-        layout: 'radio', // Displays as quick select radio buttons instead of a drop-down menu
-      },
+      options: { source: 'title', maxLength: 96 },
       validation: (Rule) => Rule.required(),
     }),
     defineField({
-      name: 'date',
-      title: 'Publish Date',
-      type: 'date',
-      options: {
-        dateFormat: 'YYYY-MM-DD',
-      },
-      validation: (Rule) => Rule.required(),
-    }),
-    defineField({
-      name: 'location',
-      title: 'Location Reference',
-      type: 'string',
-      description: 'e.g., Main Campus, London Hub, Online',
+      name: 'publishedAt',
+      title: 'Published At',
+      type: 'datetime',
       validation: (Rule) => Rule.required(),
     }),
     defineField({
       name: 'image',
       title: 'Featured Image',
       type: 'image',
-      options: {
-        hotspot: true,
-      },
-      validation: (Rule) => Rule.required(),
+      options: { hotspot: true },
     }),
     defineField({
-      name: 'description',
-      title: 'Exerpt / Short Description',
+      name: 'excerpt',
+      title: 'Excerpt',
       type: 'text',
-      rows: 4,
-      validation: (Rule) => Rule.required().max(400),
+      rows: 3,
+    }),
+    defineField({
+      name: 'body',
+      title: 'Body Content',
+      type: 'array',
+      of: [{ type: 'block' }],
+    }),
+    defineField({
+      name: 'isDisabled',
+      title: 'Disable / Hide News',
+      type: 'boolean',
+      description: 'Toggle on to temporarily hide this news article.',
+      initialValue: false,
     }),
   ],
-  // Default sorting so studio users see the freshest news entries first
-  orderings: [
-    {
-      title: 'Publish Date, Newest',
-      name: 'dateDesc',
-      by: [{ field: 'date', direction: 'desc' }],
+  preview: {
+    select: {
+      title: 'title',
+      disabled: 'isDisabled',
+      media: 'image',
     },
-  ],
+    prepare(selection) {
+      const { title, disabled, media } = selection
+      return {
+        title: `${title || 'Untitled'}${disabled ? ' (DISABLED)' : ''}`,
+        media,
+      }
+    },
+  },
 })

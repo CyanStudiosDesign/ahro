@@ -10,7 +10,7 @@ export default defineType({
       title: 'Research Image',
       type: 'image',
       options: {
-        hotspot: true, // Crucial for visual card balance on the UI
+        hotspot: true,
       },
       validation: (Rule) => Rule.required(),
     }),
@@ -35,10 +35,31 @@ export default defineType({
       of: [
         {
           type: 'reference',
-          to: [{ type: 'therapeuticArea' }], // Restricts array strictly to elements from the master list
+          to: [{ type: 'therapeuticArea' }],
         },
       ],
       validation: (Rule) => Rule.required().min(1).error('Select at least one category tag.'),
     }),
+    defineField({
+      name: 'isDisabled',
+      title: 'Disable / Hide Card',
+      type: 'boolean',
+      description: 'Toggle on to hide this research spotlight card from frontend.',
+      initialValue: false,
+    }),
   ],
+  preview: {
+    select: {
+      title: 'title',
+      disabled: 'isDisabled',
+      media: 'image',
+    },
+    prepare(selection) {
+      const { title, disabled, media } = selection
+      return {
+        title: `${title || 'Untitled'}${disabled ? ' (DISABLED)' : ''}`,
+        media,
+      }
+    },
+  },
 })

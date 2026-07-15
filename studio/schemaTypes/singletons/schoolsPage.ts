@@ -2,19 +2,20 @@ import { defineType, defineField } from 'sanity'
 
 export default defineType({
   name: 'schoolsPage',
-  title: 'Schools Page Controls',
+  title: 'Schools Page Intro',
   type: 'document',
   fields: [
     defineField({
-      name: 'sectionIntro',
-      title: 'Page Introduction Header',
-      type: 'sectionIntro', // Reuses the custom Tag + Heading combination
-      description: 'Manages the title configuration displaying above the school grids.',
+      name: 'heading',
+      title: 'Heading',
+      type: 'string',
+      validation: (Rule) => Rule.required(),
+    }),
+    defineField({
+      name: 'description',
+      title: 'Description',
+      type: 'text',
+      rows: 4,
     }),
   ],
-  preview: {
-    prepare() {
-      return { title: 'Schools Page Setup' }
-    },
-  },
 })

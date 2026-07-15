@@ -2,17 +2,22 @@
 
 import Image from "next/image";
 import { useEffect, useRef } from "react";
-
-const stats = [
-  { value: "25+", label: "Research programmes" },
-  { value: "18", label: "Partner countries" },
-  { value: "120+", label: "Active studies" },
-] as const;
+import { urlFor } from "@/sanity/img";
+import { defaultHeroData } from "./index";
 
 const TEXT_PARALLAX_DISTANCE = 72;
 const DOCTOR_PARALLAX_DISTANCE = 28;
 
-export function Hero() {
+interface HeroProps {
+  data?: {
+    mainHeading?: string;
+    backgroundImage?: any;
+    frontalImage?: any;
+    stats?: Array<{ value: string; label: string }>;
+  };
+}
+
+export function Hero({ data }: HeroProps) {
   const heroRef = useRef<HTMLElement>(null);
 
   useEffect(() => {
@@ -71,6 +76,11 @@ export function Hero() {
     };
   }, []);
 
+  const headingText = data?.mainHeading || defaultHeroData.mainHeading;
+  const bgImgUrl = data?.backgroundImage ? urlFor(data.backgroundImage)?.url() : null;
+  const frontalImgUrl = data?.frontalImage ? urlFor(data.frontalImage)?.url() : defaultHeroData.frontalImageUrl;
+  const stats = data?.stats && data.stats.length > 0 ? data.stats : defaultHeroData.stats;
+
   return (
     <section
       ref={heroRef}
@@ -78,24 +88,36 @@ export function Hero() {
       className="relative isolate min-h-hero overflow-hidden bg-hero text-surface"
       aria-labelledby="hero-title"
     >
-      <div className="absolute inset-0 -z-20 bg-hero-glow" />
-      <div className="absolute inset-x-0 bottom-0 -z-10 h-hero-horizon bg-hero-horizon" />
+      {bgImgUrl ? (
+        <Image
+          src={bgImgUrl}
+          alt="Hero Background Banner"
+          fill
+          className="absolute inset-0 -z-30 object-cover"
+          priority
+        />
+      ) : (
+        <>
+          <div className="absolute inset-0 -z-20 bg-hero-glow" />
+          <div className="absolute inset-x-0 bottom-0 -z-10 h-hero-horizon bg-hero-horizon" />
+        </>
+      )}
 
       <h1 id="hero-title" className="sr-only">
-        African Health Research Organisation
+        {headingText}
       </h1>
 
       <div
-        className="pointer-events-none absolute inset-x-0 top-hero-wordmark z-0 translate-y-[var(--hero-text-offset)] text-center text-hero-wordmark font-strong leading-none tracking-hero-wordmark text-surface/55 will-change-transform"
+        className="pointer-events-none absolute inset-x-0 top-hero-wordmark z-0 translate-y-(--hero-text-offset) text-center text-hero-wordmark font-strong leading-none tracking-hero-wordmark text-surface/55 will-change-transform"
         aria-hidden="true"
       >
         AHRO
       </div>
 
-      <div className="absolute inset-x-0 bottom-0 z-10 mx-auto h-hero-doctor max-w-hero-doctor translate-y-[var(--hero-doctor-offset)] will-change-transform">
+      <div className="absolute inset-x-0 bottom-0 z-10 mx-auto h-hero-doctor max-w-hero-doctor translate-y-(--hero-doctor-offset) will-change-transform">
         <Image
           className="object-contain object-bottom drop-shadow-hero-doctor"
-          src="/content/A5.webp"
+          src={frontalImgUrl}
           alt="Healthcare researcher holding a tablet"
           fill
           sizes="(max-width: 639px) 90vw, (max-width: 1023px) 60vw, 38vw"

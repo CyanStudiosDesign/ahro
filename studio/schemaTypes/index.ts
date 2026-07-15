@@ -23,14 +23,12 @@ export const schemaTypes = [
   videoHighlight,
   applicationStep,
 
-
   // Documents
   therapeuticArea,
   researchCard,
   news,
   event,
   school,
-  
 
   // Singletons
   homePage,

@@ -2,48 +2,58 @@ import { defineType, defineField } from 'sanity'
 
 export default defineType({
   name: 'event',
-  title: 'Events & Conferences',
+  title: 'Events',
   type: 'document',
   fields: [
     defineField({
       name: 'title',
       title: 'Event Title',
       type: 'string',
-      validation: (Rule) => Rule.required().max(150),
+      validation: (Rule) => Rule.required(),
     }),
     defineField({
-      name: 'date',
+      name: 'eventDate',
       title: 'Event Date & Time',
-      type: 'datetime', // Capture exact time execution details along with day tracking
-      options: {
-        dateFormat: 'YYYY-MM-DD',
-        timeFormat: 'HH:mm',
-        timeStep: 15,
-      },
+      type: 'datetime',
       validation: (Rule) => Rule.required(),
     }),
     defineField({
       name: 'location',
-      title: 'Venue / Location',
+      title: 'Location',
       type: 'string',
-      description: 'e.g., Auditorium B, Conference Hall, Virtual Room 1',
-      validation: (Rule) => Rule.required(),
     }),
     defineField({
       name: 'image',
-      title: 'Event Banner / Thumbnail',
+      title: 'Event Image',
       type: 'image',
-      options: {
-        hotspot: true,
-      },
-      validation: (Rule) => Rule.required(),
+      options: { hotspot: true },
+    }),
+    defineField({
+      name: 'description',
+      title: 'Description',
+      type: 'text',
+      rows: 4,
+    }),
+    defineField({
+      name: 'isDisabled',
+      title: 'Disable / Hide Event',
+      type: 'boolean',
+      description: 'Toggle on to temporarily hide this event.',
+      initialValue: false,
     }),
   ],
-  orderings: [
-    {
-      title: 'Upcoming Events First',
-      name: 'dateAsc',
-      by: [{ field: 'date', direction: 'asc' }],
+  preview: {
+    select: {
+      title: 'title',
+      disabled: 'isDisabled',
+      media: 'image',
     },
-  ],
+    prepare(selection) {
+      const { title, disabled, media } = selection
+      return {
+        title: `${title || 'Untitled'}${disabled ? ' (DISABLED)' : ''}`,
+        media,
+      }
+    },
+  },
 })

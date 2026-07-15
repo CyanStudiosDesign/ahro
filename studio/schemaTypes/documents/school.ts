@@ -40,12 +40,28 @@ export default defineType({
       description: 'Toggle on to highlight or promote this school on the main listing interface.',
       initialValue: false,
     }),
+    defineField({
+      name: 'isDisabled',
+      title: 'Disable / Hide School',
+      type: 'boolean',
+      description: 'Toggle on to hide this school from listing views.',
+      initialValue: false,
+    }),
   ],
   preview: {
     select: {
       title: 'title',
       subtitle: 'categoryTag',
       media: 'icon',
+      disabled: 'isDisabled',
+    },
+    prepare(selection) {
+      const { title, subtitle, media, disabled } = selection
+      return {
+        title: `${title || 'Untitled'}${disabled ? ' (DISABLED)' : ''}`,
+        subtitle,
+        media,
+      }
     },
   },
 })

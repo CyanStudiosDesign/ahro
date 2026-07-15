@@ -17,7 +17,6 @@ export default defineType({
           title: 'Background Image Banner',
           type: 'image',
           options: { hotspot: true },
-          validation: (Rule) => Rule.required(),
         }),
         defineField({
           name: 'frontalImage',
@@ -31,6 +30,22 @@ export default defineType({
           type: 'string',
           validation: (Rule) => Rule.required(),
         }),
+        defineField({
+          name: 'stats',
+          title: 'Key Statistics',
+          type: 'array',
+          description: 'Statistics displayed in the floating card overlay.',
+          of: [
+            {
+              type: 'object',
+              fields: [
+                { name: 'value', title: 'Value (e.g. 25+)', type: 'string', validation: (Rule) => Rule.required() },
+                { name: 'label', title: 'Label (e.g. Partner countries)', type: 'string', validation: (Rule) => Rule.required() }
+              ]
+            }
+          ],
+          validation: (Rule) => Rule.max(3).error('Keep statistics to 3 items.')
+        })
       ],
     }),
 
@@ -38,15 +53,22 @@ export default defineType({
     defineField({
       name: 'researchIntro',
       title: 'Research Section Intro Header',
-      type: 'sectionIntro', // Injects our reusable Tag + Heading object cleanly
+      type: 'sectionIntro',
       description: 'Controls the introductory header text before the dynamic research cards loop.',
+    }),
+    defineField({
+      name: 'hideResearchSection',
+      title: 'Hide Entire Research Section',
+      type: 'boolean',
+      initialValue: false,
+      description: 'Toggle on to hide the entire `<ResearchAreas />` component from the homepage.',
     }),
 
     // --- 3. THERAPEUTIC SECTION ---
     defineField({
       name: 'therapeuticIntro',
       title: 'Therapeutic Section Intro Header',
-      type: 'sectionIntro', // Reuses the exact same visual structure
+      type: 'sectionIntro',
     }),
     defineField({
       name: 'therapeuticDescription',
@@ -56,12 +78,26 @@ export default defineType({
       description: 'The primary contextual description block displaying next to the therapeutic grid layout.',
     }),
     defineField({
+      name: 'therapeuticImage',
+      title: 'Therapeutic Section Image',
+      type: 'image',
+      options: { hotspot: true },
+      description: 'The featured photo shown next to the therapeutic tags list.'
+    }),
+    defineField({
       name: 'videoHighlightsList',
       title: 'Featured Video Highlights',
       type: 'array',
       description: 'Add and manage videos showcasing university achievements or healthcare facilities.',
-      of: [{ type: 'videoHighlight' }], // Embeds our custom video structure block array
+      of: [{ type: 'videoHighlight' }],
       validation: (Rule) => Rule.max(4).error('We recommend capping highlights to 4 videos for visual symmetry.'),
+    }),
+    defineField({
+      name: 'hideTherapeuticSection',
+      title: 'Hide Entire Therapeutic Section',
+      type: 'boolean',
+      initialValue: false,
+      description: 'Toggle on to hide the entire `<TherapeuticAreas />` component.',
     }),
   ],
   preview: {

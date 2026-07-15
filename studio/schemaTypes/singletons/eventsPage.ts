@@ -2,25 +2,20 @@ import { defineType, defineField } from 'sanity'
 
 export default defineType({
   name: 'eventsPage',
-  title: 'Events Page Controls',
+  title: 'Events Page Intro',
   type: 'document',
   fields: [
     defineField({
-      name: 'sectionIntro',
-      title: 'Page Introduction Header',
-      type: 'sectionIntro',
+      name: 'heading',
+      title: 'Heading',
+      type: 'string',
+      validation: (Rule) => Rule.required(),
     }),
     defineField({
-      name: 'subheadingQuote',
-      title: 'Introductory Subheading / Quote',
+      name: 'description',
+      title: 'Description',
       type: 'text',
-      rows: 2,
-      description: 'A brief prominent quote or welcome hook sentence describing upcoming academic timelines.',
+      rows: 4,
     }),
   ],
-  preview: {
-    prepare() {
-      return { title: 'Events Page Setup' }
-    },
-  },
 })

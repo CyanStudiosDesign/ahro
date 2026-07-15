@@ -10,7 +10,7 @@ export default defineType({
       title: 'Thumbnail Image',
       type: 'image',
       options: {
-        hotspot: true, // Enables precise cropping control in the studio UI
+        hotspot: true,
       },
       validation: (Rule) => Rule.required(),
     }),
@@ -35,6 +35,13 @@ export default defineType({
         Rule.required().uri({
           scheme: ['http', 'https'],
         }),
+    }),
+    defineField({
+      name: 'isDisabled',
+      title: 'Disable / Hide Video',
+      type: 'boolean',
+      description: 'Toggle on to temporarily hide this video highlight.',
+      initialValue: false,
     }),
   ],
 })

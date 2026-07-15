@@ -9,7 +9,7 @@ export default defineType({
       name: 'stepNumber',
       title: 'Step Number',
       type: 'number',
-      description: 'e.g., 1, 2, 3',
+      description: 'e.g., 1, 2, 3...',
       validation: (Rule) => Rule.required().positive().integer(),
     }),
     defineField({
@@ -25,24 +25,16 @@ export default defineType({
       rows: 4,
       validation: (Rule) => Rule.required(),
     }),
-    defineField({
-      name: 'isDisabled',
-      title: 'Disable / Hide Step',
-      type: 'boolean',
-      description: 'Toggle on to temporarily hide this step in the timeline.',
-      initialValue: false,
-    }),
   ],
   preview: {
     select: {
       title: 'title',
       step: 'stepNumber',
-      disabled: 'isDisabled',
     },
     prepare(selection) {
-      const { title, step, disabled } = selection
+      const { title, step } = selection
       return {
-        title: `Step ${step || '?'}: ${title || 'Untitled'}${disabled ? ' (DISABLED)' : ''}`,
+        title: `Step ${step || '?'}: ${title || 'Untitled'}`,
       }
     },
   },

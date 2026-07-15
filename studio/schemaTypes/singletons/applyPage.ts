@@ -31,7 +31,7 @@ export default defineType({
       title: 'Application Chronological Steps',
       type: 'array',
       description: 'Create and organize the structural steps needed to fulfill application submittals.',
-      of: [{ type: 'applicationStep' }], // Embeds our custom step structure block array natively
+      of: [{ type: 'applicationStep' }],
       validation: (Rule) => Rule.required().min(1).error('You must define at least one structural application step.'),
     }),
   ],
