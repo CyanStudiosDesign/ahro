@@ -1,10 +1,10 @@
 "use client";
 
-import React, { useState } from "react";
-import { ArrowLeft, ArrowRight } from "lucide-react";
+import React, { useState, useEffect } from "react";
 import Image from "next/image";
 import { researchCards as defaultResearchCards, defaultResearchIntro } from "./index";
 import { urlFor } from "@/sanity/img";
+import Carousel from "@/components/ui/carousel/Carousel";
 
 interface ResearchAreasProps {
   intro?: {
@@ -24,6 +24,22 @@ interface ResearchAreasProps {
 
 export default function ResearchAreas({ intro, cards }: ResearchAreasProps) {
   const [activeCategory, setActiveCategory] = useState("Disease");
+  const [perView, setPerView] = useState(4);
+
+  useEffect(() => {
+    const handleResize = () => {
+      if (window.innerWidth < 640) {
+        setPerView(1);
+      } else if (window.innerWidth < 1024) {
+        setPerView(2);
+      } else {
+        setPerView(4);
+      }
+    };
+    handleResize();
+    window.addEventListener("resize", handleResize);
+    return () => window.removeEventListener("resize", handleResize);
+  }, []);
 
   const tag = intro?.researchIntro?.tagLabel || defaultResearchIntro.tagLabel;
   const heading = intro?.researchIntro?.heading || defaultResearchIntro.heading;
@@ -37,6 +53,43 @@ export default function ResearchAreas({ intro, cards }: ResearchAreasProps) {
         description: card.description,
       }))
     : defaultResearchCards;
+
+  const slides = displayCards
+    .filter((card) => !!card.image)
+    .map((card, index) => {
+      const isOdd = index % 2 === 0;
+      return (
+        <div
+          key={card.id}
+          className="flex flex-col group w-full aspect-[3/4.6] bg-transparent text-left"
+        >
+          <div
+            className={`w-full rounded-4xl overflow-hidden bg-gray-100 shadow-sm transition-all duration-300 flex-1 h-0 ${
+              isOdd ? "mb-4" : ""
+            }`}
+          >
+            <Image
+              width={600}
+              height={750}
+              src={card.image!}
+              alt={card.title}
+              className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
+            />
+          </div>
+
+          {isOdd && (
+            <div className="px-2 flex-none">
+              <h4 className="font-bold text-lg text-[#111] mb-1">
+                {card.title}
+              </h4>
+              <p className="text-gray-500 text-sm leading-relaxed max-w-[95%] line-clamp-2">
+                {card.description}
+              </p>
+            </div>
+          )}
+        </div>
+      );
+    });
 
   return (
     <section className="w-full bg-white px-6 py-16 md:px-12 lg:px-24 font-sans text-[#1A201C]">
@@ -70,57 +123,16 @@ export default function ResearchAreas({ intro, cards }: ResearchAreasProps) {
           })}
         </div>
 
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 w-full mb-12 text-left items-start">
-          {displayCards.map((card, index) => {
-            const isOdd = index % 2 === 0;
-            if (!card.image) return null;
-
-            return (
-              <div
-                key={card.id}
-                className="flex flex-col group w-full aspect-[3/4.6] bg-transparent"
-              >
-                <div
-                  className={`w-full rounded-4xl overflow-hidden bg-gray-100 shadow-sm transition-all duration-300 flex-1 h-0 ${
-                    isOdd ? "mb-4" : ""
-                  }`}
-                >
-                  <Image
-                    width={600}
-                    height={750}
-                    src={card.image}
-                    alt={card.title}
-                    className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
-                  />
-                </div>
-
-                {isOdd && (
-                  <div className="px-2 flex-none">
-                    <h4 className="font-bold text-lg text-[#111] mb-1">
-                      {card.title}
-                    </h4>
-                    <p className="text-gray-500 text-sm leading-relaxed max-w-[95%] line-clamp-2">
-                      {card.description}
-                    </p>
-                  </div>
-                )}
-              </div>
-            );
-          })}
-        </div>
-
-        <div className="flex items-center gap-6 w-full max-w-xl justify-center mt-4">
-          <button className="w-10 h-10 rounded-full border border-gray-300 flex items-center justify-center text-gray-600 hover:bg-gray-50 transition-colors">
-            <ArrowLeft className="w-4 h-4" />
-          </button>
-
-          <div className="flex-1 h-1 bg-[#E2E8F0] rounded-full overflow-hidden relative">
-            <div className="absolute top-0 left-0 h-full w-[30%] bg-[#2E472A] rounded-full" />
-          </div>
-
-          <button className="w-10 h-10 rounded-full border border-gray-300 flex items-center justify-center text-gray-600 hover:bg-gray-50 transition-colors">
-            <ArrowRight className="w-4 h-4" />
-          </button>
+        <div className="w-full mb-12 relative px-4">
+          <Carousel
+            slides={slides}
+            perView={perView}
+            scrollBy={1}
+            gap={24}
+            navStyle="bottom"
+            indicator="progress"
+            className="w-full"
+          />
         </div>
       </div>
     </section>

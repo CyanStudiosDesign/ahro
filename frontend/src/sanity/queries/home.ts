@@ -79,3 +79,32 @@ export const SCHOOLS_QUERY = groq`
     isFeatured
   }
 `
+
+/**
+ * 5. News Articles Query
+ */
+export const NEWS_QUERY = groq`
+  *[_type == "news" && isDisabled != true] | order(publishedAt desc) {
+    _id,
+    title,
+    category,
+    location,
+    publishedAt,
+    image,
+    excerpt
+  }
+`
+
+/**
+ * 6. Events Query
+ */
+export const EVENTS_QUERY = groq`
+  *[_type == "event" && isDisabled != true] | order(eventDate desc) {
+    _id,
+    title,
+    year,
+    location,
+    image,
+    description
+  }
+`

@@ -37,6 +37,18 @@ export default defineType({
       rows: 3,
     }),
     defineField({
+      name: 'category',
+      title: 'Category',
+      type: 'string',
+      description: 'E.g., Fellowship, Summit, Academic, Research',
+    }),
+    defineField({
+      name: 'location',
+      title: 'Location',
+      type: 'string',
+      description: 'E.g., Glasgow, London, Online',
+    }),
+    defineField({
       name: 'body',
       title: 'Body Content',
       type: 'array',

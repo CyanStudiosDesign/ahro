@@ -1,8 +1,8 @@
 "use client";
 
 import * as React from "react";
-import { cn } from "../../lib/utils";
-import { ArrowLeft, ArrowRight } from "lucide-react";
+import { cn } from "@/lib/utils";
+import { ChevronLeft, ChevronRight } from "lucide-react";
 
 const LERP = (a: number, b: number, t: number) => a + (b - a) * t;
 
@@ -37,7 +37,7 @@ interface CarouselProps extends React.HTMLAttributes<HTMLDivElement> {
   perView?: number;
   scrollBy?: number;
   gap?: number;
-  navStyle?: "outside" | "inside" | "none";
+  navStyle?: "outside" | "inside" | "top" | "bottom" | "none";
   indicator?: "dots" | "numbers" | "progress" | "none";
   autoplay?: boolean;
   interval?: number;
@@ -115,15 +115,13 @@ export const Carousel = React.forwardRef<HTMLDivElement, CarouselProps>(
     }, []);
 
     React.useEffect(() => {
-      if (!autoplay) return;
-      if (timerRef.current) clearInterval(timerRef.current);
-      timerRef.current = setInterval(() => {
-        setIdx((i) => (i >= maxIdx ? 0 : Math.min(i + scrollBy, maxIdx)));
-      }, interval);
+      if (autoplay) {
+        startAutoplay();
+      }
       return () => {
         if (timerRef.current) clearInterval(timerRef.current);
       };
-    }, [autoplay, interval, maxIdx, scrollBy]);
+    }, [autoplay, startAutoplay]);
 
     const ctx = {
       idx,
@@ -151,9 +149,16 @@ export const Carousel = React.forwardRef<HTMLDivElement, CarouselProps>(
           onKeyDown={handleKeyDown}
           role="region"
           aria-roledescription="carousel"
-        className={cn("carousel-root w-full relative outline-none select-none rounded-xl", className)}
+          className={cn("carousel-root w-full relative outline-none select-none focus-ring-visible rounded-xl", className)}
           {...props}
         >
+          {navStyle === "top" && (
+            <div className="absolute -top-22 right-4 flex gap-3 z-10">
+              <CarouselPrevious position="top" />
+              <CarouselNext position="top" />
+            </div>
+          )}
+
           <CarouselViewport
             autoplay={autoplay}
             startAutoplay={startAutoplay}
@@ -178,7 +183,17 @@ export const Carousel = React.forwardRef<HTMLDivElement, CarouselProps>(
             {autoplay && <CarouselAutoplayToggle />}
           </CarouselViewport>
 
-          <CarouselIndicator />
+          {navStyle === "bottom" ? (
+            <div className="flex items-center justify-between gap-6 mt-8 w-full max-w-md mx-auto">
+              <CarouselPrevious position="bottom" />
+              <div className="flex-1 min-w-0">
+                <CarouselIndicator />
+              </div>
+              <CarouselNext position="bottom" />
+            </div>
+          ) : (
+            <CarouselIndicator />
+          )}
         </div>
       </CarouselCtx.Provider>
     );
@@ -214,7 +229,7 @@ function CarouselViewport({
 function CarouselTrack({ slides }: { slides: React.ReactNode[] }) {
   const { idx, perView, scrollBy, gap, total, speedFactor, goto } =
     useCarousel();
-  const trackRef = React. useRef<HTMLDivElement | null>(null);
+  const trackRef = React.useRef<HTMLDivElement | null>(null);
   const rafRef = React.useRef<number | null>(null);
   const currentX = React.useRef(0);
   const targetX = React.useRef(0);
@@ -352,13 +367,15 @@ function CarouselSlide({
 // ── Previous Button ─────────────────────────────────────────────────────────────
 export const CarouselPrevious = React.forwardRef<
   HTMLButtonElement,
-  { position?: "inside" | "outside"; className?: string }
+  { position?: "inside" | "outside" | "bottom" | "top"; className?: string }
 >(function CarouselPrevious(
   { position = "outside", className = "", ...props },
   ref,
 ) {
   const { idx, prev } = useCarousel();
   const isInside = position === "inside";
+  const isBottom = position === "bottom";
+  const isTop = position === "top";
 
   return (
     <button
@@ -370,13 +387,15 @@ export const CarouselPrevious = React.forwardRef<
       disabled={idx === 0}
       aria-label="Previous slide"
       className={cn(
-        "absolute top-1/2 -translate-y-1/2 h-12 w-12 rounded-full border border-[#26301f] bg-[#f8fff0] text-[#182016] flex items-center justify-center cursor-pointer z-10 transition-all hover:bg-[#edf7e4] disabled:opacity-25 disabled:pointer-events-none shadow-sm",
-        isInside ? "left-3.5" : "-left-14",
+        "h-11 w-11 rounded-full border border-[#D5E2D4] bg-white text-[#2d631e] flex items-center justify-center cursor-pointer transition-all disabled:opacity-25 disabled:pointer-events-none shadow-sm hover:bg-[#F4F9F3] focus:outline-none focus:ring-2 focus:ring-[#2d631e]/20",
+        !isBottom && !isTop && "absolute top-1/2 -translate-y-1/2 z-10",
+        isInside && "left-3.5",
+        position === "outside" && "-left-11",
         className
       )}
       {...props}
     >
-      <ArrowLeft size={22} strokeWidth={1.8} />
+      <ChevronLeft size={22} strokeWidth={2.5} className="text-[#2d631e]" />
     </button>
   );
 });
@@ -384,13 +403,15 @@ export const CarouselPrevious = React.forwardRef<
 // ── Next Button ──────────────────────────────────────────────────────────────────
 export const CarouselNext = React.forwardRef<
   HTMLButtonElement,
-  { position?: "inside" | "outside"; className?: string }
+  { position?: "inside" | "outside" | "bottom" | "top"; className?: string }
 >(function CarouselNext(
   { position = "outside", className = "", ...props },
   ref,
 ) {
   const { idx, maxIdx, next } = useCarousel();
   const isInside = position === "inside";
+  const isBottom = position === "bottom";
+  const isTop = position === "top";
 
   return (
     <button
@@ -402,13 +423,15 @@ export const CarouselNext = React.forwardRef<
       disabled={idx >= maxIdx}
       aria-label="Next slide"
       className={cn(
-        "absolute top-1/2 -translate-y-1/2 h-12 w-12 rounded-full border border-[#26301f] bg-[#f8fff0] text-[#182016] flex items-center justify-center cursor-pointer z-10 transition-all hover:bg-[#edf7e4] disabled:opacity-25 disabled:pointer-events-none shadow-sm",
-        isInside ? "right-3.5" : "-right-14",
+        "h-11 w-11 rounded-full border border-[#D5E2D4] bg-white text-[#2d631e] flex items-center justify-center cursor-pointer transition-all disabled:opacity-25 disabled:pointer-events-none shadow-sm hover:bg-[#F4F9F3] focus:outline-none focus:ring-2 focus:ring-[#2d631e]/20",
+        !isBottom && !isTop && "absolute top-1/2 -translate-y-1/2 z-10",
+        isInside && "right-3.5",
+        position === "outside" && "-right-11",
         className
       )}
       {...props}
     >
-      <ArrowRight size={22} strokeWidth={1.8} />
+      <ChevronRight size={22} strokeWidth={2.5} className="text-[#2d631e]" />
     </button>
   );
 });
@@ -419,7 +442,7 @@ function CarouselAutoplayToggle() {
     <button
       onClick={() => (isPlaying ? stopAutoplay() : startAutoplay())}
       aria-label={isPlaying ? "Pause autoplay" : "Start autoplay"}
-      className="absolute bottom-2.5 right-2.5 h-6 w-6 rounded-full border border-[#26301f]/50 bg-white/95 text-[#182016] flex items-center justify-center cursor-pointer z-10 text-xs shadow-sm"
+      className="absolute bottom-2.5 right-2.5 h-6 w-6 rounded-full border border-border/50 bg-surface/95 text-fg flex items-center justify-center cursor-pointer z-(--z-sticky) text-xs shadow-sm focus-ring-visible"
     >
       {isPlaying ? "⏸" : "▶"}
     </button>
@@ -453,8 +476,8 @@ function CarouselIndicator() {
               onClick={() => goto(stepIndex)}
               aria-label={`Go to page ${dotPosition + 1}`}
               className={cn(
-                "h-1.5 transition-all duration-200 ease-out border-none p-0 cursor-pointer",
-                isActive ? "w-5 rounded-sm bg-[#315c25]" : "w-1.5 rounded-full bg-[#e1e4dd]"
+                "h-1.5 transition-all duration-200 ease-out border-none p-0 cursor-pointer focus-ring-visible",
+                isActive ? "w-5 rounded-sm bg-brand" : "w-1.5 rounded-full bg-gray-200"
               )}
             />
           );
@@ -466,7 +489,7 @@ function CarouselIndicator() {
   if (indicator === "numbers") {
     const currentStep = steps.indexOf(idx) !== -1 ? steps.indexOf(idx) + 1 : 1;
     return (
-      <div className="text-center pt-2.5 text-xs font-medium text-[#4f544d]">
+      <div className="text-center pt-2.5 text-xs font-medium text-fg-subtle">
         {currentStep} / {steps.length}
       </div>
     );
@@ -476,10 +499,10 @@ function CarouselIndicator() {
     const currentStepIndex = steps.indexOf(idx) !== -1 ? steps.indexOf(idx) : 0;
     const pct = Math.round(((currentStepIndex + 1) / steps.length) * 100);
     return (
-      <div className="mt-3 h-0.5 w-full bg-[#e1e4dd] rounded-full overflow-hidden">
+      <div className="mt-0 h-1 w-full bg-gray-200 rounded-full overflow-hidden">
         <div
           style={{ width: `${pct}%` }}
-          className="h-full bg-[#315c25] rounded-full transition-all duration-350 ease-out"
+          className="h-full bg-brand rounded-full transition-all duration-350 ease-out"
         />
       </div>
     );
