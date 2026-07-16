@@ -23,6 +23,13 @@ export const researchCards = [
     title: "Clinical Diagnostics",
     description: "Advanced protocols for rapid identification and response.",
   },
+
+  {
+    id: 5,
+    image: "/content/A4.webp",
+    title: "Clinical Diagnostics",
+    description: "Advanced protocols for rapid identification and response.",
+  },
 ];
 
 export const defaultResearchIntro = {

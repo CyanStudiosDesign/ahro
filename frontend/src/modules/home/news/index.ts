@@ -1,7 +1,7 @@
 const newsItems = [
   {
     category: "Fellowship",
-    image: "/seenu/modi.jpeg",
+    image: "/content/A1.webp",
     date: "Jan 2025",
     location: "Glasgow",
     title: "AHRO Fellowship - First Cohort Launched",
@@ -10,7 +10,7 @@ const newsItems = [
   },
   {
     category: "Summit",
-    image: "/seenu/news2.jpg",
+    image: "/content/A1.webp",
     date: "Oct 2024",
     location: "Glasgow",
     title: "Africa Climate & One Health Summit",
@@ -19,7 +19,7 @@ const newsItems = [
   },
   {
     category: "Academic",
-    image: "/seenu/news3.jpg",
+    image: "/content/A1.webp",
     date: "Jan 2025",
     location: "Online/Glasgow",
     title: "Academic Programmes Now Open",
@@ -28,7 +28,7 @@ const newsItems = [
   },
   {
     category: "Research",
-    image: "/seenu/news4.jpg",
+    image: "/content/A1.webp",
     date: "Feb 2025",
     location: "London",
     title: "New Research Partnership Announced",
@@ -37,7 +37,7 @@ const newsItems = [
   },
   {
     category: "Workshop",
-    image: "/seenu/news5.jpg",
+    image: "/content/A1.webp",
     date: "Mar 2025",
     location: "Manchester",
     title: "Clinical Research Workshop Completed",

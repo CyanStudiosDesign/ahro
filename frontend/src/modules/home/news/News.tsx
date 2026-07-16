@@ -9,10 +9,33 @@ import {
   Sparkles,
 } from "lucide-react";
 import { Carousel } from "@/components/ui/carousel/Carousel";
-import newsItems from "./index"
+import { urlFor } from "@/sanity/img";
+import newsItems from "./index";
 
+interface NewsItem {
+  _id: string;
+  category?: string;
+  image?: any;
+  publishedAt?: string;
+  location?: string;
+  title: string;
+  excerpt?: string;
+}
 
-function NewsCard({ item }: { item: (typeof newsItems)[number] }) {
+interface NewsProps {
+  data?: NewsItem[];
+}
+
+interface NewsCardItem {
+  category: string;
+  image: string;
+  date: string;
+  location: string;
+  title: string;
+  description: string;
+}
+
+function NewsCard({ item }: { item: NewsCardItem }) {
   return (
     <article className="h-full overflow-hidden rounded-[14px] bg-white shadow-[0_12px_30px_rgba(0,0,0,0.08)]">
       <div className="relative h-[225px] w-full">
@@ -55,8 +78,19 @@ function NewsCard({ item }: { item: (typeof newsItems)[number] }) {
   );
 }
 
-export default function News() {
-  const newsSlides = newsItems.map((item) => (
+export default function News({ data }: NewsProps) {
+  const displayItems = data && data.length > 0
+    ? data.map((item) => ({
+        category: item.category || "News",
+        image: item.image ? urlFor(item.image)?.url() : "/content/A1.webp",
+        date: item.publishedAt ? new Date(item.publishedAt).toLocaleDateString('en-US', { month: 'short', year: 'numeric' }) : "Recently",
+        location: item.location || "Glasgow",
+        title: item.title,
+        description: item.excerpt || "",
+      }))
+    : newsItems;
+
+  const newsSlides = displayItems.map((item) => (
     <NewsCard key={item.title} item={item} />
   ));
 
@@ -80,8 +114,8 @@ export default function News() {
           perView={3}
           scrollBy={1}
           gap={24}
-          navStyle="outside"
-          indicator="progress"
+          navStyle="top"
+          indicator="dots"
           speedFactor={0.1}
           className="mt-10"
         />

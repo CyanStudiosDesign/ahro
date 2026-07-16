@@ -23,6 +23,12 @@ export default defineType({
       type: 'string',
     }),
     defineField({
+      name: 'year',
+      title: 'Timeline Date Label',
+      type: 'string',
+      description: 'E.g., "2019" or "Oct 2024". Displayed on the timeline path.',
+    }),
+    defineField({
       name: 'image',
       title: 'Event Image',
       type: 'image',

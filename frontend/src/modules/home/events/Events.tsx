@@ -1,19 +1,37 @@
-// components/Events/Events.tsx
-
 import Link from "next/link";
-import TimelineItem from "./TimelineItem";
+import Timeline from "@/components/ui/timeline/Timeline";
+import TimelineItem from "@/components/ui/timeline/TimelineItem";
 import { eventsData } from "./index";
+import { urlFor } from "@/sanity/img";
 
-/**
- * Events & Milestones Section
- *
- * - Fully responsive
- * - Data-driven
- * - Uses reusable TimelineItem component
- * - Matches the Figma layout
- */
+interface SanityEventItem {
+  _id: string;
+  title: string;
+  year?: string;
+  location?: string;
+  image?: any;
+  description?: string;
+}
 
-const Events = () => {
+interface EventsProps {
+  data?: SanityEventItem[];
+}
+
+const Events = ({ data }: EventsProps) => {
+  const displayItems = data && data.length > 0
+    ? data.map((item) => ({
+        id: item._id,
+        year: item.year || "Upcoming",
+        title: item.title,
+        location: item.location || "Glasgow, UK",
+        image: item.image ? urlFor(item.image)?.url() : "/content/A1.webp",
+        description: item.description,
+      }))
+    : eventsData.map(item => ({
+        ...item,
+        description: undefined, // Mock event items do not have descriptions in the mock dataset
+      }));
+
   return (
     <section className="bg-white py-16 sm:py-20 lg:py-28">
       <div className="mx-auto max-w-7xl px-5 sm:px-8 lg:px-10">
@@ -40,14 +58,21 @@ const Events = () => {
         {/* Timeline */}
         {/* ========================= */}
 
-        <div className="mt-16 space-y-20 lg:mt-24 lg:space-y-24">
-          {eventsData.map((event, index) => (
-            <TimelineItem
-              key={event.id}
-              event={event}
-              isLast={index === eventsData.length - 1}
-            />
-          ))}
+        <div className="mt-16 lg:mt-24">
+          <Timeline className="space-y-0">
+            {displayItems.map((event, index) => (
+              <TimelineItem
+                key={event.id}
+                title={event.title}
+                date={event.year}
+                location={event.location}
+                image={event.image}
+                description={event.description}
+                isFirst={index === 0}
+                isLast={index === displayItems.length - 1}
+              />
+            ))}
+          </Timeline>
         </div>
 
         {/* ========================= */}

@@ -12,6 +12,8 @@ import {
   THERAPEUTIC_QUERY,
   SCHOOLS_QUERY,
   APPLY_PAGE_QUERY,
+  NEWS_QUERY,
+  EVENTS_QUERY,
 } from "@/sanity/queries";
 import News from "@/modules/home/news/News";
 import Events from "@/modules/home/events/Events";
@@ -24,14 +26,18 @@ export default async function Home() {
   let therapeuticData = null;
   let schoolsData = null;
   let applyData = null;
+  let newsData = null;
+  let eventsData = null;
 
   try {
-    const [hero, research, therapeutic, schools, apply] = await Promise.all([
+    const [hero, research, therapeutic, schools, apply, news, events] = await Promise.all([
       client.fetch(HERO_QUERY).catch(() => null),
       client.fetch(RESEARCH_QUERY).catch(() => null),
       client.fetch(THERAPEUTIC_QUERY).catch(() => null),
       client.fetch(SCHOOLS_QUERY).catch(() => null),
       client.fetch(APPLY_PAGE_QUERY).catch(() => null),
+      client.fetch(NEWS_QUERY).catch(() => null),
+      client.fetch(EVENTS_QUERY).catch(() => null),
     ]);
 
     heroData = hero;
@@ -39,6 +45,8 @@ export default async function Home() {
     therapeuticData = therapeutic;
     schoolsData = schools;
     applyData = apply;
+    newsData = news;
+    eventsData = events;
   } catch (error) {
     console.error("Failed to fetch Sanity data, falling back to mockups:", error);
   }
@@ -62,12 +70,13 @@ export default async function Home() {
         <TherapeuticAreas data={therapeuticData || undefined} />
       )}
 
-      <News />
+      
 
       <Courses schools={schoolsData || undefined} />
 
       
-      <Events />
+      <News data={newsData || undefined} />
+      <Events data={eventsData || undefined} />
 
       
       <HowToApply data={applyData || undefined} />
