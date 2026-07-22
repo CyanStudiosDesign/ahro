@@ -1,6 +1,12 @@
 import Image from "next/image";
 import { urlFor } from "@/sanity/img";
-import { defaultSchools, defaultSpotlightSchool, type SchoolIcon } from "./index";
+import {
+  defaultSchools,
+  defaultSpotlightSchool,
+  type SchoolIcon,
+} from "./index";
+import { ArrowUpRight } from "lucide-react";
+import Link from "next/link";
 
 function ArrowIcon() {
   return (
@@ -16,7 +22,13 @@ function ArrowIcon() {
   );
 }
 
-function SchoolIcon({ icon, iconUrl }: { icon: SchoolIcon; iconUrl?: string | null }) {
+function SchoolIcon({
+  icon,
+  iconUrl,
+}: {
+  icon: SchoolIcon;
+  iconUrl?: string | null;
+}) {
   if (iconUrl) {
     return (
       <Image
@@ -91,30 +103,40 @@ interface CoursesProps {
     isFeatured?: boolean;
     image?: any;
   }>;
+  showViewAllButton?: boolean;
+  limit?: number;
 }
 
-export function Courses({ schools }: CoursesProps) {
+export function Courses({ schools, showViewAllButton = true, limit }: CoursesProps) {
   // Determine spotlight school (either featured school in list or fallback)
   const featuredSchoolFromProps = schools?.find((s) => s.isFeatured);
-  const spotlightTitle = featuredSchoolFromProps?.title || defaultSpotlightSchool.title;
-  const spotlightCategory = featuredSchoolFromProps?.categoryTag || defaultSpotlightSchool.categoryTag;
-  const spotlightDesc = featuredSchoolFromProps?.description || defaultSpotlightSchool.description;
-  
-  const spotlightImage = featuredSchoolFromProps?.image 
-    ? urlFor(featuredSchoolFromProps.image)?.url() 
+  const spotlightTitle =
+    featuredSchoolFromProps?.title || defaultSpotlightSchool.title;
+  const spotlightCategory =
+    featuredSchoolFromProps?.categoryTag || defaultSpotlightSchool.categoryTag;
+  const spotlightDesc =
+    featuredSchoolFromProps?.description || defaultSpotlightSchool.description;
+
+  const spotlightImage = featuredSchoolFromProps?.image
+    ? urlFor(featuredSchoolFromProps.image)?.url()
     : defaultSpotlightSchool.imageUrl;
 
   // Build grid schools list from Sanity or fallback to mockups
-  const gridSchools = schools && schools.length > 0
-    ? schools.filter((s) => !s.isFeatured).map((s) => ({
-        name: s.title,
-        label: s.categoryTag,
-        description: s.description,
-        image: s.image ? urlFor(s.image)?.url() : "/content/A1.webp",
-        icon: "sanity" as SchoolIcon,
-        iconUrl: s.icon ? urlFor(s.icon)?.url() : null,
-      }))
-    : gridSchoolsFallback();
+  const gridSchoolsAll =
+    schools && schools.length > 0
+      ? schools
+          .filter((s) => !s.isFeatured)
+          .map((s) => ({
+            name: s.title,
+            label: s.categoryTag,
+            description: s.description,
+            image: s.image ? urlFor(s.image)?.url() : "/content/A1.webp",
+            icon: "sanity" as SchoolIcon,
+            iconUrl: s.icon ? urlFor(s.icon)?.url() : null,
+          }))
+      : gridSchoolsFallback();
+
+  const gridSchools = limit ? gridSchoolsAll.slice(0, limit) : gridSchoolsAll;
 
   function gridSchoolsFallback() {
     return defaultSchools;
@@ -126,14 +148,14 @@ export function Courses({ schools }: CoursesProps) {
       className="bg-canvas px-section pt-5 pb-12 text-ink md:pb-16"
       aria-labelledby="courses-title"
     >
-      <div className="mx-auto max-w-courses">
-        <header className="text-center">
-          <p className="inline-flex rounded-full border border-line bg-tint px-3.5 py-1 text-course-label font-semibold leading-none">
+      <div className="mx-auto max-w-wide">
+        <header className="text-center animate-fade-in-up">
+          <p className="inline-flex rounded-full border border-line bg-tint px-5 py-2.5 text-course-label font-semibold leading-none">
             Research &amp; Programmes
           </p>
           <h2
             id="courses-title"
-            className="mx-auto mt-9 max-w-courses-title text-courses-title font-medium leading-courses-title tracking-courses-title"
+            className="mx-auto mt-9 text-courses-title font-medium leading-courses-title tracking-courses-title"
           >
             Explore Our Schools Of
             <br />
@@ -141,7 +163,7 @@ export function Courses({ schools }: CoursesProps) {
           </h2>
         </header>
 
-        <article className="mt-10 grid overflow-hidden rounded-3xl bg-surface shadow-course md:min-h-course-feature md:grid-cols-2">
+        <article className="mt-10 grid overflow-hidden rounded-3xl bg-surface shadow-course md:min-h-course-feature md:grid-cols-2 animate-fade-in-up animation-delay-100">
           <div className="relative aspect-course-feature-mobile md:aspect-auto">
             {spotlightImage && (
               <Image
@@ -165,16 +187,20 @@ export function Courses({ schools }: CoursesProps) {
               {spotlightDesc}
             </p>
             <p className="mt-9 flex items-center gap-2 text-course-meta text-muted">
-              <span className="size-1.5 rounded-full bg-ink" aria-hidden="true" />
+              <span
+                className="size-1.5 rounded-full bg-ink"
+                aria-hidden="true"
+              />
               5 min read
             </p>
           </div>
         </article>
 
         <div className="mt-11 grid gap-6 md:grid-cols-2 lg:grid-cols-3">
-          {gridSchools.map((school) => (
+          {gridSchools.map((school, index) => (
             <article
-              className="group relative isolate aspect-course-card overflow-hidden rounded-3xl bg-copy shadow-course"
+              className="group relative isolate aspect-course-card overflow-hidden rounded-3xl bg-copy shadow-course animate-fade-in-up"
+              style={{ animationDelay: `${200 + (index + 1) * 100}ms` }}
               key={school.name}
             >
               {school.image && (
@@ -221,9 +247,19 @@ export function Courses({ schools }: CoursesProps) {
             </article>
           ))}
         </div>
+
+        {showViewAllButton && (
+          <div className="mt-12 flex justify-start">
+            <Link
+              href="/schools"
+              className="inline-flex items-center gap-2 rounded-full border-2 border-[#101510] bg-tint px-8 py-3 text-[16px] font-[700] text-[#3d403b] transition-colors hover:bg-surface focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-brand"
+            >
+              View All Courses
+              <ArrowUpRight size={20} strokeWidth={1.8} />
+            </Link>
+          </div>
+        )}
       </div>
     </section>
   );
 }
-
-

@@ -1,4 +1,4 @@
-export { Courses } from "./Courses";
+export { Courses } from "./School";
 
 export type SchoolIcon = "heart" | "leaf" | "flask" | "sanity";
 
@@ -24,6 +24,15 @@ export const defaultSchools = [
   {
     name: "School of Pharmaceutical Science",
     label: "Pharmaceutical Science",
+    description:
+      "From drug discovery to clinical application: a rigorous grounding in pharmacology, formulation, and medicines management.",
+    image: "/content/A1.webp",
+    icon: "flask" as SchoolIcon,
+    iconUrl: null as string | null,
+  },
+  {
+    name: "School of Biotechnology Science",
+    label: "Biotechnology",
     description:
       "From drug discovery to clinical application: a rigorous grounding in pharmacology, formulation, and medicines management.",
     image: "/content/A1.webp",

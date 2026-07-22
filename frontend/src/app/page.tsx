@@ -1,9 +1,9 @@
-import { Courses } from "@/modules/home/courses";
-import { HowToApply } from "@/modules/home/HowToApply";
-import { Hero } from "@/modules/home/hero";
+import { Courses } from "@/modules/home-page/schools";
+import { HowToApply } from "@/modules/home-page/partnerships";
+import { Hero } from "@/modules/home-page/hero";
 import { Navbar } from "@/modules/layout/navbar";
-import { TherapeuticAreas } from "@/modules/home/theraputic";
-import ResearchAreas from "@/modules/home/research-areas/ResearchAreas";
+import { TherapeuticAreas } from "@/modules/home-page/theraputic";
+import ResearchAreas from "@/modules/home-page/research-areas/ResearchAreas";
 
 import { client } from "@/sanity/client";
 import {
@@ -15,8 +15,10 @@ import {
   NEWS_QUERY,
   EVENTS_QUERY,
 } from "@/sanity/queries";
-import News from "@/modules/home/news/News";
-import Events from "@/modules/home/events/Events";
+import News from "@/modules/home-page/news/News";
+import Events from "@/modules/home-page/events/Events";
+import Info from "@/modules/home-page/information/Info";
+import TeamSection from "@/modules/home-page/crew/crew";
 
 export const revalidate = 10; // revalidate page every 10 seconds for dynamic content updates
 
@@ -72,14 +74,19 @@ export default async function Home() {
 
       
 
-      <Courses schools={schoolsData || undefined} />
+      <Courses schools={schoolsData || undefined} limit={3} />
 
       
       <News data={newsData || undefined} />
       <Events data={eventsData || undefined} />
 
+      <Info />
+
       
       <HowToApply data={applyData || undefined} />
+
+      
+      <TeamSection />
     </main>
   );
 }
