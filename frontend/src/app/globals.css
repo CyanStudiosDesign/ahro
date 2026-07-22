@@ -57,11 +57,11 @@
   --container-therapeutic-tags: 22rem;
   --container-video-copy: 26ch;
   --container-video-action: 20rem;
-  --container-courses: 60.5rem;
-  --container-courses-title: 29rem;
-  --container-course-feature-copy: 45ch;
-  --container-course-card-title: 15rem;
-  --container-course-card-copy: 28ch;
+  --container-courses: 78rem;
+  --container-courses-title: 45rem;
+  --container-course-feature-copy: 55ch;
+  --container-course-card-title: 22rem;
+  --container-course-card-copy: 32ch;
   --container-hero-doctor: 32rem;
 
   --spacing-page: clamp(1.25rem, 4vw, 2.5rem);
@@ -73,8 +73,8 @@
   --spacing-video-play: 4.125rem;
   --spacing-video-action-height: 3.375rem;
   --spacing-course-feature: 20.25rem;
-  --spacing-course-icon: 2rem;
-  --spacing-course-action: 2.125rem;
+  --spacing-course-icon: 2.5rem;
+  --spacing-course-action: 2.5rem;
   --spacing-hero: max(42rem, 100svh);
   --spacing-hero-horizon: 48%;
   --spacing-hero-doctor: 60%;
@@ -96,25 +96,25 @@
   --text-feature-title: clamp(1.875rem, 2.8vw, 2.375rem);
   --text-feature-copy: clamp(1.0625rem, 1.6vw, 1.375rem);
   --text-tag: 1rem;
-  --text-courses-title: clamp(2.25rem, 3.65vw, 2.5rem);
-  --text-course-feature-title: clamp(1.375rem, 2.4vw, 1.5rem);
-  --text-course-card-title: 1.125rem;
-  --text-course-copy: 0.75rem;
-  --text-course-label: 0.625rem;
-  --text-course-eyebrow: 0.5rem;
-  --text-course-meta: 0.5625rem;
+  --text-courses-title: clamp(2.5rem, 4.5vw, 3.25rem);
+  --text-course-feature-title: clamp(1.625rem, 2.8vw, 2rem);
+  --text-course-card-title: 1.375rem;
+  --text-course-copy: 0.875rem;
+  --text-course-label: 0.75rem;
+  --text-course-eyebrow: 0.6875rem;
+  --text-course-meta: 0.75rem;
   --text-hero-wordmark: clamp(8rem, 26vw, 19rem);
   --text-stat: clamp(1.25rem, 2.5vw, 1.875rem);
   --text-stat-label: 0.6875rem;
 
   --leading-progress: 1.4;
   --leading-body: 1.3;
-  --leading-card: 1.15;
+  --leading-card: 1.2;
   --leading-display: 1.1;
   --leading-section-title: 1.25;
   --leading-feature-copy: 1.3;
-  --leading-courses-title: 1;
-  --leading-course-copy: 1.55;
+  --leading-courses-title: 1.1;
+  --leading-course-copy: 1.6;
   --leading-stat-label: 1.2;
 
   --tracking-card-title: -0.035em;
@@ -128,7 +128,7 @@
   --aspect-therapeutic: 1.18;
   --aspect-video-card: 1.3;
   --aspect-course-feature-mobile: 1.45;
-  --aspect-course-card: 0.795;
+  --aspect-course-card: 0.85;
   --grid-template-columns-therapeutic-header: minmax(0, 1.06fr) minmax(0, 0.94fr);
   --grid-template-columns-therapeutic: minmax(0, 1.05fr) minmax(0, 1.7fr)
     minmax(0, 1fr);
@@ -141,4 +141,36 @@
 
 body {
   @apply m-0 bg-surface font-sans text-ink;
+}
+
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.animate-fade-in-up {
+  opacity: 0;
+  animation: fadeInUp 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+.animation-delay-100 {
+  animation-delay: 100ms;
+}
+
+.animation-delay-200 {
+  animation-delay: 200ms;
+}
+
+.animation-delay-300 {
+  animation-delay: 300ms;
+}
+
+.animation-delay-400 {
+  animation-delay: 400ms;
 }

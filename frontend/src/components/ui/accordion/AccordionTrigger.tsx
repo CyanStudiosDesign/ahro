@@ -3,10 +3,11 @@
 import { type ButtonHTMLAttributes, type MouseEvent, ReactNode } from "react";
 import { useAccordionItem } from "./AccordionItem";
 import { cn } from "@/lib/utils";
-import { Minus, Plus } from "lucide-react";
+import { Minus, Plus, ChevronDown } from "lucide-react";
 
 type AccordionTriggerProps = ButtonHTMLAttributes<HTMLButtonElement> & {
   children: ReactNode;
+  iconType?: "plusminus" | "chevron";
 };
 
 export default function AccordionTrigger({
@@ -14,6 +15,7 @@ export default function AccordionTrigger({
   className,
   onClick,
   disabled,
+  iconType = "plusminus",
   ...props
 }: AccordionTriggerProps) {
   const { contentId, isOpen, toggleItem, triggerId } = useAccordionItem();
@@ -41,19 +43,31 @@ export default function AccordionTrigger({
       {...props}
     >
       <span>{children}</span>
-      <span
-        aria-hidden="true"
-        className={cn(
-          "grid size-6 shrink-0 place-items-center rounded-md border border-border text-fg-muted",
-          isOpen && "bg-canvas",
-        )}
-      >
-        {isOpen ? (
-          <Minus className="size-3.5" strokeWidth={2} />
-        ) : (
-          <Plus className="size-3.5" strokeWidth={2} />
-        )}
-      </span>
+      {iconType === "chevron" ? (
+        <span
+          aria-hidden="true"
+          className={cn(
+            "transition-transform duration-200 text-fg-muted",
+            isOpen && "rotate-180"
+          )}
+        >
+          <ChevronDown className="size-5" />
+        </span>
+      ) : (
+        <span
+          aria-hidden="true"
+          className={cn(
+            "grid size-6 shrink-0 place-items-center rounded-md border border-border text-fg-muted",
+            isOpen && "bg-canvas",
+          )}
+        >
+          {isOpen ? (
+            <Minus className="size-3.5" strokeWidth={2} />
+          ) : (
+            <Plus className="size-3.5" strokeWidth={2} />
+          )}
+        </span>
+      )}
     </button>
   );
 }

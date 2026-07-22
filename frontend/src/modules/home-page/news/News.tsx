@@ -37,8 +37,8 @@ interface NewsCardItem {
 
 function NewsCard({ item }: { item: NewsCardItem }) {
   return (
-    <article className="h-full overflow-hidden rounded-[14px] bg-white shadow-[0_12px_30px_rgba(0,0,0,0.08)]">
-      <div className="relative h-[225px] w-full">
+    <article className="h-full overflow-hidden rounded-[14px] bg-white shadow-[0_14px_30px_rgba(0,0,0,0.08)]">
+      <div className="relative h-56.25 w-full">
         <Image
           src={item.image}
           alt={item.title}
@@ -123,7 +123,7 @@ export default function News({ data }: NewsProps) {
         <div className="mt-12 flex justify-end">
           <button
             type="button"
-            className="inline-flex items-center gap-2 rounded-full border-2 border-[#101510] bg-[#fbfff6] px-8 py-4 text-[16px] font-[700] text-[#3d403b]"
+            className="inline-flex cursor-pointer items-center gap-2 rounded-full border-2 border-[#101510] bg-tint px-8 py-3 text-[16px] font-[700] text-[#3d403b]  hover:bg-surface focus-visible:z-10 focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-brand"
           >
             View All News
             <ArrowUpRight size={20} strokeWidth={1.8} />
