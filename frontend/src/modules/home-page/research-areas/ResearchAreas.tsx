@@ -5,6 +5,7 @@ import Image from "next/image";
 import { researchCards as defaultResearchCards, defaultResearchIntro } from "./index";
 import { urlFor } from "@/sanity/img";
 import Carousel from "@/components/ui/carousel/Carousel";
+import ResearchImpact from "./ResearchImpact";
 
 interface ResearchAreasProps {
   intro?: {
@@ -135,6 +136,8 @@ export default function ResearchAreas({ intro, cards }: ResearchAreasProps) {
           />
         </div>
       </div>
+      
+      <ResearchImpact />
     </section>
   );
 }
