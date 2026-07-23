@@ -49,7 +49,7 @@ export function TherapeuticAreas({ data }: TherapeuticProps) {
   return (
     <section
       id="research"
-      className=" bg-surface px-section py-12 text-ink md:pt-14 md:pb-10"
+      className=" bg-surface px-section py-12 text-ink md:pt-14 md:pb-20"
       aria-labelledby="therapeutic-areas-title"
     >
       <div className="mx-auto max-w-wide">

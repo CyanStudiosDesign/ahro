@@ -15,9 +15,10 @@ interface SanityEventItem {
 
 interface EventsProps {
   data?: SanityEventItem[];
+  isToggled?: boolean;
 }
 
-const Events = ({ data }: EventsProps) => {
+const Events = ({ data, isToggled }: EventsProps) => {
   const displayItems = data && data.length > 0
     ? data.map((item) => ({
         id: item._id,
@@ -33,8 +34,8 @@ const Events = ({ data }: EventsProps) => {
       }));
 
   return (
-    <section className="bg-white py-16 sm:py-20 lg:py-28">
-      <div className="mx-auto max-w-7xl px-5 sm:px-8 lg:px-10">
+    <section className={`bg-white ${isToggled ? "pb-16 sm:pb-20 lg:pb-28 pt-8" : "py-16 sm:py-20 lg:py-28"}`}>
+      <div className="mx-auto max-w-7xl px-6 md:px-12 lg:px-24">
         {/* ========================= */}
         {/* Section Header */}
         {/* ========================= */}
