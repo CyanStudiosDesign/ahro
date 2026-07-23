@@ -8,8 +8,9 @@ const navigationItems: CardNavItem[] = [
     bgColor: "var(--color-brand-deep)",
     textColor: "var(--color-surface)",
     links: [
-      { label: "Home", href: "#home", ariaLabel: "Go to home" },
-      { label: "About Us", href: "/", ariaLabel: "Learn about AHRO" },
+      { label: "Home", href: "/", ariaLabel: "Go to home" },
+      { label: "About Us", href: "/about", ariaLabel: "Learn about AHRO" },
+      { label: "Contact Us", href: "/contact", ariaLabel: "Get in touch with AHRO" },
     ],
   },
   {
@@ -41,6 +42,7 @@ const navigationItems: CardNavItem[] = [
         href: "#programs",
         ariaLabel: "Apply to an AHRO program",
       },
+      { label: "Faculty and Alumni", href: "/crew", ariaLabel: "View AHRO faculty and alumni" },
     ],
   },
 ];

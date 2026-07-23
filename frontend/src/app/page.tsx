@@ -16,9 +16,9 @@ import {
   EVENTS_QUERY,
 } from "@/sanity/queries";
 import News from "@/modules/home-page/news/News";
-import Events from "@/modules/home-page/events/Events";
+import EventsHolidayToggle from "@/modules/home-page/toggle/EventsHolidayToggle";
 import Info from "@/modules/home-page/information/Info";
-import TeamSection from "@/modules/home-page/crew/crew";
+import TeamSection from "@/modules/crew/crew";
 
 export const revalidate = 10; // revalidate page every 10 seconds for dynamic content updates
 
@@ -78,15 +78,13 @@ export default async function Home() {
 
       
       <News data={newsData || undefined} />
-      <Events data={eventsData || undefined} />
+      <EventsHolidayToggle eventsData={eventsData || undefined} />
 
       <Info />
 
       
       <HowToApply data={applyData || undefined} />
 
-      
-      <TeamSection />
     </main>
   );
 }

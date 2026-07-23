@@ -8,7 +8,7 @@ export default function ResearchImpact() {
     researchImpactData;
 
   return (
-    <div className="w-full max-w-7xl mx-auto mt-20 pt-20 font-sans text-[#1A201C]">
+    <div className="w-full max-w-7xl mx-auto  mt-10 pt-10 font-sans text-[#1A201C]">
       <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-20 text-left">
         {/* Left Column */}
         <div className="lg:col-span-5 flex flex-col justify-start">

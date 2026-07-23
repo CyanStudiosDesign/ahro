@@ -66,13 +66,6 @@ const teamMembers: TeamMember[] = [
     socials: { twitter: "#", github: "#", slack: "#" },
   },
   {
-    id: "8",
-    name: "Jeff Fisher",
-    role: "Project Manager",
-    avatar: "/content/A4.webp",
-    socials: { twitter: "#", github: "#", slack: "#" },
-  },
-  {
     id: "9",
     name: "We are hiring!",
     role: "Check out / Careers",

@@ -1,16 +1,69 @@
 @import "tailwindcss";
 
 @theme inline {
-  --color-surface: #ffffff;
-  --color-ink: #080808;
-  --color-muted: #737b8d;
-  --color-brand: #2d631e;
-  --color-line: #e7e8e7;
-  --color-copy: #35473a;
-  --color-tint: #f7fcef;
-  --color-outline: #596158;
-  --color-canvas: #f8f9f8;
-  --color-brand-deep: #244f17;
+  /* Brand Colors */
+  --color-forest: #2D5016;
+  --color-meadow: #358840;
+  --color-lime: #8FBF5F;
+  --color-ink: #191C1E;
+  --color-black: #000000;
+
+  /* Surface & Neutral Colors */
+  --color-paper: #F7FFF1;
+  --color-mist: #D8DFD3;
+  --color-mist-light: #E7EFE2;
+  --color-white: #FFFFFF;
+  --color-line: #E5E7E5;
+
+  /* Text greys */
+  --color-slate-1: #4F4F4F;
+  --color-slate-2: #6B7280;
+  --color-slate-3: #8C8D8E;
+
+  /* Fonts */
+  --font-heading: var(--font-cabin);
+  --font-body: var(--font-reddit-sans);
+  --font-ui: var(--font-inter);
+  --font-sans: var(--font-reddit-sans);
+  --font-mono: var(--font-geist-mono);
+  --font-weight-strong: 650;
+
+  /* Type scale */
+  --text-display: 96px;
+  --text-h1: 42px;
+  --text-h2: 32px;
+  --text-h3: 24px;
+  --text-h4: 18px;
+  --text-h5: 15px;
+  --text-body-l: 17px;
+  --text-body: 15px;
+  --text-caption: 13px;
+  --text-eyebrow: 11px;
+
+  /* Spacing (8px base) */
+  --space-1: 4px;
+  --space-2: 8px;
+  --space-3: 16px;
+  --space-4: 24px;
+  --space-6: 40px;
+  --space-8: 64px;
+  --space-10: 96px;
+
+  /* Radius */
+  --radius-sm: 4px;
+  --radius-md: 10px;
+  --radius-lg: 20px;
+  --radius-pill: 999px;
+
+  /* Legacy theme mapping & fallback compatibility */
+  --color-surface: var(--color-white);
+  --color-muted: var(--color-slate-2);
+  --color-brand: var(--color-forest);
+  --color-copy: var(--color-slate-1);
+  --color-tint: var(--color-paper);
+  --color-outline: var(--color-slate-3);
+  --color-canvas: var(--color-paper);
+  --color-brand-deep: var(--color-forest);
   --color-hero-sky-deep: #116296;
   --color-hero-sky: #4a9fd3;
   --color-hero-sky-soft: #b9e2f5;
@@ -41,10 +94,6 @@
     transparent,
     rgb(15 87 139 / 0.28)
   );
-
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
-  --font-weight-strong: 650;
 
   --container-content: 65.5rem;
   --container-wide: 82.75rem;
@@ -173,4 +222,40 @@ body {
 
 .animation-delay-400 {
   animation-delay: 400ms;
+}
+
+/* Component Defaults */
+.btn-primary { 
+  background: var(--color-forest); 
+  color: #fff; 
+  border-radius: var(--radius-pill); 
+  padding: 12px 24px;
+  font: 600 15px var(--font-ui); 
+}
+
+.eyebrow-badge { 
+  background: var(--color-paper); 
+  color: var(--color-forest); 
+  border-radius: var(--radius-pill);
+  padding: 8px 16px; 
+  font: 600 11px var(--font-ui); 
+  text-transform: uppercase; 
+  letter-spacing: .08em; 
+}
+
+.card-image { 
+  border-radius: var(--radius-lg); 
+  object-fit: cover; 
+  aspect-ratio: 4/3; 
+}
+
+h1 { 
+  font: 700 var(--text-h1)/1.15 var(--font-heading); 
+  color: var(--color-ink); 
+}
+
+p { 
+  font: 400 var(--text-body)/1.6 var(--font-body); 
+  color: var(--color-slate-1); 
+  max-width: 65ch; 
 }

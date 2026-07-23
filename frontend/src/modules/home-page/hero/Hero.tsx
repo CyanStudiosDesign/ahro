@@ -77,7 +77,7 @@ export function Hero({ data }: HeroProps) {
   }, []);
 
   const headingText = data?.mainHeading || defaultHeroData.mainHeading;
-  const bgImgUrl = data?.backgroundImage ? urlFor(data.backgroundImage)?.url() : null;
+  const bgImgUrl = null; // Disabled Sanity background image for now to prevent double watermark layering
   const frontalImgUrl = data?.frontalImage ? urlFor(data.frontalImage)?.url() : defaultHeroData.frontalImageUrl;
   const stats = data?.stats && data.stats.length > 0 ? data.stats : defaultHeroData.stats;
 
@@ -108,7 +108,7 @@ export function Hero({ data }: HeroProps) {
       </h1>
 
       <div
-        className="pointer-events-none absolute inset-x-0 top-hero-wordmark z-0 translate-y-(--hero-text-offset) text-center text-hero-wordmark font-strong leading-none tracking-hero-wordmark text-surface/55 will-change-transform"
+        className="pointer-events-none absolute inset-x-0 top-hero-wordmark z-0 translate-y-(--hero-text-offset) text-center text-hero-wordmark font-strong leading-none tracking-hero text-surface/70 will-change-transform"
         aria-hidden="true"
       >
         AHRO
