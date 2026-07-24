@@ -18,7 +18,7 @@ import {
 import News from "@/modules/home-page/news/News";
 import EventsHolidayToggle from "@/modules/home-page/toggle/EventsHolidayToggle";
 import Info from "@/modules/home-page/information/Info";
-import TeamSection from "@/modules/crew/crew";
+import TeamSection from "@/modules/faculty-alumni-page/Faculty";
 
 export const revalidate = 10; // revalidate page every 10 seconds for dynamic content updates
 
