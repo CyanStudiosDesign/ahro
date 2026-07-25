@@ -11,6 +11,7 @@ const navigationItems: CardNavItem[] = [
       { label: "Home", href: "/", ariaLabel: "Go to home" },
       { label: "About Us", href: "/about", ariaLabel: "Learn about AHRO" },
       { label: "Contact Us", href: "/contact", ariaLabel: "Get in touch with AHRO" },
+      { label: "Sandbox ", href: "/sandbox", ariaLabel: "Get in touch with AHRO" },
     ],
   },
   {
@@ -42,7 +43,7 @@ const navigationItems: CardNavItem[] = [
         href: "#programs",
         ariaLabel: "Apply to an AHRO program",
       },
-      { label: "Faculty and Alumni", href: "/crew", ariaLabel: "View AHRO faculty and alumni" },
+      { label: "Faculty and Alumni", href: "/affiliates", ariaLabel: "View AHRO faculty and alumni" },
     ],
   },
 ];
