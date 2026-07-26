@@ -19,6 +19,7 @@ import News from "@/modules/home-page/news/News";
 import EventsHolidayToggle from "@/modules/home-page/toggle/EventsHolidayToggle";
 import Info from "@/modules/home-page/information/Info";
 import TeamSection from "@/modules/faculty-alumni-page/Faculty";
+import { HeroSection } from "@/modules/home-page/hero/Hero1";
 
 export const revalidate = 10; // revalidate page every 10 seconds for dynamic content updates
 
@@ -56,10 +57,11 @@ export default async function Home() {
   const hideResearch = researchData?.intro?.hideResearchSection ?? false;
   const hideTherapeutic = therapeuticData?.hideTherapeuticSection ?? false;
 
+
   return (
     <main>
-      <Navbar />
-      <Hero data={heroData || undefined} />
+      {/* <Navbar1 /> */}
+      <HeroSection  />
       
       {!hideResearch && (
         <ResearchAreas 
@@ -84,6 +86,7 @@ export default async function Home() {
 
       
       <HowToApply data={applyData || undefined} />
+   
 
     </main>
   );

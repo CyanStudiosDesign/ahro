@@ -44,6 +44,8 @@ const navigationItems: CardNavItem[] = [
         ariaLabel: "Apply to an AHRO program",
       },
       { label: "Faculty and Alumni", href: "/affiliates", ariaLabel: "View AHRO faculty and alumni" },
+      { label: "Community and Engagement", href: "/community", ariaLabel: "View AHRO community and engagement page" },
+
     ],
   },
 ];

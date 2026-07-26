@@ -82,7 +82,7 @@ export default function News({ data }: NewsProps) {
   const displayItems = data && data.length > 0
     ? data.map((item) => ({
         category: item.category || "News",
-        image: item.image ? urlFor(item.image)?.url() : "/content/A1.webp",
+        image: (item.image && urlFor(item.image)?.url()) || "/content/A1.webp",
         date: item.publishedAt ? new Date(item.publishedAt).toLocaleDateString('en-US', { month: 'short', year: 'numeric' }) : "Recently",
         location: item.location || "Glasgow",
         title: item.title,

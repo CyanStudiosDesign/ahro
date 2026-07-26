@@ -230,9 +230,9 @@ export function Courses({ schools, showViewAllButton = true, limit }: CoursesPro
                   <h3 className="max-w-course-card-title text-course-card-title font-medium leading-card">
                     {school.name}
                   </h3>
-                  <p className="mt-4 max-w-course-card-copy text-course-copy leading-course-copy text-surface/75">
+                  <h5 className="mt-4 max-w-course-card-copy text-course-copy leading-course-copy text-white">
                     {school.description}
-                  </p>
+                  </h5>
                   <button
                     className="mt-7 grid size-course-action place-items-center rounded-full bg-tint text-brand transition-transform group-hover:translate-x-1 focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-surface"
                     type="button"
