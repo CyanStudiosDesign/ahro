@@ -27,9 +27,7 @@ export function Hero({ data }: HeroProps) {
       return;
     }
 
-    const reduceMotion = window.matchMedia(
-      "(prefers-reduced-motion: reduce)",
-    );
+    const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)");
     let animationFrame = 0;
 
     const updateParallax = () => {
@@ -78,8 +76,11 @@ export function Hero({ data }: HeroProps) {
 
   const headingText = data?.mainHeading || defaultHeroData.mainHeading;
   const bgImgUrl = null; // Disabled Sanity background image for now to prevent double watermark layering
-  const frontalImgUrl = data?.frontalImage ? urlFor(data.frontalImage)?.url() : defaultHeroData.frontalImageUrl;
-  const stats = data?.stats && data.stats.length > 0 ? data.stats : defaultHeroData.stats;
+  const frontalImgUrl = data?.frontalImage
+    ? urlFor(data.frontalImage)?.url()
+    : defaultHeroData.frontalImageUrl;
+  const stats =
+    data?.stats && data.stats.length > 0 ? data.stats : defaultHeroData.stats;
 
   return (
     <section
@@ -116,10 +117,10 @@ export function Hero({ data }: HeroProps) {
 
       <div className="absolute inset-x-0 bottom-0 z-10 mx-auto h-hero-doctor max-w-hero-doctor translate-y-(--hero-doctor-offset) will-change-transform">
         <Image
-          className="object-contain object-bottom drop-shadow-hero-doctor"
-          src={frontalImgUrl}
+          src="/content/A5.webp"
           alt="Healthcare researcher holding a tablet"
           fill
+          className="object-contain object-bottom drop-shadow-hero-doctor"
           sizes="(max-width: 639px) 90vw, (max-width: 1023px) 60vw, 38vw"
           priority
         />
