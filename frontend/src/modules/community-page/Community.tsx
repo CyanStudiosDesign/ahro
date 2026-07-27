@@ -23,7 +23,31 @@ const iconMap = {
   wrench: Wrench,
 };
 
-export default function CommunityEngagement() {
+import { urlFor } from '@/sanity/img';
+
+interface CommunityProgramData {
+  _id: string;
+  title: string;
+  category?: string;
+  description: string;
+  image?: any;
+  impactStats?: string;
+}
+
+interface CommunityEngagementProps {
+  programsData?: CommunityProgramData[];
+}
+
+export default function CommunityEngagement({ programsData }: CommunityEngagementProps) {
+  const displayInitiatives = programsData && programsData.length > 0
+    ? programsData.map((item) => ({
+        id: item._id,
+        title: item.title,
+        description: item.description,
+        image: item.image ? urlFor(item.image)?.url() : undefined,
+        icon: 'globe' as const,
+      }))
+    : communityInitiativesData;
   return (
     <div className="w-full bg-surface text-ink font-sans px-4 py-12 md:px-12 lg:px-24 max-w-8xl mx-auto space-y-16">
       
@@ -93,7 +117,7 @@ export default function CommunityEngagement() {
 
         {/* Cards Grid */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-          {communityInitiativesData.map((card: InitiativeCard) => {
+          {displayInitiatives.map((card: any) => {
             if (card.isWide) {
               return (
                 <div 
@@ -128,7 +152,7 @@ export default function CommunityEngagement() {
                   </h3>
                   
                   <div className="flex gap-3 pt-6 z-10">
-                    {card.buttons?.map((btn, index) => (
+                    {card.buttons?.map((btn: any, index: number) => (
                       <button
                         key={index}
                         className={
@@ -151,7 +175,7 @@ export default function CommunityEngagement() {
               );
             }
 
-            const IconComponent = card.icon ? iconMap[card.icon] : null;
+            const IconComponent = card.icon && (card.icon in iconMap) ? iconMap[card.icon as keyof typeof iconMap] : null;
 
             return (
               <div 

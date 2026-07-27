@@ -14,12 +14,15 @@ import {
   APPLY_PAGE_QUERY,
   NEWS_QUERY,
   EVENTS_QUERY,
+  ACADEMIC_TERMS_QUERY,
+  SUSTAINABILITY_QUERY,
 } from "@/sanity/queries";
 import News from "@/modules/home-page/news/News";
 import EventsHolidayToggle from "@/modules/home-page/toggle/EventsHolidayToggle";
 import Info from "@/modules/home-page/information/Info";
 import TeamSection from "@/modules/faculty-alumni-page/Faculty";
 import { HeroSection } from "@/modules/home-page/hero/Hero1";
+import Therapeutic1 from "@/modules/home-page/theraputic/Therauptic1";
 
 export const revalidate = 10; // revalidate page every 10 seconds for dynamic content updates
 
@@ -31,9 +34,11 @@ export default async function Home() {
   let applyData = null;
   let newsData = null;
   let eventsData = null;
+  let termsData = null;
+  let sustainabilityData = null;
 
   try {
-    const [hero, research, therapeutic, schools, apply, news, events] = await Promise.all([
+    const [hero, research, therapeutic, schools, apply, news, events, terms, sustainability] = await Promise.all([
       client.fetch(HERO_QUERY).catch(() => null),
       client.fetch(RESEARCH_QUERY).catch(() => null),
       client.fetch(THERAPEUTIC_QUERY).catch(() => null),
@@ -41,6 +46,8 @@ export default async function Home() {
       client.fetch(APPLY_PAGE_QUERY).catch(() => null),
       client.fetch(NEWS_QUERY).catch(() => null),
       client.fetch(EVENTS_QUERY).catch(() => null),
+      client.fetch(ACADEMIC_TERMS_QUERY).catch(() => null),
+      client.fetch(SUSTAINABILITY_QUERY).catch(() => null),
     ]);
 
     heroData = hero;
@@ -50,6 +57,8 @@ export default async function Home() {
     applyData = apply;
     newsData = news;
     eventsData = events;
+    termsData = terms;
+    sustainabilityData = sustainability;
   } catch (error) {
     console.error("Failed to fetch Sanity data, falling back to mockups:", error);
   }
@@ -70,9 +79,7 @@ export default async function Home() {
         />
       )}
 
-      {!hideTherapeutic && (
-        <TherapeuticAreas data={therapeuticData || undefined} />
-      )}
+      <Therapeutic1 />
 
       
 
@@ -80,9 +87,9 @@ export default async function Home() {
 
       
       <News data={newsData || undefined} />
-      <EventsHolidayToggle eventsData={eventsData || undefined} />
+      <EventsHolidayToggle eventsData={eventsData || undefined} termsData={termsData || undefined} />
 
-      <Info />
+      <Info accordionsData={sustainabilityData || undefined} />
 
       
       <HowToApply data={applyData || undefined} />

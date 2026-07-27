@@ -6,9 +6,10 @@ import Events from "../events/Events";
 
 interface EventsHolidayToggleProps {
   eventsData?: any[];
+  termsData?: any[];
 }
 
-export default function EventsHolidayToggle({ eventsData }: EventsHolidayToggleProps) {
+export default function EventsHolidayToggle({ eventsData, termsData }: EventsHolidayToggleProps) {
   const [activeTab, setActiveTab] = useState<"terms" | "events">("terms");
 
   const handleTabChange = (tab: "terms" | "events") => {
@@ -48,6 +49,7 @@ export default function EventsHolidayToggle({ eventsData }: EventsHolidayToggleP
             isToggled 
             activeTab={activeTab} 
             onTabChange={handleTabChange} 
+            termsData={termsData}
           />
         </div>
       ) : (

@@ -14,7 +14,37 @@ const LinkedinIcon: React.FC<React.SVGProps<SVGSVGElement>> = (props) => (
   </svg>
 );
 
-export const AlumniSection: React.FC = () => {
+import { urlFor } from "@/sanity/img";
+
+interface AlumniMemberData {
+  _id: string;
+  name: string;
+  program: string;
+  currentRole?: string;
+  image?: any;
+  testimonial?: string;
+  graduationYear?: string;
+}
+
+interface AlumniSectionProps {
+  data?: AlumniMemberData[];
+}
+
+export const AlumniSection: React.FC<AlumniSectionProps> = ({ data }) => {
+  const displayMembers = data && data.length > 0
+    ? data.map((item) => ({
+        name: item.name,
+        title: item.program,
+        organization: item.currentRole || "Global Health Leader",
+        location: "United Kingdom",
+        degree: item.graduationYear ? `Class of ${item.graduationYear}` : "Alumnus",
+        avatar: item.image ? urlFor(item.image)?.url() : "/content/A2.webp",
+        linkedin: "#",
+        email: "",
+        website: "#",
+      }))
+    : alumniMembers;
+
   return (
     <section className="bg-white py-16 px-4 sm:px-6 lg:px-12 font-sans">
       <div className="max-w-7xl mx-auto">
@@ -31,7 +61,7 @@ export const AlumniSection: React.FC = () => {
         {/* Grid Container */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-y-12 gap-x-8 items-start">
           {/* Alumni Items */}
-          {alumniMembers.map((member, index) => (
+          {displayMembers.map((member, index) => (
             <div key={index} className="flex items-start gap-4 sm:gap-5">
               <img
                 src={member.avatar}

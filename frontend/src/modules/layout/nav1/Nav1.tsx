@@ -15,10 +15,13 @@ export const Nav1: React.FC<Nav1Props> = ({ activeTab: initialActive = 'Home' })
   const navItems = [
     { name: 'Home', href: '/' },
     { name: 'About Us', href: '/about' },
-    { name: 'Research', href: '#research' },
-    { name: 'Programs', href: '#programs' },
-    { name: 'News', href: '#news' },
-    { name: 'Events', href: '#events' },
+    { name: 'Schools', href: '/schools' },
+    // { name: 'Research', href: '#research' },
+    { name: 'Faculty & Alumni', href: '/affiliates' },
+    { name: 'Community', href: '/community' },
+    // { name: 'News', href: '#news' },
+    // { name: 'Events', href: '#events' },
+    { name: 'Contact Us', href: '/contact' },
   ];
 
   return (
@@ -31,7 +34,7 @@ export const Nav1: React.FC<Nav1Props> = ({ activeTab: initialActive = 'Home' })
             <img 
               src="/content/Logo.png" 
               alt="AHRO Logo" 
-              className="h-20  drop-shadow-sm transition-transform duration-200 group-hover:scale-105"
+              className="h-20 drop-shadow-sm transition-transform duration-200 group-hover:scale-105"
             />
           </div>
 
@@ -45,20 +48,37 @@ export const Nav1: React.FC<Nav1Props> = ({ activeTab: initialActive = 'Home' })
           </div>
         </Link>
 
-        {/* 2. Floating Center Navigation Pill (Capsule shape matching reference image) */}
-        <nav className="hidden lg:flex items-center gap-7 rounded-full bg-white px-8 py-3.5 shadow-xl border border-white/20 backdrop-blur-md">
+        {/* 2. Floating Center Navigation Pill */}
+        <nav className="hidden lg:flex items-center gap-3 xl:gap-5 rounded-full bg-white px-6 py-3 shadow-xl border border-white/20 backdrop-blur-md">
           {navItems.map((item) => {
             const isActive = activeTab === item.name;
+            const isInternalPage = item.href.startsWith('/');
+            
+            const linkClass = `text-[14px] xl:text-[15px] font-semibold transition-colors duration-150 font-sans whitespace-nowrap ${
+              isActive
+                ? 'text-[#2D5016]'
+                : 'text-[#191C1E] hover:text-[#2D5016]'
+            }`;
+
+            if (isInternalPage) {
+              return (
+                <Link
+                  key={item.name}
+                  href={item.href}
+                  onClick={() => setActiveTab(item.name)}
+                  className={linkClass}
+                >
+                  {item.name}
+                </Link>
+              );
+            }
+
             return (
               <a
                 key={item.name}
                 href={item.href}
                 onClick={() => setActiveTab(item.name)}
-                className={`text-[15px] font-semibold transition-colors duration-150 font-sans ${
-                  isActive
-                    ? 'text-[#2D5016]'
-                    : 'text-[#191C1E] hover:text-[#2D5016]'
-                }`}
+                className={linkClass}
               >
                 {item.name}
               </a>
@@ -90,9 +110,32 @@ export const Nav1: React.FC<Nav1Props> = ({ activeTab: initialActive = 'Home' })
 
       {/* Mobile Drawer Menu */}
       {mobileMenuOpen && (
-        <div className="lg:hidden absolute top-full left-4 right-4 mt-2 bg-white rounded-3xl p-6 shadow-2xl border border-gray-100 flex flex-col space-y-4 animate-fade-in-up z-50">
+        <div className="lg:hidden absolute top-full left-4 right-4 mt-2 bg-white rounded-3xl p-6 shadow-2xl border border-gray-100 flex flex-col space-y-2 animate-fade-in-up z-50 max-h-[80vh] overflow-y-auto">
           {navItems.map((item) => {
             const isActive = activeTab === item.name;
+            const isInternalPage = item.href.startsWith('/');
+            const itemClass = `text-base font-semibold py-2 px-4 rounded-xl transition-colors ${
+              isActive
+                ? 'bg-[#F7FFF1] text-[#2D5016]'
+                : 'text-slate-800 hover:bg-gray-50 hover:text-[#2D5016]'
+            }`;
+
+            if (isInternalPage) {
+              return (
+                <Link
+                  key={item.name}
+                  href={item.href}
+                  onClick={() => {
+                    setActiveTab(item.name);
+                    setMobileMenuOpen(false);
+                  }}
+                  className={itemClass}
+                >
+                  {item.name}
+                </Link>
+              );
+            }
+
             return (
               <a
                 key={item.name}
@@ -101,11 +144,7 @@ export const Nav1: React.FC<Nav1Props> = ({ activeTab: initialActive = 'Home' })
                   setActiveTab(item.name);
                   setMobileMenuOpen(false);
                 }}
-                className={`text-base font-semibold py-2 px-4 rounded-xl transition-colors ${
-                  isActive
-                    ? 'bg-[#F7FFF1] text-[#2D5016]'
-                    : 'text-slate-800 hover:bg-gray-50 hover:text-[#2D5016]'
-                }`}
+                className={itemClass}
               >
                 {item.name}
               </a>

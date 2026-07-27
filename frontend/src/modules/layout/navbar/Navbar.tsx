@@ -8,44 +8,43 @@ const navigationItems: CardNavItem[] = [
     bgColor: "var(--color-brand-deep)",
     textColor: "var(--color-surface)",
     links: [
-      { label: "Home", href: "/", ariaLabel: "Go to home" },
+      { label: "Home", href: "/", ariaLabel: "Go to home page" },
       { label: "About Us", href: "/about", ariaLabel: "Learn about AHRO" },
       { label: "Contact Us", href: "/contact", ariaLabel: "Get in touch with AHRO" },
-      { label: "Sandbox ", href: "/sandbox", ariaLabel: "Get in touch with AHRO" },
+      { label: "Sandbox", href: "/sandbox", ariaLabel: "View AHRO sandbox page" },
     ],
   },
   {
-    label: "Research",
+    label: "Academics & Research",
     bgColor: "var(--color-brand)",
     textColor: "var(--color-surface)",
     links: [
       {
-        label: "Research",
+        label: "Research Areas",
         href: "#research",
         ariaLabel: "Explore AHRO research",
       },
       {
-        label: "Programs",
+        label: "Schools & Programs",
+        href: "/schools",
+        ariaLabel: "Explore AHRO schools",
+      },
+      {
+        label: "How to Apply",
         href: "#programs",
-        ariaLabel: "Explore AHRO programs",
+        ariaLabel: "Apply to an AHRO program",
       },
     ],
   },
   {
-    label: "Explore",
+    label: "Explore & Community",
     bgColor: "var(--color-copy)",
     textColor: "var(--color-surface)",
     links: [
-      { label: "News", href: "/", ariaLabel: "Read AHRO news" },
-      { label: "Events", href: "/", ariaLabel: "View AHRO events" },
-      {
-        label: "Apply Now",
-        href: "#programs",
-        ariaLabel: "Apply to an AHRO program",
-      },
-      { label: "Faculty and Alumni", href: "/affiliates", ariaLabel: "View AHRO faculty and alumni" },
-      { label: "Community and Engagement", href: "/community", ariaLabel: "View AHRO community and engagement page" },
-
+      { label: "Faculty & Alumni", href: "/affiliates", ariaLabel: "View AHRO faculty and alumni" },
+      { label: "Community & Engagement", href: "/community", ariaLabel: "View AHRO community page" },
+      { label: "News & Media", href: "#news", ariaLabel: "Read AHRO news" },
+      { label: "Events", href: "#events", ariaLabel: "View AHRO events" },
     ],
   },
 ];

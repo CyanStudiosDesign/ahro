@@ -31,7 +31,36 @@ const LinkedinIcon: React.FC<React.SVGProps<SVGSVGElement>> = (props) => (
   </svg>
 );
 
-export const FacultySection: React.FC = () => {
+import { urlFor } from "@/sanity/img";
+
+interface FacultyMemberData {
+  _id: string;
+  name: string;
+  role: string;
+  department?: string;
+  image?: any;
+  bio?: string;
+  email?: string;
+}
+
+interface FacultySectionProps {
+  data?: FacultyMemberData[];
+}
+
+export const FacultySection: React.FC<FacultySectionProps> = ({ data }) => {
+  const displayMembers = data && data.length > 0
+    ? data.map((item) => ({
+        name: item.name,
+        title: item.role,
+        department: item.department || "Faculty of Health",
+        institution: "AHRO Institute",
+        avatar: item.image ? urlFor(item.image)?.url() : "/content/A1.webp",
+        email: item.email || "",
+        linkedin: "#",
+        website: "#",
+      }))
+    : facultyMembers;
+
   return (
     <section className="bg-slate-50/30 py-10 px-4 sm:px-6 lg:px-8 font-sans">
       <div className="max-w-7xl mx-auto">
@@ -52,7 +81,7 @@ export const FacultySection: React.FC = () => {
         {/* Grid Container */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
           {/* Faculty Cards */}
-          {facultyMembers.map((member, index) => (
+          {displayMembers.map((member, index) => (
             <div
               key={index}
               className="bg-white rounded-lg p-6 border border-line shadow-[0_4px_20px_rgba(0,0,0,0.02)] flex flex-col gap-5 justify-between hover:shadow-md transition-shadow duration-300 "

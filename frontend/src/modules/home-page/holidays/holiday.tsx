@@ -4,18 +4,39 @@ import React from "react";
 import Link from "next/link";
 import { holidayData } from "./index";
 
+interface SanityTermItem {
+  _id: string;
+  title: string;
+  category?: string;
+  dateDisplay?: string;
+  description?: string;
+  status?: string;
+}
+
 interface AcademicCalendarProps {
   isToggled?: boolean;
   activeTab?: "terms" | "events";
   onTabChange?: (tab: "terms" | "events") => void;
+  termsData?: SanityTermItem[];
 }
 
 export default function AcademicCalendar({
   isToggled,
   activeTab = "terms",
   onTabChange,
+  termsData,
 }: AcademicCalendarProps) {
-  const { eyebrow, title, description, items, linkText, linkHref } = holidayData;
+  const { eyebrow, title, description, items: defaultItems, linkText, linkHref } = holidayData;
+
+  const displayItems = termsData && termsData.length > 0
+    ? termsData.map((term) => ({
+        id: term._id,
+        date: term.dateDisplay || "Upcoming",
+        title: term.title,
+        type: (term.category || "TERM").toUpperCase(),
+        subtitle: term.description || term.status,
+      }))
+    : defaultItems;
 
   return (
     <section className={`w-full bg-white ${isToggled ? "pb-16 sm:pb-20 lg:pb-24 pt-8" : "py-16 sm:py-20 lg:py-24"} font-sans text-ink`}>
@@ -38,7 +59,7 @@ export default function AcademicCalendar({
 
         {/* Timeline List */}
         <div className="space-y-8 max-w-2xl">
-          {items.map((item) => {
+          {displayItems.map((item) => {
             const isTerm = item.type === "TERM";
             return (
               <div key={item.id} className="flex items-baseline gap-5 sm:gap-6">
