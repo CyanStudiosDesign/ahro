@@ -108,3 +108,54 @@ export const EVENTS_QUERY = groq`
     description
   }
 `
+
+/**
+ * 7. Academic Terms & Holidays Query
+ */
+export const ACADEMIC_TERMS_QUERY = groq`
+  *[_type == "academicTerm" && isDisabled != true] {
+    _id,
+    title,
+    category,
+    startDate,
+    endDate,
+    dateDisplay,
+    description,
+    status
+  }
+`
+
+/**
+ * 8. Sustainability Accordion Query
+ */
+export const SUSTAINABILITY_QUERY = groq`
+  *[_type == "homePage"][0].sustainabilityAccordions[] {
+    id,
+    title,
+    content
+  }
+`
+
+/**
+ * 9. Singleton Intro Queries (Schools, News, Events)
+ */
+export const SCHOOLS_PAGE_QUERY = groq`
+  *[_type == "schoolsPage"][0] {
+    heading,
+    description
+  }
+`
+
+export const NEWS_PAGE_QUERY = groq`
+  *[_type == "newsPage"][0] {
+    heading,
+    description
+  }
+`
+
+export const EVENTS_PAGE_QUERY = groq`
+  *[_type == "eventsPage"][0] {
+    heading,
+    description
+  }
+`

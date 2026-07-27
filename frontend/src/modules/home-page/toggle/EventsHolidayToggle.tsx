@@ -6,9 +6,11 @@ import Events from "../events/Events";
 
 interface EventsHolidayToggleProps {
   eventsData?: any[];
+  termsData?: any[];
+  eventsIntro?: any;
 }
 
-export default function EventsHolidayToggle({ eventsData }: EventsHolidayToggleProps) {
+export default function EventsHolidayToggle({ eventsData, termsData, eventsIntro }: EventsHolidayToggleProps) {
   const [activeTab, setActiveTab] = useState<"terms" | "events">("terms");
 
   const handleTabChange = (tab: "terms" | "events") => {
@@ -48,11 +50,12 @@ export default function EventsHolidayToggle({ eventsData }: EventsHolidayToggleP
             isToggled 
             activeTab={activeTab} 
             onTabChange={handleTabChange} 
+            termsData={termsData}
           />
         </div>
       ) : (
         <div className="animate-fade-in-up">
-          <Events data={eventsData} isToggled />
+          <Events data={eventsData} intro={eventsIntro} isToggled />
         </div>
       )}
     </div>

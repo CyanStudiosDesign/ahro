@@ -24,7 +24,7 @@ interface ResearchAreasProps {
 }
 
 export default function ResearchAreas({ intro, cards }: ResearchAreasProps) {
-  const [activeCategory, setActiveCategory] = useState("Disease");
+  const [activeCategory, setActiveCategory] = useState("All");
   const [perView, setPerView] = useState(4);
 
   useEffect(() => {
@@ -44,16 +44,30 @@ export default function ResearchAreas({ intro, cards }: ResearchAreasProps) {
 
   const tag = intro?.researchIntro?.tagLabel || defaultResearchIntro.tagLabel;
   const heading = intro?.researchIntro?.heading || defaultResearchIntro.heading;
+
+  const categoryList = ["All", ...defaultResearchIntro.categories];
   
   // Resolve research cards from prop or fallback to default mockup
-  const displayCards = cards && cards.length > 0 
+  const rawCards = cards && cards.length > 0 
     ? cards.map((card) => ({
         id: card._id,
         image: card.image ? urlFor(card.image)?.url() : null,
         title: card.title,
         description: card.description,
+        categories: card.categories?.map(c => c.name) || [],
       }))
-    : defaultResearchCards;
+    : defaultResearchCards.map(c => ({ ...c, categories: [] }));
+
+  // Filter cards by category if active category is selected and not 'All'
+  const filteredCards = activeCategory === "All" || !activeCategory
+    ? rawCards
+    : rawCards.filter(card => 
+        card.categories.some(cat => cat.toLowerCase().includes(activeCategory.toLowerCase())) ||
+        card.title.toLowerCase().includes(activeCategory.toLowerCase()) ||
+        card.description.toLowerCase().includes(activeCategory.toLowerCase())
+      );
+
+  const displayCards = filteredCards.length > 0 ? filteredCards : rawCards;
 
   const slides = displayCards
     .filter((card) => !!card.image)
@@ -106,7 +120,7 @@ export default function ResearchAreas({ intro, cards }: ResearchAreasProps) {
         </h2>
 
         <div className="flex flex-wrap justify-center gap-3 mb-14">
-          {defaultResearchIntro.categories.map((category) => {
+          {categoryList.map((category) => {
             const isActive = activeCategory === category;
             return (
               <button
@@ -137,7 +151,7 @@ export default function ResearchAreas({ intro, cards }: ResearchAreasProps) {
         </div>
       </div>
       
-      <ResearchImpact />
+      
     </section>
   );
 }

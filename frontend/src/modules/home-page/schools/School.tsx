@@ -103,11 +103,15 @@ interface CoursesProps {
     isFeatured?: boolean;
     image?: any;
   }>;
+  intro?: {
+    heading?: string;
+    description?: string;
+  };
   showViewAllButton?: boolean;
   limit?: number;
 }
 
-export function Courses({ schools, showViewAllButton = true, limit }: CoursesProps) {
+export function Courses({ schools, intro, showViewAllButton = true, limit }: CoursesProps) {
   // Determine spotlight school (either featured school in list or fallback)
   const featuredSchoolFromProps = schools?.find((s) => s.isFeatured);
   const spotlightTitle =
@@ -142,6 +146,8 @@ export function Courses({ schools, showViewAllButton = true, limit }: CoursesPro
     return defaultSchools;
   }
 
+  const headingText = intro?.heading || "Explore Our Schools Of Global Health Research.";
+
   return (
     <section
       id="programs"
@@ -157,9 +163,15 @@ export function Courses({ schools, showViewAllButton = true, limit }: CoursesPro
             id="courses-title"
             className="mx-auto mt-9 text-courses-title font-medium leading-courses-title tracking-courses-title"
           >
-            Explore Our Schools Of
-            <br />
-            Global <span className="text-brand">Health Research.</span>
+            {headingText.includes("Global Health Research") ? (
+              <>
+                Explore Our Schools Of
+                <br />
+                Global <span className="text-brand">Health Research.</span>
+              </>
+            ) : (
+              headingText
+            )}
           </h2>
         </header>
 
@@ -230,9 +242,9 @@ export function Courses({ schools, showViewAllButton = true, limit }: CoursesPro
                   <h3 className="max-w-course-card-title text-course-card-title font-medium leading-card">
                     {school.name}
                   </h3>
-                  <p className="mt-4 max-w-course-card-copy text-course-copy leading-course-copy text-surface/75">
+                  <h5 className="mt-4 max-w-course-card-copy text-course-copy leading-course-copy text-white">
                     {school.description}
-                  </p>
+                  </h5>
                   <button
                     className="mt-7 grid size-course-action place-items-center rounded-full bg-tint text-brand transition-transform group-hover:translate-x-1 focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-surface"
                     type="button"

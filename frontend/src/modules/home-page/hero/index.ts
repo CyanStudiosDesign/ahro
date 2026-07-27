@@ -1,4 +1,4 @@
-export { Hero } from "./Hero";
+export { HeroSection as Hero, HeroSection } from "./Hero1";
 
 export const defaultHeroData = {
   mainHeading: "African Health Research Organisation",

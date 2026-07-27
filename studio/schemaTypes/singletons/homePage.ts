@@ -99,6 +99,24 @@ export default defineType({
       initialValue: false,
       description: 'Toggle on to hide the entire `<TherapeuticAreas />` component.',
     }),
+
+    // --- 4. SUSTAINABILITY / INFO SECTION ---
+    defineField({
+      name: 'sustainabilityAccordions',
+      title: 'Sustainability Accordion Items',
+      type: 'array',
+      description: 'Manage the accordion items in the Sustainability Info section.',
+      of: [
+        {
+          type: 'object',
+          fields: [
+            { name: 'id', title: 'Value ID (e.g. commitment)', type: 'string', validation: (Rule) => Rule.required() },
+            { name: 'title', title: 'Accordion Header', type: 'string', validation: (Rule) => Rule.required() },
+            { name: 'content', title: 'Accordion Description / Text', type: 'text', rows: 4, validation: (Rule) => Rule.required() },
+          ],
+        },
+      ],
+    }),
   ],
   preview: {
     prepare() {

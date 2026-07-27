@@ -24,6 +24,10 @@ interface NewsItem {
 
 interface NewsProps {
   data?: NewsItem[];
+  intro?: {
+    heading?: string;
+    description?: string;
+  };
 }
 
 interface NewsCardItem {
@@ -78,11 +82,11 @@ function NewsCard({ item }: { item: NewsCardItem }) {
   );
 }
 
-export default function News({ data }: NewsProps) {
+export default function News({ data, intro }: NewsProps) {
   const displayItems = data && data.length > 0
     ? data.map((item) => ({
         category: item.category || "News",
-        image: item.image ? urlFor(item.image)?.url() : "/content/A1.webp",
+        image: (item.image && urlFor(item.image)?.url()) || "/content/A1.webp",
         date: item.publishedAt ? new Date(item.publishedAt).toLocaleDateString('en-US', { month: 'short', year: 'numeric' }) : "Recently",
         location: item.location || "Glasgow",
         title: item.title,
@@ -94,6 +98,8 @@ export default function News({ data }: NewsProps) {
     <NewsCard key={item.title} item={item} />
   ));
 
+  const headingText = intro?.heading || "Stay Updated With AHRO's Research And Impact.";
+
   return (
     <main className="min-h-screen bg-[#fbfcf8] px-6 py-16 font-sans">
       <section className="mx-auto max-w-7xl">
@@ -104,8 +110,14 @@ export default function News({ data }: NewsProps) {
           </p>
 
           <h1 className="mt-6 max-w-[680px] text-[42px] font-[700] leading-[1.15] tracking-normal text-[#141719]">
-            Stay Updated With AHRO&apos;s{" "}
-            <span className="block text-[#315c25]">Research And Impact.</span>
+            {headingText.includes("Research And Impact") ? (
+              <>
+                Stay Updated With AHRO&apos;s{" "}
+                <span className="block text-[#315c25]">Research And Impact.</span>
+              </>
+            ) : (
+              headingText
+            )}
           </h1>
         </div>
 

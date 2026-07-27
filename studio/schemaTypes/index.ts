@@ -9,6 +9,10 @@ import researchCard from './documents/researchCard'
 import news from './documents/news'
 import event from './documents/event'
 import school from './documents/school'
+import academicTerm from './documents/academicTerm'
+import facultyMember from './documents/facultyMember'
+import alumniMember from './documents/alumniMember'
+import communityProgram from './documents/communityProgram'
 
 // Singletons
 import homePage from './singletons/homePage'
@@ -29,6 +33,10 @@ export const schemaTypes = [
   news,
   event,
   school,
+  academicTerm,
+  facultyMember,
+  alumniMember,
+  communityProgram,
 
   // Singletons
   homePage,

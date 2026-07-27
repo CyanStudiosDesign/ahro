@@ -1,13 +1,12 @@
-import AlumniSection from '@/modules/faculty-alumni-page/Alumni'
-import React from 'react'
+import React from 'react';
+import { CommunityEngagement } from '@/modules/community-page';
+import { Hero } from '@/modules/home-page/hero/Hero';
+import Therauptic1 from '@/modules/home-page/theraputic/Therauptic1';
 
-function Affiliates() {
+export default function SandboxPage() {
   return (
-    <main>
-      
-      <AlumniSection />
+    <main className="min-h-screen bg-surface">
+      <Therauptic1 />
     </main>
-  )
+  );
 }
-
-export default Affiliates 

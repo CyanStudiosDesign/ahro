@@ -19,7 +19,17 @@ import {
   AccordionTrigger,
 } from "@/components/ui/accordion";
 
-export const Info: React.FC = () => {
+interface AccordionItemData {
+  id: string;
+  title: string;
+  content: string;
+}
+
+interface InfoProps {
+  accordionsData?: AccordionItemData[];
+}
+
+export const Info: React.FC<InfoProps> = ({ accordionsData }) => {
   const categories = [
     { icon: GraduationCap, label: "Education" },
     { icon: FlaskConical, label: "Research" },
@@ -55,9 +65,9 @@ export const Info: React.FC = () => {
               <h4 className="font-bold text-base tracking-wide">
                 Institutional Charter
               </h4>
-              <p className="text-xs uppercase tracking-widest text-emerald-300/80 mt-1.5 font-semibold">
+              <h5 className="text-xs uppercase tracking-widest text-emerald-300/80 mt-1.5 font-semibold">
                 SUSTAINABILITY FRAMEWORK 2024
-              </p>
+              </h5>
             </div>
           </div>
         </div>
@@ -118,55 +128,71 @@ export const Info: React.FC = () => {
               </AccordionContent>
             </AccordionItem>
 
-            {/* Education for Sustainable Development */}
-            <AccordionItem value="education" className="border-b border-line py-2">
-              <AccordionTrigger iconType="chevron" className="text-lg md:text-xl font-bold text-ink hover:text-brand bg-transparent hover:bg-transparent py-4 px-0">
-                Education for Sustainable Development
-              </AccordionTrigger>
-              <AccordionContent className="px-0 pb-6 pt-2 text-muted text-sm md:text-base leading-relaxed">
-                Details regarding Education for Sustainable Development go here. We ensure our curriculum integrates global health responsibility and ecological sustainability practices.
-              </AccordionContent>
-            </AccordionItem>
+            {/* Extra Dynamic Accordion Items from Sanity */}
+            {accordionsData && accordionsData.length > 0 ? (
+              accordionsData.map((item) => (
+                <AccordionItem key={item.id} value={item.id} className="border-b border-line py-2">
+                  <AccordionTrigger iconType="chevron" className="text-lg md:text-xl font-bold text-ink hover:text-brand bg-transparent hover:bg-transparent py-4 px-0">
+                    {item.title}
+                  </AccordionTrigger>
+                  <AccordionContent className="px-0 pb-6 pt-2 text-muted text-sm md:text-base leading-relaxed">
+                    {item.content}
+                  </AccordionContent>
+                </AccordionItem>
+              ))
+            ) : (
+              <>
+                {/* Education for Sustainable Development */}
+                <AccordionItem value="education" className="border-b border-line py-2">
+                  <AccordionTrigger iconType="chevron" className="text-lg md:text-xl font-bold text-ink hover:text-brand bg-transparent hover:bg-transparent py-4 px-0">
+                    Education for Sustainable Development
+                  </AccordionTrigger>
+                  <AccordionContent className="px-0 pb-6 pt-2 text-muted text-sm md:text-base leading-relaxed">
+                    Details regarding Education for Sustainable Development go here. We ensure our curriculum integrates global health responsibility and ecological sustainability practices.
+                  </AccordionContent>
+                </AccordionItem>
 
-            {/* Research for Impact */}
-            <AccordionItem value="research" className="border-b border-line py-2">
-              <AccordionTrigger iconType="chevron" className="text-lg md:text-xl font-bold text-ink hover:text-brand bg-transparent hover:bg-transparent py-4 px-0">
-                Research for Impact
-              </AccordionTrigger>
-              <AccordionContent className="px-0 pb-6 pt-2 text-muted text-sm md:text-base leading-relaxed">
-                Details regarding Research for Impact go here. Our research initiatives address regional healthcare issues, offering actionable, sustainable solutions for maximum clinical impact.
-              </AccordionContent>
-            </AccordionItem>
+                {/* Research for Impact */}
+                <AccordionItem value="research" className="border-b border-line py-2">
+                  <AccordionTrigger iconType="chevron" className="text-lg md:text-xl font-bold text-ink hover:text-brand bg-transparent hover:bg-transparent py-4 px-0">
+                    Research for Impact
+                  </AccordionTrigger>
+                  <AccordionContent className="px-0 pb-6 pt-2 text-muted text-sm md:text-base leading-relaxed">
+                    Details regarding Research for Impact go here. Our research initiatives address regional healthcare issues, offering actionable, sustainable solutions for maximum clinical impact.
+                  </AccordionContent>
+                </AccordionItem>
 
-            {/* Environmental Responsibility */}
-            <AccordionItem value="environmental" className="border-b border-line py-2">
-              <AccordionTrigger iconType="chevron" className="text-lg md:text-xl font-bold text-ink hover:text-brand bg-transparent hover:bg-transparent py-4 px-0">
-                Environmental Responsibility
-              </AccordionTrigger>
-              <AccordionContent className="px-0 pb-6 pt-2 text-muted text-sm md:text-base leading-relaxed">
-                Details regarding Environmental Responsibility go here. From green laboratory operations to carbon footprint reduction programs across our research facilities.
-              </AccordionContent>
-            </AccordionItem>
+                {/* Environmental Responsibility */}
+                <AccordionItem value="environmental" className="border-b border-line py-2">
+                  <AccordionTrigger iconType="chevron" className="text-lg md:text-xl font-bold text-ink hover:text-brand bg-transparent hover:bg-transparent py-4 px-0">
+                    Environmental Responsibility
+                  </AccordionTrigger>
+                  <AccordionContent className="px-0 pb-6 pt-2 text-muted text-sm md:text-base leading-relaxed">
+                    Details regarding Environmental Responsibility go here. From green laboratory operations to carbon footprint reduction programs across our research facilities.
+                  </AccordionContent>
+                </AccordionItem>
 
-            {/* Community Engagement */}
-            <AccordionItem value="community" className="border-b border-line py-2">
-              <AccordionTrigger iconType="chevron" className="text-lg md:text-xl font-bold text-ink hover:text-brand bg-transparent hover:bg-transparent py-4 px-0">
-                Community Engagement
-              </AccordionTrigger>
-              <AccordionContent className="px-0 pb-6 pt-2 text-muted text-sm md:text-base leading-relaxed">
-                Details regarding Community Engagement go here. Working directly with local and regional stakeholders to translate health research into sustainable grassroots impact.
-              </AccordionContent>
-            </AccordionItem>
+                {/* Community Engagement */}
+                <AccordionItem value="community" className="border-b border-line py-2">
+                  <AccordionTrigger iconType="chevron" className="text-lg md:text-xl font-bold text-ink hover:text-brand bg-transparent hover:bg-transparent py-4 px-0">
+                    Community Engagement
+                  </AccordionTrigger>
+                  <AccordionContent className="px-0 pb-6 pt-2 text-muted text-sm md:text-base leading-relaxed">
+                    Details regarding Community Engagement go here. Working directly with local and regional stakeholders to translate health research into sustainable grassroots impact.
+                  </AccordionContent>
+                </AccordionItem>
 
-            {/* Financial and Institutional Sustainability */}
-            <AccordionItem value="financial" className="border-b border-line py-2">
-              <AccordionTrigger iconType="chevron" className="text-lg md:text-xl font-bold text-ink hover:text-brand bg-transparent hover:bg-transparent py-4 px-0">
-                Financial and Institutional Sustainability
-              </AccordionTrigger>
-              <AccordionContent className="px-0 pb-6 pt-2 text-muted text-sm md:text-base leading-relaxed">
-                Details regarding Financial and Institutional Sustainability go here. Securing long-term institutional growth through transparent financial models and resource efficiency.
-              </AccordionContent>
-            </AccordionItem>
+                {/* Financial and Institutional Sustainability */}
+                <AccordionItem value="financial" className="border-b border-line py-2">
+                  <AccordionTrigger iconType="chevron" className="text-lg md:text-xl font-bold text-ink hover:text-brand bg-transparent hover:bg-transparent py-4 px-0">
+                    Financial and Institutional Sustainability
+                  </AccordionTrigger>
+                  <AccordionContent className="px-0 pb-6 pt-2 text-muted text-sm md:text-base leading-relaxed">
+                    Details regarding Financial and Institutional Sustainability go here. Securing long-term institutional growth through transparent financial models and resource efficiency.
+                  </AccordionContent>
+                </AccordionItem>
+              </>
+            )}
 
           </Accordion>
         </div>
