@@ -16,9 +16,13 @@ interface SanityEventItem {
 interface EventsProps {
   data?: SanityEventItem[];
   isToggled?: boolean;
+  intro?: {
+    heading?: string;
+    description?: string;
+  };
 }
 
-const Events = ({ data, isToggled }: EventsProps) => {
+const Events = ({ data, isToggled, intro }: EventsProps) => {
   const displayItems = data && data.length > 0
     ? data.map((item) => ({
         id: item._id,
@@ -33,6 +37,9 @@ const Events = ({ data, isToggled }: EventsProps) => {
         description: undefined, // Mock event items do not have descriptions in the mock dataset
       }));
 
+  const headingText = intro?.heading || "Events & Milestones";
+  const descText = intro?.description || "From international symposiums to global summits — AHRO has been convening health leaders since 2012.";
+
   return (
     <section className={`bg-white ${isToggled ? "pb-16 sm:pb-20 lg:pb-28 pt-8" : "py-16 sm:py-20 lg:py-28"}`}>
       <div className="mx-auto max-w-7xl px-6 md:px-12 lg:px-24">
@@ -46,12 +53,11 @@ const Events = ({ data, isToggled }: EventsProps) => {
           </span>
 
           <h2 className="mt-6 text-4xl font-bold leading-tight text-gray-900 sm:text-5xl">
-            Events & Milestones
+            {headingText}
           </h2>
 
           <p className="mt-5 max-w-xl text-lg leading-8 text-gray-600">
-            From international symposiums to global summits — AHRO has been
-            convening health leaders since 2012.&quot;
+            {descText}
           </p>
         </div>
 

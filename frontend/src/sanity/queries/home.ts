@@ -135,3 +135,27 @@ export const SUSTAINABILITY_QUERY = groq`
     content
   }
 `
+
+/**
+ * 9. Singleton Intro Queries (Schools, News, Events)
+ */
+export const SCHOOLS_PAGE_QUERY = groq`
+  *[_type == "schoolsPage"][0] {
+    heading,
+    description
+  }
+`
+
+export const NEWS_PAGE_QUERY = groq`
+  *[_type == "newsPage"][0] {
+    heading,
+    description
+  }
+`
+
+export const EVENTS_PAGE_QUERY = groq`
+  *[_type == "eventsPage"][0] {
+    heading,
+    description
+  }
+`

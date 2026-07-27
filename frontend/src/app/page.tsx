@@ -16,6 +16,9 @@ import {
   EVENTS_QUERY,
   ACADEMIC_TERMS_QUERY,
   SUSTAINABILITY_QUERY,
+  SCHOOLS_PAGE_QUERY,
+  NEWS_PAGE_QUERY,
+  EVENTS_PAGE_QUERY,
 } from "@/sanity/queries";
 import News from "@/modules/home-page/news/News";
 import EventsHolidayToggle from "@/modules/home-page/toggle/EventsHolidayToggle";
@@ -31,21 +34,27 @@ export default async function Home() {
   let researchData = null;
   let therapeuticData = null;
   let schoolsData = null;
+  let schoolsIntro = null;
   let applyData = null;
   let newsData = null;
+  let newsIntro = null;
   let eventsData = null;
+  let eventsIntro = null;
   let termsData = null;
   let sustainabilityData = null;
 
   try {
-    const [hero, research, therapeutic, schools, apply, news, events, terms, sustainability] = await Promise.all([
+    const [hero, research, therapeutic, schools, sIntro, apply, news, nIntro, events, eIntro, terms, sustainability] = await Promise.all([
       client.fetch(HERO_QUERY).catch(() => null),
       client.fetch(RESEARCH_QUERY).catch(() => null),
       client.fetch(THERAPEUTIC_QUERY).catch(() => null),
       client.fetch(SCHOOLS_QUERY).catch(() => null),
+      client.fetch(SCHOOLS_PAGE_QUERY).catch(() => null),
       client.fetch(APPLY_PAGE_QUERY).catch(() => null),
       client.fetch(NEWS_QUERY).catch(() => null),
+      client.fetch(NEWS_PAGE_QUERY).catch(() => null),
       client.fetch(EVENTS_QUERY).catch(() => null),
+      client.fetch(EVENTS_PAGE_QUERY).catch(() => null),
       client.fetch(ACADEMIC_TERMS_QUERY).catch(() => null),
       client.fetch(SUSTAINABILITY_QUERY).catch(() => null),
     ]);
@@ -54,9 +63,12 @@ export default async function Home() {
     researchData = research;
     therapeuticData = therapeutic;
     schoolsData = schools;
+    schoolsIntro = sIntro;
     applyData = apply;
     newsData = news;
+    newsIntro = nIntro;
     eventsData = events;
+    eventsIntro = eIntro;
     termsData = terms;
     sustainabilityData = sustainability;
   } catch (error) {
@@ -83,11 +95,11 @@ export default async function Home() {
 
       
 
-      <Courses schools={schoolsData || undefined} limit={3} />
+      <Courses schools={schoolsData || undefined} intro={schoolsIntro || undefined} limit={3} />
 
       
-      <News data={newsData || undefined} />
-      <EventsHolidayToggle eventsData={eventsData || undefined} termsData={termsData || undefined} />
+      <News data={newsData || undefined} intro={newsIntro || undefined} />
+      <EventsHolidayToggle eventsData={eventsData || undefined} termsData={termsData || undefined} eventsIntro={eventsIntro || undefined} />
 
       <Info accordionsData={sustainabilityData || undefined} />
 

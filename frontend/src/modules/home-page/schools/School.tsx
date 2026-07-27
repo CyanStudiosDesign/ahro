@@ -103,11 +103,15 @@ interface CoursesProps {
     isFeatured?: boolean;
     image?: any;
   }>;
+  intro?: {
+    heading?: string;
+    description?: string;
+  };
   showViewAllButton?: boolean;
   limit?: number;
 }
 
-export function Courses({ schools, showViewAllButton = true, limit }: CoursesProps) {
+export function Courses({ schools, intro, showViewAllButton = true, limit }: CoursesProps) {
   // Determine spotlight school (either featured school in list or fallback)
   const featuredSchoolFromProps = schools?.find((s) => s.isFeatured);
   const spotlightTitle =
@@ -142,6 +146,8 @@ export function Courses({ schools, showViewAllButton = true, limit }: CoursesPro
     return defaultSchools;
   }
 
+  const headingText = intro?.heading || "Explore Our Schools Of Global Health Research.";
+
   return (
     <section
       id="programs"
@@ -157,9 +163,15 @@ export function Courses({ schools, showViewAllButton = true, limit }: CoursesPro
             id="courses-title"
             className="mx-auto mt-9 text-courses-title font-medium leading-courses-title tracking-courses-title"
           >
-            Explore Our Schools Of
-            <br />
-            Global <span className="text-brand">Health Research.</span>
+            {headingText.includes("Global Health Research") ? (
+              <>
+                Explore Our Schools Of
+                <br />
+                Global <span className="text-brand">Health Research.</span>
+              </>
+            ) : (
+              headingText
+            )}
           </h2>
         </header>
 
