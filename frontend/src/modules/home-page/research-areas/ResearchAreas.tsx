@@ -26,9 +26,10 @@ interface ResearchAreasProps {
     description: string;
     categories?: Array<{ name: string }>;
   }>;
+  categories?: string[];
 }
 
-export default function ResearchAreas({ intro, cards }: ResearchAreasProps) {
+export default function ResearchAreas({ intro, cards, categories }: ResearchAreasProps) {
   const [activeCategory, setActiveCategory] = useState("All");
   const [perView, setPerView] = useState(4);
 
@@ -50,7 +51,10 @@ export default function ResearchAreas({ intro, cards }: ResearchAreasProps) {
   const tag = intro?.researchIntro?.tagLabel || defaultResearchIntro.tagLabel;
   const heading = intro?.researchIntro?.heading || defaultResearchIntro.heading;
 
-  const categoryList = ["All", ...defaultResearchIntro.categories];
+  const categoryList = [
+    "All",
+    ...(categories && categories.length > 0 ? categories : defaultResearchIntro.categories),
+  ];
   
   // Resolve research cards from prop or fallback to default mockup
   const rawCards = cards && cards.length > 0 

@@ -3,9 +3,10 @@ import { urlFor } from "@/sanity/img";
 import {
   defaultSchools,
   defaultSpotlightSchool,
-  type SchoolIcon,
+  type SchoolIcon as MockSchoolIcon,
 } from "./index";
 import { ArrowUpRight } from "lucide-react";
+import * as LucideIcons from "lucide-react";
 import Link from "next/link";
 import {
   BodyText,
@@ -32,7 +33,7 @@ function SchoolIcon({
   icon,
   iconUrl,
 }: {
-  icon: SchoolIcon;
+  icon?: string | null;
   iconUrl?: string | null;
 }) {
   if (iconUrl) {
@@ -47,56 +48,16 @@ function SchoolIcon({
     );
   }
 
-  if (icon === "heart") {
-    return (
-      <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
-        <path
-          d="M20.8 8.2c0 5-8.8 10-8.8 10s-8.8-5-8.8-10A4.6 4.6 0 0 1 12 5.4a4.6 4.6 0 0 1 8.8 2.8Z"
-          stroke="currentColor"
-          strokeWidth="1.7"
-          strokeLinecap="round"
-          strokeLinejoin="round"
-        />
-      </svg>
-    );
+  if (icon) {
+    // Dynamic lookup of Lucide Icon component
+    const IconComponent = (LucideIcons as any)[icon];
+    if (IconComponent) {
+      return <IconComponent size={20} className="stroke-[1.7]" />;
+    }
   }
 
-  if (icon === "leaf") {
-    return (
-      <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
-        <path
-          d="M19.5 4.5C11.8 4.7 6.8 8 6.8 13a5.2 5.2 0 0 0 9.8 2.5c2-3.5 2.9-11 2.9-11Z"
-          stroke="currentColor"
-          strokeWidth="1.7"
-          strokeLinecap="round"
-          strokeLinejoin="round"
-        />
-        <path
-          d="M5 19c2.5-4.6 5.6-7.3 9.5-9"
-          stroke="currentColor"
-          strokeWidth="1.7"
-          strokeLinecap="round"
-        />
-      </svg>
-    );
-  }
-
-  if (icon === "flask") {
-    return (
-      <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
-        <path
-          d="M9 3h6m-1 0v5.2l4.8 8.4A2.3 2.3 0 0 1 16.8 20H7.2a2.3 2.3 0 0 1-2-3.4L10 8.2V3"
-          stroke="currentColor"
-          strokeWidth="1.7"
-          strokeLinecap="round"
-          strokeLinejoin="round"
-        />
-        <path d="M7.5 15h9" stroke="currentColor" strokeWidth="1.7" />
-      </svg>
-    );
-  }
-
-  return null;
+  // Fallback to GraduationCap
+  return <LucideIcons.GraduationCap size={20} className="stroke-[1.7]" />;
 }
 
 interface CoursesProps {
@@ -115,9 +76,18 @@ interface CoursesProps {
   };
   showViewAllButton?: boolean;
   limit?: number;
+  hideMainCard?: boolean;
+  limitToThree?: boolean;
 }
 
-export function Courses({ schools, intro, showViewAllButton = true, limit }: CoursesProps) {
+export function Courses({
+  schools,
+  intro,
+  showViewAllButton = true,
+  limit,
+  hideMainCard = false,
+  limitToThree = false,
+}: CoursesProps) {
   // Determine spotlight school (either featured school in list or fallback)
   const featuredSchoolFromProps = schools?.find((s) => s.isFeatured);
   const spotlightTitle =
@@ -135,18 +105,22 @@ export function Courses({ schools, intro, showViewAllButton = true, limit }: Cou
   const gridSchoolsAll =
     schools && schools.length > 0
       ? schools
-          .filter((s) => !s.isFeatured)
+          .filter((s) => (hideMainCard ? true : s._id !== featuredSchoolFromProps?._id))
           .map((s) => ({
             name: s.title,
             label: s.categoryTag,
             description: s.description,
             image: s.image ? urlFor(s.image)?.url() : "/content/A1.webp",
-            icon: "sanity" as SchoolIcon,
-            iconUrl: s.icon ? urlFor(s.icon)?.url() : null,
+            icon: typeof s.icon === "string" ? s.icon : undefined,
+            iconUrl: null,
           }))
       : gridSchoolsFallback();
 
-  const gridSchools = limit ? gridSchoolsAll.slice(0, limit) : gridSchoolsAll;
+  const gridSchools = limitToThree
+    ? gridSchoolsAll.slice(0, 3)
+    : limit
+    ? gridSchoolsAll.slice(0, limit)
+    : gridSchoolsAll;
 
   function gridSchoolsFallback() {
     return defaultSchools;
@@ -185,38 +159,40 @@ export function Courses({ schools, intro, showViewAllButton = true, limit }: Cou
           </SectionHeading>
         </header>
 
-        <article className="mt-10 grid overflow-hidden rounded-3xl bg-surface shadow-course md:min-h-course-feature md:grid-cols-2 animate-fade-in-up animation-delay-100">
-          <div className="relative aspect-course-feature-mobile md:aspect-auto">
-            {spotlightImage && (
-              <Image
-                className="object-cover object-center"
-                src={spotlightImage}
-                alt="Featured academic school spotlight"
-                fill
-                sizes="(max-width: 767px) calc(100vw - 2.5rem), 50vw"
-              />
-            )}
-          </div>
+        {!hideMainCard && (
+          <article className="mt-10 grid overflow-hidden rounded-3xl bg-surface shadow-course md:min-h-course-feature md:grid-cols-2 animate-fade-in-up animation-delay-100">
+            <div className="relative aspect-course-feature-mobile md:aspect-auto">
+              {spotlightImage && (
+                <Image
+                  className="object-cover object-center"
+                  src={spotlightImage}
+                  alt="Featured academic school spotlight"
+                  fill
+                  sizes="(max-width: 767px) calc(100vw - 2.5rem), 50vw"
+                />
+              )}
+            </div>
 
-          <div className="flex flex-col justify-center px-6 py-9 md:px-10 md:py-8">
-            <Eyebrow className="px-3 py-1.5">
-              {spotlightCategory}
-            </Eyebrow>
-            <h3 className="mt-6 font-heading text-h3 font-semibold leading-[1.25]">
-              {spotlightTitle}
-            </h3>
-            <BodyText className="mt-4 max-w-course-feature-copy">
-              {spotlightDesc}
-            </BodyText>
-            <p className="mt-9 flex items-center gap-2 text-course-meta text-muted">
-              <span
-                className="size-1.5 rounded-full bg-ink"
-                aria-hidden="true"
-              />
-              5 min read
-            </p>
-          </div>
-        </article>
+            <div className="flex flex-col justify-center px-6 py-9 md:px-10 md:py-8">
+              <Eyebrow className="px-3 py-1.5">
+                {spotlightCategory}
+              </Eyebrow>
+              <h3 className="mt-6 font-heading text-h3 font-semibold leading-[1.25]">
+                {spotlightTitle}
+              </h3>
+              <BodyText className="mt-4 max-w-course-feature-copy">
+                {spotlightDesc}
+              </BodyText>
+              <p className="mt-9 flex items-center gap-2 text-course-meta text-muted">
+                <span
+                  className="size-1.5 rounded-full bg-ink"
+                  aria-hidden="true"
+                />
+                5 min read
+              </p>
+            </div>
+          </article>
+        )}
 
         <div className="mt-11 grid gap-6 md:grid-cols-2 lg:grid-cols-3">
           {gridSchools.map((school, index) => (

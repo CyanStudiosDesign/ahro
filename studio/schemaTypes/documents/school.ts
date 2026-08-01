@@ -21,17 +21,24 @@ export default defineType({
     }),
     defineField({
       name: 'icon',
-      title: 'School Icon / Vector',
+      title: 'School Icon Name (Lucide)',
+      type: 'string',
+      description: 'The name of a Lucide icon (e.g. HeartPulse, Stethoscope, Dna, Brain, Pill, Globe, Smile). Case-sensitive.',
+    }),
+    defineField({
+      name: 'image',
+      title: 'Card Background Image',
       type: 'image',
-      description: 'Upload a clean SVG or PNG graphic for the card interface.',
-      validation: (Rule) => Rule.required(),
+      options: {
+        hotspot: true,
+      },
     }),
     defineField({
       name: 'description',
       title: 'Short Summary',
       type: 'text',
       rows: 3,
-      validation: (Rule) => Rule.required().max(250),
+      validation: (Rule) => Rule.required().max(600),
     }),
     defineField({
       name: 'isFeatured',

@@ -38,7 +38,8 @@ export const RESEARCH_QUERY = groq`
         _id,
         name
       }
-    }
+    },
+    "categories": *[_type == "researchCategory" && isDisabled != true].name
   }
 `
 
@@ -61,7 +62,12 @@ export const THERAPEUTIC_QUERY = groq`
       description,
       videoLink
     },
-    "categories": *[_type == "therapeuticArea" && isDisabled != true].name
+    "categories": *[_type == "therapeuticArea" && isDisabled != true] {
+      _id,
+      name,
+      slug,
+      image
+    }
   }
 `
 
@@ -70,13 +76,20 @@ export const THERAPEUTIC_QUERY = groq`
  * Pulls all active schools.
  */
 export const SCHOOLS_QUERY = groq`
-  *[_type == "school" && isDisabled != true] {
-    _id,
-    title,
-    categoryTag,
-    icon,
-    description,
-    isFeatured
+  {
+    "controls": *[_type == "homePage"][0] {
+      hideMainSchoolCard,
+      limitSchoolsToThree
+    },
+    "list": *[_type == "school" && isDisabled != true] {
+      _id,
+      title,
+      categoryTag,
+      icon,
+      description,
+      isFeatured,
+      image
+    }
   }
 `
 
@@ -99,7 +112,7 @@ export const NEWS_QUERY = groq`
  * 6. Events Query
  */
 export const EVENTS_QUERY = groq`
-  *[_type == "event" && isDisabled != true] | order(eventDate desc) {
+  *[_type == "event" && isDisabled != true] | order(eventDate asc) {
     _id,
     title,
     year,
@@ -113,7 +126,7 @@ export const EVENTS_QUERY = groq`
  * 7. Academic Terms & Holidays Query
  */
 export const ACADEMIC_TERMS_QUERY = groq`
-  *[_type == "academicTerm" && isDisabled != true] {
+  *[_type == "academicTerm" && isDisabled != true] | order(startDate asc) {
     _id,
     title,
     category,

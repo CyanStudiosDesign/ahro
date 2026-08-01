@@ -1,6 +1,7 @@
 "use client";
 
 import Image from "next/image";
+import Link from "next/link";
 import {
   ArrowRight,
   ArrowUpRight,
@@ -34,6 +35,8 @@ interface NewsProps {
     heading?: string;
     description?: string;
   };
+  showViewAllButton?: boolean;
+  isGridView?: boolean;
 }
 
 interface NewsCardItem {
@@ -47,7 +50,7 @@ interface NewsCardItem {
 
 function NewsCard({ item }: { item: NewsCardItem }) {
   return (
-    <article className="h-full overflow-hidden rounded-lg bg-white">
+    <article className="h-full overflow-hidden rounded-lg bg-white ">
       <div className="relative h-56.25 w-full">
         <Image
           src={item.image}
@@ -62,22 +65,24 @@ function NewsCard({ item }: { item: NewsCardItem }) {
         </Chip>
       </div>
 
-      <div className="p-6">
-        <div className="flex items-center gap-2 font-ui text-caption font-normal text-slate-2">
-          <CalendarDays size={14} strokeWidth={1.7} />
-          <span>{item.date}</span>
-          <span>*</span>
-          <MapPin size={14} strokeWidth={1.7} />
-          <span>{item.location}</span>
+      <div className="p-6 flex flex-col justify-between h-auto min-h-[220px]">
+        <div>
+          <div className="flex items-center gap-2 font-ui text-caption font-normal text-slate-2">
+            <CalendarDays size={14} strokeWidth={1.7} />
+            <span>{item.date}</span>
+            <span className="text-slate-4">|</span>
+            <MapPin size={14} strokeWidth={1.7} />
+            <span>{item.location}</span>
+          </div>
+
+          <h3 className="mt-4 font-heading text-h4 font-semibold leading-[1.3] text-ink line-clamp-2">
+            {item.title}
+          </h3>
+
+          <BodyText className="mt-3 text-[14px] line-clamp-3">
+            {item.description}
+          </BodyText>
         </div>
-
-        <h3 className="mt-4 font-heading text-h4 font-semibold leading-[1.3] text-ink">
-          {item.title}
-        </h3>
-
-        <BodyText className="mt-3 text-[14px]">
-          {item.description}
-        </BodyText>
 
         <p className="mt-7 inline-flex items-center gap-2 font-ui text-body font-semibold text-ink">
           Read More
@@ -88,7 +93,7 @@ function NewsCard({ item }: { item: NewsCardItem }) {
   );
 }
 
-export default function News({ data, intro }: NewsProps) {
+export default function News({ data, intro, showViewAllButton = true, isGridView = false }: NewsProps) {
   const displayItems = data && data.length > 0
     ? data.map((item) => ({
         category: item.category || "News",
@@ -109,12 +114,12 @@ export default function News({ data, intro }: NewsProps) {
   return (
     <section className="min-h-svh bg-paper px-5 py-16 md:px-10 lg:px-20">
       <section className="mx-auto max-w-7xl">
-        <div>
+        <div className={isGridView ? "text-center flex flex-col items-center justify-center mb-12" : "mb-10"}>
           <Eyebrow icon={<Sparkles size={14} strokeWidth={1.7} />}>
             Latest News
           </Eyebrow>
 
-          <SectionHeading className="mt-6 max-w-[680px]">
+          <SectionHeading className={`mt-6 max-w-[680px] ${isGridView ? "mx-auto" : ""}`}>
             {headingText.includes("Research And Impact") ? (
               <>
                 Stay Updated With AHRO&apos;s{" "}
@@ -126,26 +131,36 @@ export default function News({ data, intro }: NewsProps) {
           </SectionHeading>
         </div>
 
-        <Carousel
-          slides={newsSlides}
-          perView={3}
-          scrollBy={1}
-          gap={24}
-          navStyle="top"
-          indicator="dots"
-          speedFactor={0.1}
-          className="mt-10"
-        />
+        {isGridView ? (
+          <div className="mt-11 grid gap-6 md:grid-cols-2 lg:grid-cols-3">
+            {displayItems.map((item, index) => (
+              <NewsCard key={item.title || index} item={item} />
+            ))}
+          </div>
+        ) : (
+          <Carousel
+            slides={newsSlides}
+            perView={3}
+            scrollBy={1}
+            gap={24}
+            navStyle="top"
+            indicator="dots"
+            speedFactor={0.1}
+            className="mt-10"
+          />
+        )}
 
-        <div className="mt-12 flex justify-end">
-          <button
-            type="button"
-            className="inline-flex cursor-pointer items-center gap-2 rounded-pill border border-forest bg-white px-6 py-3 font-ui text-body font-semibold text-forest transition-colors hover:bg-paper focus-visible:z-10 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-forest"
-          >
-            View All News
-            <ArrowUpRight size={20} strokeWidth={1.8} />
-          </button>
-        </div>
+        {showViewAllButton && (
+          <div className="mt-12 flex justify-end">
+            <Link
+              href="/news"
+              className="inline-flex cursor-pointer items-center gap-2 rounded-pill border border-forest bg-white px-6 py-3 font-ui text-body font-semibold text-forest transition-colors hover:bg-paper focus-visible:z-10 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-forest"
+            >
+              View All News
+              <ArrowUpRight size={20} strokeWidth={1.8} />
+            </Link>
+          </div>
+        )}
       </section>
     </section>
   );

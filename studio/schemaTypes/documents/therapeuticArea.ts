@@ -13,6 +13,24 @@ export default defineType({
       validation: (Rule) => Rule.required().min(2).max(50),
     }),
     defineField({
+      name: 'slug',
+      title: 'Slug / URL Path',
+      type: 'slug',
+      options: {
+        source: 'name',
+        maxLength: 96,
+      },
+      validation: (Rule) => Rule.required(),
+    }),
+    defineField({
+      name: 'image',
+      title: 'Therapeutic Hover Image',
+      type: 'image',
+      options: {
+        hotspot: true,
+      },
+    }),
+    defineField({
       name: 'isDisabled',
       title: 'Disable / Hide Area',
       type: 'boolean',

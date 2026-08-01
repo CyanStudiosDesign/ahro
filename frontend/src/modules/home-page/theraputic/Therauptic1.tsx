@@ -12,7 +12,12 @@ interface TherapeuticData {
   };
   therapeuticDescription?: string;
   therapeuticImage?: unknown;
-  categories?: string[];
+  categories?: Array<{
+    _id: string;
+    name: string;
+    slug?: { current: string };
+    image?: unknown;
+  }>;
 }
 
 interface Therapeutic1Props {
@@ -23,18 +28,27 @@ export function Therapeutic1({ data }: Therapeutic1Props) {
   const heading = data?.therapeuticIntro?.heading || "Therapeutic Areas";
   const description =
     data?.therapeuticDescription || defaultTherapeuticData.introText;
-  const categories =
-    data?.categories && data.categories.length > 0
-      ? data.categories
-      : defaultTherapeuticData.categories;
+  const categories = data?.categories || [];
   const featuredImage = data?.therapeuticImage
     ? urlFor(data.therapeuticImage)?.width(900).height(600).fit("crop").url()
     : defaultTherapeuticData.mainImageUrl;
-  const menuItems = categories.map((category) => ({
-    link: "#research",
-    text: category,
-    image: featuredImage || defaultTherapeuticData.mainImageUrl,
-  }));
+
+  const menuItems = categories.length > 0
+    ? categories.map((category) => {
+        const itemImage = (category.image
+          ? urlFor(category.image)?.width(900).height(600).fit("crop").url()
+          : featuredImage) || defaultTherapeuticData.mainImageUrl;
+        return {
+          link: category.slug?.current ? `/therapeutic-areas/${category.slug.current}` : "#research",
+          text: category.name,
+          image: itemImage,
+        };
+      })
+    : defaultTherapeuticData.categories.map((categoryName) => ({
+        link: "#research",
+        text: categoryName,
+        image: featuredImage || defaultTherapeuticData.mainImageUrl,
+      }));
 
   return (
     <section

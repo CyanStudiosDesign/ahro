@@ -98,6 +98,7 @@ export default async function Home() {
         <ResearchAreas
           intro={researchData?.intro || undefined}
           cards={researchData?.cards || undefined}
+          categories={researchData?.categories || undefined}
         />
       )}
 
@@ -106,9 +107,10 @@ export default async function Home() {
       )}
 
       <Courses
-        schools={schoolsData || undefined}
+        schools={schoolsData?.list || undefined}
         intro={schoolsIntro || undefined}
-        limit={3}
+        hideMainCard={schoolsData?.controls?.hideMainSchoolCard}
+        limitToThree={schoolsData?.controls?.limitSchoolsToThree}
       />
 
       <News data={newsData || undefined} intro={newsIntro || undefined} />

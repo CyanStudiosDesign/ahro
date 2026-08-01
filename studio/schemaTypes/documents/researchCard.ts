@@ -29,13 +29,13 @@ export default defineType({
     }),
     defineField({
       name: 'categories',
-      title: 'Therapeutic Area Categories',
+      title: 'Research Categories',
       type: 'array',
-      description: 'Link this research to one or more therapeutic classifications.',
+      description: 'Link this research to one or more research categories.',
       of: [
         {
           type: 'reference',
-          to: [{ type: 'therapeuticArea' }],
+          to: [{ type: 'researchCategory' }],
         },
       ],
       validation: (Rule) => Rule.required().min(1).error('Select at least one category tag.'),
