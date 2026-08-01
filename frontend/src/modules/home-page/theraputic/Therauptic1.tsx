@@ -1,91 +1,91 @@
-
 "use client";
 
-import React, { useState } from 'react';
+import Image from "next/image";
+import FlowingMenu from "@/components/react-bits/FlowingMenu";
+import { urlFor } from "@/sanity/img";
+import { defaultTherapeuticData } from "./index";
 
-interface Area {
-  id: string;
-  name: string;
+interface TherapeuticData {
+  therapeuticIntro?: {
+    heading?: string;
+  };
+  therapeuticDescription?: string;
+  therapeuticImage?: unknown;
+  categories?: string[];
 }
 
-const areas: Area[] = [
-  { id: '1', name: 'MOJAVE' },
-  { id: '2', name: 'SONOMA' },
-  { id: '3', name: 'MONTEREY' },
-  { id: '4', name: 'SEQUOIA' },
-  { id: '5', name: 'MOJAVE' },
-  { id: '6', name: 'SONOMA' },
-  { id: '7', name: 'MONTEREY' },
-  { id: '8', name: 'SEQUOIA' },
-];
+interface Therapeutic1Props {
+  data?: TherapeuticData;
+}
 
-export const Therapeutic1: React.FC = () => {
-  const [activeId, setActiveId] = useState<string>('2'); // Default selected 'SONOMA'
+export function Therapeutic1({ data }: Therapeutic1Props) {
+  const heading = data?.therapeuticIntro?.heading || "Therapeutic Areas";
+  const description =
+    data?.therapeuticDescription || defaultTherapeuticData.introText;
+  const categories =
+    data?.categories && data.categories.length > 0
+      ? data.categories
+      : defaultTherapeuticData.categories;
+  const featuredImage = data?.therapeuticImage
+    ? urlFor(data.therapeuticImage)?.width(900).height(600).fit("crop").url()
+    : defaultTherapeuticData.mainImageUrl;
+  const menuItems = categories.map((category) => ({
+    link: "#research",
+    text: category,
+    image: featuredImage || defaultTherapeuticData.mainImageUrl,
+  }));
 
   return (
-    <div className="w-full max-w-wide mx-auto h-screen max-h-screen bg-surface px-6 py-6 md:px-12 md:py-8 flex flex-col justify-between overflow-hidden font-sans">
-      {/* Top Header Section */}
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-8 items-start shrink-0">
-        <div>
-          <h2 className="text-3xl sm:text-4xl md:text-7xl font-heading font-bold tracking-tight text-ink">
-            Therapeutic <span className="text-brand">Areas</span>
+    <section
+      id="therapeutic-areas"
+      className="bg-surface px-section py-14 text-ink md:py-20"
+      aria-labelledby="therapeutic-list-title"
+    >
+      <div className="mx-auto max-w-wide">
+        <header className="grid items-start gap-5 md:grid-cols-2 md:gap-10">
+          <h2
+            id="therapeutic-list-title"
+            className="text-section-title font-strong leading-section-title tracking-section-title"
+          >
+            {heading === "Therapeutic Areas" ? (
+              <>
+                Therapeutic <span className="text-brand">Areas</span>
+              </>
+            ) : (
+              heading
+            )}
           </h2>
-        </div>
-        <div className="flex items-end">
-          <h4 className="text-copy text-sm md:text-base leading-relaxed max-w-md">
-            Our Centre is a resource for researchers, academic professionals,
-            students, and organizations working in the field of global health.
-          </h4>
-        </div>
-      </div>
+          <p className="max-w-therapeutic-intro text-feature-copy leading-feature-copy text-copy">
+            {description}
+          </p>
+        </header>
 
-      {/* Main Content Area */}
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-6 md:gap-10 items-center flex-1 min-h-0 py-4">
-        {/* Interactive List Column */}
-        <div className="flex flex-col items-center justify-center space-y-2 md:space-y-2.5 w-full h-full overflow-y-auto max-h-full py-2">
-          {areas.map((area) => {
-            const isActive = area.id === activeId;
+        <div className="mt-10 grid gap-6 md:mt-14 lg:grid-cols-2 lg:gap-8">
+          <div className="h-[min(42rem,75vh)] min-h-[32rem] overflow-hidden  border-line bg-surface ">
+            <FlowingMenu
+              items={menuItems}
+              speed={15}
+              textColor="var(--color-ink)"
+              bgColor="var(--color-surface)"
+              marqueeBgColor="var(--color-brand-deep)"
+              marqueeTextColor="var(--color-surface)"
+              borderColor="var(--color-line)"
+            />
+          </div>
 
-            if (isActive) {
-              return (
-                <div
-                  key={area.id}
-                  onClick={() => setActiveId(area.id)}
-                  className="w-full max-w-lg bg-ink text-surface py-2.5 px-6 rounded-md flex items-center justify-center cursor-pointer shadow-md transition-all duration-300 transform scale-[1.02]"
-                >
-                  {/* Title */}
-                  <span className="font-bold tracking-widest text-base md:text-4xl ">
-                    {area.name}
-                  </span>
-                </div>
-              );
-            }
-
-            return (
-              <button
-                key={area.id}
-                onClick={() => setActiveId(area.id)}
-                className="w-full max-w-md text-ink font-bold text-base md:text-4xl tracking-widest py-1 md:py-4 hover:text-brand transition-colors duration-200"
-              >
-                {area.name}
-              </button>
-            );
-          })}
-        </div>
-
-        {/* Right Image Display */}
-        <div className="relative rounded-3xl overflow-hidden shadow-xl w-full h-full max-h-[70vh] min-h-[250px] aspect-[4/3] md:aspect-auto">
-          <img
-            src="/content/A4.webp"
-            alt="Global health field work"
-            className="w-full h-full object-cover"
-          />
-          {/* Subtle overlay accent circle */}
-          <div className="absolute top-1/3 right-1/4 w-12 h-12 bg-surface/80 rounded-full blur-xs hidden md:block"></div>
+          <div className="relative aspect-[4/3] overflow-hidden rounded-3xl bg-tint  lg:aspect-auto lg:h-[min(42rem,75vh)] lg:min-h-[32rem]">
+            <Image
+              src={featuredImage || defaultTherapeuticData.mainImageUrl}
+              alt="Healthcare research and community care"
+              fill
+              className="object-cover"
+              sizes="(max-width: 1023px) calc(100vw - 2.5rem), 50vw"
+            />
+          </div>
         </div>
       </div>
-    </div>
+    </section>
   );
-};
+}
 
 export default Therapeutic1;

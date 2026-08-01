@@ -44,7 +44,20 @@ export default async function Home() {
   let sustainabilityData = null;
 
   try {
-    const [hero, research, therapeutic, schools, sIntro, apply, news, nIntro, events, eIntro, terms, sustainability] = await Promise.all([
+    const [
+      hero,
+      research,
+      therapeutic,
+      schools,
+      sIntro,
+      apply,
+      news,
+      nIntro,
+      events,
+      eIntro,
+      terms,
+      sustainability,
+    ] = await Promise.all([
       client.fetch(HERO_QUERY).catch(() => null),
       client.fetch(RESEARCH_QUERY).catch(() => null),
       client.fetch(THERAPEUTIC_QUERY).catch(() => null),
@@ -72,41 +85,47 @@ export default async function Home() {
     termsData = terms;
     sustainabilityData = sustainability;
   } catch (error) {
-    console.error("Failed to fetch Sanity data, falling back to mockups:", error);
+    console.error(
+      "Failed to fetch Sanity data, falling back to mockups:",
+      error
+    );
   }
 
   const hideResearch = researchData?.intro?.hideResearchSection ?? false;
   const hideTherapeutic = therapeuticData?.hideTherapeuticSection ?? false;
 
-
   return (
     <main>
       {/* <Navbar1 /> */}
-      <HeroSection  />
-      
+      <HeroSection />
+
       {!hideResearch && (
-        <ResearchAreas 
-          intro={researchData?.intro || undefined} 
-          cards={researchData?.cards || undefined} 
+        <ResearchAreas
+          intro={researchData?.intro || undefined}
+          cards={researchData?.cards || undefined}
         />
       )}
 
-      <Therapeutic1 />
+      {!hideTherapeutic && (
+        <Therapeutic1 data={therapeuticData || undefined} />
+      )}
 
-      
+      <Courses
+        schools={schoolsData || undefined}
+        intro={schoolsIntro || undefined}
+        limit={3}
+      />
 
-      <Courses schools={schoolsData || undefined} intro={schoolsIntro || undefined} limit={3} />
-
-      
       <News data={newsData || undefined} intro={newsIntro || undefined} />
-      <EventsHolidayToggle eventsData={eventsData || undefined} termsData={termsData || undefined} eventsIntro={eventsIntro || undefined} />
+      <EventsHolidayToggle
+        eventsData={eventsData || undefined}
+        termsData={termsData || undefined}
+        eventsIntro={eventsIntro || undefined}
+      />
 
       <Info accordionsData={sustainabilityData || undefined} />
 
-      
       <HowToApply data={applyData || undefined} />
-   
-
     </main>
   );
 }
