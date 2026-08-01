@@ -1,5 +1,6 @@
 "use client";
 
+import * as React from "react";
 import Image from "next/image";
 import Link from "next/link";
 import {
@@ -94,6 +95,24 @@ function NewsCard({ item }: { item: NewsCardItem }) {
 }
 
 export default function News({ data, intro, showViewAllButton = true, isGridView = false }: NewsProps) {
+  const [perView, setPerView] = React.useState(3);
+
+  React.useEffect(() => {
+    const handleResize = () => {
+      if (window.innerWidth < 640) {
+        setPerView(1);
+      } else if (window.innerWidth < 1024) {
+        setPerView(2);
+      } else {
+        setPerView(3);
+      }
+    };
+
+    handleResize();
+    window.addEventListener("resize", handleResize);
+    return () => window.removeEventListener("resize", handleResize);
+  }, []);
+
   const displayItems = data && data.length > 0
     ? data.map((item) => ({
         category: item.category || "News",
@@ -140,7 +159,7 @@ export default function News({ data, intro, showViewAllButton = true, isGridView
         ) : (
           <Carousel
             slides={newsSlides}
-            perView={3}
+            perView={perView}
             scrollBy={1}
             gap={24}
             navStyle="top"
