@@ -1,9 +1,6 @@
-import { Navbar } from "@/modules/layout/navbar";
-
 export default function ContactSection() {
   return (
     <>
-      <Navbar />
       <div className="max-w-7xl px-4 sm:px-6 lg:px-8 pt-28 sm:pt-36 pb-12 lg:pb-20 mx-auto">
         <div className="mb-6 sm:mb-10 max-w-2xl text-center mx-auto">
           <h2 className="font-medium text-foreground text-2xl sm:text-4xl">

@@ -1,8 +1,5 @@
 import { Courses } from "@/modules/home-page/schools";
 import { HowToApply } from "@/modules/home-page/partnerships";
-import { Hero } from "@/modules/home-page/hero";
-import { Navbar } from "@/modules/layout/navbar";
-import { TherapeuticAreas } from "@/modules/home-page/theraputic";
 import ResearchAreas from "@/modules/home-page/research-areas/ResearchAreas";
 
 import { client } from "@/sanity/client";
@@ -23,7 +20,6 @@ import {
 import News from "@/modules/home-page/news/News";
 import EventsHolidayToggle from "@/modules/home-page/toggle/EventsHolidayToggle";
 import Info from "@/modules/home-page/information/Info";
-import TeamSection from "@/modules/faculty-alumni-page/Faculty";
 import { HeroSection } from "@/modules/home-page/hero/Hero1";
 import Therapeutic1 from "@/modules/home-page/theraputic/Therauptic1";
 
@@ -96,8 +92,7 @@ export default async function Home() {
 
   return (
     <main>
-      {/* <Navbar1 /> */}
-      <HeroSection />
+      <HeroSection data={heroData || undefined} />
 
       {!hideResearch && (
         <ResearchAreas

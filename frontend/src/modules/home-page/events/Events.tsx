@@ -3,13 +3,14 @@ import Timeline from "@/components/ui/timeline/Timeline";
 import TimelineItem from "@/components/ui/timeline/TimelineItem";
 import { eventsData } from "./index";
 import { urlFor } from "@/sanity/img";
+import { BodyText, Eyebrow, SectionHeading } from "@/components/ui/design-system";
 
 interface SanityEventItem {
   _id: string;
   title: string;
   year?: string;
   location?: string;
-  image?: any;
+  image?: unknown;
   description?: string;
 }
 
@@ -48,17 +49,17 @@ const Events = ({ data, isToggled, intro }: EventsProps) => {
         {/* ========================= */}
 
         <div className="max-w-2xl">
-          <span className="inline-block rounded-full bg-[#F3F8EE] px-4 py-2 text-xs font-semibold uppercase tracking-[0.2em] text-[#4B6B2B]">
+          <Eyebrow>
             Events & Conferences
-          </span>
+          </Eyebrow>
 
-          <h2 className="mt-6 text-4xl font-bold leading-tight text-gray-900 sm:text-5xl">
+          <SectionHeading className="mt-6">
             {headingText}
-          </h2>
+          </SectionHeading>
 
-          <p className="mt-5 max-w-xl text-lg leading-8 text-gray-600">
+          <BodyText className="mt-5 max-w-xl text-body-l">
             {descText}
-          </p>
+          </BodyText>
         </div>
 
         {/* ========================= */}
@@ -89,7 +90,7 @@ const Events = ({ data, isToggled, intro }: EventsProps) => {
         <div className="mt-16 lg:ml-[120px]">
           <Link
             href="/events"
-            className="inline-flex items-center gap-2 text-lg font-medium text-[#3F4A7D] transition-colors duration-300 hover:text-[#2F6B2D]"
+            className="inline-flex items-center gap-2 font-ui text-body font-semibold text-forest transition-colors duration-300 hover:text-meadow"
           >
             View All Events
             <span className="text-xl transition-transform duration-300 group-hover:translate-x-1">

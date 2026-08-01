@@ -4,6 +4,7 @@ import Image from "next/image";
 import FlowingMenu from "@/components/react-bits/FlowingMenu";
 import { urlFor } from "@/sanity/img";
 import { defaultTherapeuticData } from "./index";
+import { BodyText, SectionHeading } from "@/components/ui/design-system";
 
 interface TherapeuticData {
   therapeuticIntro?: {
@@ -38,14 +39,13 @@ export function Therapeutic1({ data }: Therapeutic1Props) {
   return (
     <section
       id="therapeutic-areas"
-      className="bg-surface px-section py-14 text-ink md:py-20"
+      className="overflow-x-clip bg-surface px-section py-14 text-ink md:py-20"
       aria-labelledby="therapeutic-list-title"
     >
-      <div className="mx-auto max-w-wide">
+      <div className="mx-auto max-w-7xl">
         <header className="grid items-start gap-5 md:grid-cols-2 md:gap-10">
-          <h2
+          <SectionHeading
             id="therapeutic-list-title"
-            className="text-section-title font-strong leading-section-title tracking-section-title"
           >
             {heading === "Therapeutic Areas" ? (
               <>
@@ -54,10 +54,10 @@ export function Therapeutic1({ data }: Therapeutic1Props) {
             ) : (
               heading
             )}
-          </h2>
-          <p className="max-w-therapeutic-intro text-feature-copy leading-feature-copy text-copy">
+          </SectionHeading>
+          <BodyText className="max-w-therapeutic-intro text-body-l">
             {description}
-          </p>
+          </BodyText>
         </header>
 
         <div className="mt-10 grid gap-6 md:mt-14 lg:grid-cols-2 lg:gap-8">

@@ -1,13 +1,15 @@
 "use client";
 
 import React, { useState } from "react";
+import type { ComponentProps } from "react";
 import AcademicCalendar from "../holidays/holiday";
 import Events from "../events/Events";
+import { ChipButton } from "@/components/ui/design-system";
 
 interface EventsHolidayToggleProps {
-  eventsData?: any[];
-  termsData?: any[];
-  eventsIntro?: any;
+  eventsData?: ComponentProps<typeof Events>["data"];
+  termsData?: ComponentProps<typeof AcademicCalendar>["termsData"];
+  eventsIntro?: ComponentProps<typeof Events>["intro"];
 }
 
 export default function EventsHolidayToggle({ eventsData, termsData, eventsIntro }: EventsHolidayToggleProps) {
@@ -21,26 +23,20 @@ export default function EventsHolidayToggle({ eventsData, termsData, eventsIntro
     <div className="w-full bg-white">
       {/* Tab Switcher Buttons */}
       <div className="max-w-7xl mx-auto px-6 md:px-12 lg:px-24 pt-16 sm:pt-20 lg:pt-24 flex gap-4">
-        <button
+        <ChipButton
           onClick={() => handleTabChange("terms")}
-          className={`px-6 py-2.5 rounded-pill font-ui text-sm font-semibold border transition-all duration-200 cursor-pointer ${
-            activeTab === "terms"
-              ? "bg-forest text-white border-forest"
-              : "bg-white text-slate-1 border-mist hover:bg-paper hover:text-forest"
-          }`}
+          active={activeTab === "terms"}
+          className="px-6"
         >
           Terms & Holidays
-        </button>
-        <button
+        </ChipButton>
+        <ChipButton
           onClick={() => handleTabChange("events")}
-          className={`px-6 py-2.5 rounded-pill font-ui text-sm font-semibold border transition-all duration-200 cursor-pointer ${
-            activeTab === "events"
-              ? "bg-forest text-white border-forest"
-              : "bg-white text-slate-1 border-mist hover:bg-paper hover:text-forest"
-          }`}
+          active={activeTab === "events"}
+          className="px-6"
         >
           Events
-        </button>
+        </ChipButton>
       </div>
 
       {/* Render Active Section */}

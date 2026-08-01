@@ -7,6 +7,12 @@ import {
 } from "./index";
 import { ArrowUpRight } from "lucide-react";
 import Link from "next/link";
+import {
+  BodyText,
+  Chip,
+  Eyebrow,
+  SectionHeading,
+} from "@/components/ui/design-system";
 
 function ArrowIcon() {
   return (
@@ -98,10 +104,10 @@ interface CoursesProps {
     _id: string;
     title: string;
     categoryTag: string;
-    icon?: any;
+    icon?: unknown;
     description: string;
     isFeatured?: boolean;
-    image?: any;
+    image?: unknown;
   }>;
   intro?: {
     heading?: string;
@@ -146,22 +152,26 @@ export function Courses({ schools, intro, showViewAllButton = true, limit }: Cou
     return defaultSchools;
   }
 
-  const headingText = intro?.heading || "Explore Our Schools Of Global Health Research.";
+  const suppliedHeading = intro?.heading?.trim();
+  const headingText =
+    suppliedHeading && suppliedHeading.toLowerCase() !== "nothing"
+      ? suppliedHeading
+      : "Explore Our Schools Of Global Health Research.";
 
   return (
     <section
       id="programs"
-      className="bg-canvas px-section pt-5 pb-12 text-ink md:pb-16"
+      className="flex min-h-svh items-center bg-white px-5 py-16 text-ink md:px-10 lg:px-20"
       aria-labelledby="courses-title"
     >
-      <div className="mx-auto max-w-wide">
+      <div className="mx-auto w-full max-w-7xl">
         <header className="text-center animate-fade-in-up">
-          <p className="inline-flex rounded-full border border-line bg-tint px-5 py-2.5 text-course-label font-semibold leading-none">
+          <Eyebrow>
             Research &amp; Programmes
-          </p>
-          <h2
+          </Eyebrow>
+          <SectionHeading
             id="courses-title"
-            className="mx-auto mt-9 text-courses-title font-medium leading-courses-title tracking-courses-title"
+            className="mx-auto mt-6 max-w-3xl"
           >
             {headingText.includes("Global Health Research") ? (
               <>
@@ -172,7 +182,7 @@ export function Courses({ schools, intro, showViewAllButton = true, limit }: Cou
             ) : (
               headingText
             )}
-          </h2>
+          </SectionHeading>
         </header>
 
         <article className="mt-10 grid overflow-hidden rounded-3xl bg-surface shadow-course md:min-h-course-feature md:grid-cols-2 animate-fade-in-up animation-delay-100">
@@ -189,15 +199,15 @@ export function Courses({ schools, intro, showViewAllButton = true, limit }: Cou
           </div>
 
           <div className="flex flex-col justify-center px-6 py-9 md:px-10 md:py-8">
-            <p className="w-fit rounded-full bg-tint px-3 py-1.5 text-course-eyebrow font-semibold uppercase leading-none tracking-course-label">
+            <Eyebrow className="px-3 py-1.5">
               {spotlightCategory}
-            </p>
-            <h3 className="mt-6 text-course-feature-title font-strong leading-card tracking-card-title">
+            </Eyebrow>
+            <h3 className="mt-6 font-heading text-h3 font-semibold leading-[1.25]">
               {spotlightTitle}
             </h3>
-            <p className="mt-4 max-w-course-feature-copy text-course-copy leading-course-copy text-muted">
+            <BodyText className="mt-4 max-w-course-feature-copy">
               {spotlightDesc}
-            </p>
+            </BodyText>
             <p className="mt-9 flex items-center gap-2 text-course-meta text-muted">
               <span
                 className="size-1.5 rounded-full bg-ink"
@@ -233,18 +243,18 @@ export function Courses({ schools, intro, showViewAllButton = true, limit }: Cou
                       <SchoolIcon icon={school.icon} iconUrl={school.iconUrl} />
                     </span>
                   </span>
-                  <span className="rounded-full bg-tint px-3 py-1.5 text-course-eyebrow font-medium uppercase leading-none tracking-course-label text-copy">
+                  <Chip className="border-0 bg-paper px-3 py-1.5 text-eyebrow uppercase tracking-[0.08em]">
                     {school.label}
-                  </span>
+                  </Chip>
                 </div>
 
                 <div>
                   <h3 className="max-w-course-card-title text-course-card-title font-medium leading-card">
                     {school.name}
                   </h3>
-                  <h5 className="mt-4 max-w-course-card-copy text-course-copy leading-course-copy text-white">
+                  <p className="mt-4 max-w-course-card-copy font-body text-[14px] leading-[1.6] text-white">
                     {school.description}
-                  </h5>
+                  </p>
                   <button
                     className="mt-7 grid size-course-action place-items-center rounded-full bg-tint text-brand transition-transform group-hover:translate-x-1 focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-surface"
                     type="button"
@@ -264,7 +274,7 @@ export function Courses({ schools, intro, showViewAllButton = true, limit }: Cou
           <div className="mt-12 flex justify-start">
             <Link
               href="/schools"
-              className="inline-flex items-center gap-2 rounded-full border-2 border-[#101510] bg-tint px-8 py-3 text-[16px] font-[700] text-[#3d403b] transition-colors hover:bg-surface focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-brand"
+              className="inline-flex items-center gap-2 rounded-pill border border-forest bg-white px-6 py-3 font-ui text-body font-semibold text-forest transition-colors hover:bg-paper focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-forest"
             >
               View All Courses
               <ArrowUpRight size={20} strokeWidth={1.8} />

@@ -1,68 +1,94 @@
-import CardNav, {
-  type CardNavItem,
-} from "@/components/react-bits/Nav/Navbar";
+"use client";
 
-const navigationItems: CardNavItem[] = [
+import StaggeredMenu from "@/components/react-bits/StaggeredMenu";
+import { usePathname } from "next/navigation";
+import { useEffect, useRef, useState } from "react";
+
+const navigationItems = [
+  { label: "Home", ariaLabel: "Go to home page", link: "/" },
+  { label: "About", ariaLabel: "Learn about AHRO", link: "/about" },
+  { label: "Schools", ariaLabel: "Explore AHRO schools", link: "/schools" },
   {
-    label: "About",
-    bgColor: "var(--color-brand-deep)",
-    textColor: "var(--color-surface)",
-    links: [
-      { label: "Home", href: "/", ariaLabel: "Go to home page" },
-      { label: "About Us", href: "/about", ariaLabel: "Learn about AHRO" },
-      { label: "Contact Us", href: "/contact", ariaLabel: "Get in touch with AHRO" },
-      { label: "Sandbox", href: "/sandbox", ariaLabel: "View AHRO sandbox page" },
-    ],
+    label: "Faculty & Alumni",
+    ariaLabel: "Meet AHRO faculty and alumni",
+    link: "/affiliates",
   },
   {
-    label: "Academics & Research",
-    bgColor: "var(--color-brand)",
-    textColor: "var(--color-surface)",
-    links: [
-      {
-        label: "Research Areas",
-        href: "#research",
-        ariaLabel: "Explore AHRO research",
-      },
-      {
-        label: "Schools & Programs",
-        href: "/schools",
-        ariaLabel: "Explore AHRO schools",
-      },
-      {
-        label: "How to Apply",
-        href: "#programs",
-        ariaLabel: "Apply to an AHRO program",
-      },
-    ],
+    label: "Community",
+    ariaLabel: "Explore AHRO community engagement",
+    link: "/community",
   },
-  {
-    label: "Explore & Community",
-    bgColor: "var(--color-copy)",
-    textColor: "var(--color-surface)",
-    links: [
-      { label: "Faculty & Alumni", href: "/affiliates", ariaLabel: "View AHRO faculty and alumni" },
-      { label: "Community & Engagement", href: "/community", ariaLabel: "View AHRO community page" },
-      { label: "News & Media", href: "#news", ariaLabel: "Read AHRO news" },
-      { label: "Events", href: "#events", ariaLabel: "View AHRO events" },
-    ],
-  },
+  { label: "Contact", ariaLabel: "Contact AHRO", link: "/contact" },
+];
+
+const socialItems = [
+  { label: "LinkedIn", link: "https://www.linkedin.com" },
+  { label: "X", link: "https://x.com" },
+  { label: "Instagram", link: "https://www.instagram.com" },
 ];
 
 export function Navbar() {
+  const pathname = usePathname();
+  const [isScrolled, setIsScrolled] = useState(false);
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const [isNavbarVisible, setIsNavbarVisible] = useState(true);
+  const lastScrollY = useRef(0);
+
+  useEffect(() => {
+    const updateNavbar = () => {
+      const currentScrollY = window.scrollY;
+      const delta = currentScrollY - lastScrollY.current;
+
+      setIsScrolled(currentScrollY > 24);
+
+      if (currentScrollY <= 24) {
+        setIsNavbarVisible(true);
+      } else if (delta > 4) {
+        setIsNavbarVisible(false);
+      } else if (delta < -4) {
+        setIsNavbarVisible(true);
+      }
+
+      lastScrollY.current = currentScrollY;
+    };
+
+    updateNavbar();
+    window.addEventListener("scroll", updateNavbar, { passive: true });
+    return () => window.removeEventListener("scroll", updateNavbar);
+  }, []);
+
+  const menuButtonColor =
+    isScrolled || pathname !== "/"
+      ? "var(--color-ink)"
+      : "var(--color-surface)";
+
   return (
-    <CardNav
-      logo="/content/Logo.png"
-      logoAlt="AHRO logo"
+    <StaggeredMenu
+      position="right"
       items={navigationItems}
-      baseColor="var(--color-surface)"
-      menuColor="var(--color-ink)"
-      buttonBgColor="var(--color-brand-deep)"
-      buttonTextColor="var(--color-surface)"
-      buttonLabel="Apply Now"
-      buttonHref="#programs"
-      ease="power3.out"
-      theme="light"
+      socialItems={socialItems}
+      displaySocials
+      displayItemNumbering
+      menuButtonColor={menuButtonColor}
+      openMenuButtonColor="var(--color-ink)"
+      changeMenuColorOnOpen
+      colors={["var(--color-brand)", "var(--color-brand-deep)"]}
+      logoUrl="/content/Logo.png"
+      accentColor="var(--color-brand)"
+      actionLabel="Apply Now"
+      actionLink="/#programs"
+      onMenuOpen={() => setIsMenuOpen(true)}
+      onMenuClose={() => setIsMenuOpen(false)}
+      headerClassName={
+        `${isMenuOpen || isNavbarVisible ? "translate-y-0" : "-translate-y-full"} ${
+          isMenuOpen
+            ? "border-transparent bg-transparent shadow-none"
+            : isScrolled
+              ? "border-line/60 bg-surface/80 shadow-navbar backdrop-blur-xl"
+              : "border-transparent bg-transparent"
+        }`
+      }
+      isFixed
     />
   );
 }

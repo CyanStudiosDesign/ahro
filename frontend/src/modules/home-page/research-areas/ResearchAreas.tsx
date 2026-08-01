@@ -5,7 +5,12 @@ import Image from "next/image";
 import { researchCards as defaultResearchCards, defaultResearchIntro } from "./index";
 import { urlFor } from "@/sanity/img";
 import Carousel from "@/components/ui/carousel/Carousel";
-import ResearchImpact from "./ResearchImpact";
+import {
+  BodyText,
+  ChipButton,
+  Eyebrow,
+  SectionHeading,
+} from "@/components/ui/design-system";
 
 interface ResearchAreasProps {
   intro?: {
@@ -16,7 +21,7 @@ interface ResearchAreasProps {
   };
   cards?: Array<{
     _id: string;
-    image: any;
+    image: unknown;
     title: string;
     description: string;
     categories?: Array<{ name: string }>;
@@ -79,7 +84,7 @@ export default function ResearchAreas({ intro, cards }: ResearchAreasProps) {
           className="flex flex-col group w-full aspect-[3/4.6] bg-transparent text-left"
         >
           <div
-            className={`w-full rounded-4xl overflow-hidden bg-gray-100 shadow-sm transition-all duration-300 flex-1 h-0 ${
+            className={`h-0 w-full flex-1 overflow-hidden rounded-lg bg-mist-light transition-all duration-300 ${
               isOdd ? "mb-4" : ""
             }`}
           >
@@ -94,12 +99,12 @@ export default function ResearchAreas({ intro, cards }: ResearchAreasProps) {
 
           {isOdd && (
             <div className="px-2 flex-none">
-              <h4 className="font-bold text-lg text-[#111] mb-1">
+              <h4 className="mb-1 font-heading text-h4 font-semibold leading-[1.3] text-ink">
                 {card.title}
               </h4>
-              <p className="text-gray-500 text-sm leading-relaxed max-w-[95%] line-clamp-2">
+              <BodyText className="max-w-[95%] line-clamp-2 text-[14px]">
                 {card.description}
-              </p>
+              </BodyText>
             </div>
           )}
         </div>
@@ -107,33 +112,26 @@ export default function ResearchAreas({ intro, cards }: ResearchAreasProps) {
     });
 
   return (
-    <section className="w-full bg-white px-6 py-16 md:px-12 lg:px-24 font-sans text-[#1A201C]">
-      <div className="max-w-7xl mx-auto flex flex-col items-center text-center">
-        <div className="inline-flex items-center gap-2 mb-6">
-          <div className="px-4 py-1.5 rounded-full border border-[#D5E2D4] bg-white text-sm font-medium text-[#2E472A] shadow-sm">
-            <span>{tag}</span>
-          </div>
-        </div>
+    <section className="flex min-h-svh w-full items-center bg-white px-5 py-16 text-ink md:px-10 lg:px-20">
+      <div className="mx-auto flex w-full min-w-0 max-w-7xl flex-col items-center text-center">
+        <Eyebrow className="mb-6">{tag}</Eyebrow>
 
-        <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold tracking-tight max-w-4xl leading-stat-label mb-10">
+        <SectionHeading className="mb-10 max-w-4xl">
           {heading}
-        </h2>
+        </SectionHeading>
 
         <div className="flex flex-wrap justify-center gap-3 mb-14">
           {categoryList.map((category) => {
             const isActive = activeCategory === category;
             return (
-              <button
+              <ChipButton
                 key={category}
                 onClick={() => setActiveCategory(category)}
-                className={`px-6 py-2.5 rounded-full text-base font-medium transition-all duration-200 border ${
-                  isActive
-                    ? "bg-[#2E472A] text-white border-[#2E472A]"
-                    : "bg-[#F4F9F3] text-[#2E472A] border-[#E2EFE0] hover:bg-[#EAF3E9]"
-                }`}
+                active={isActive}
+                className="px-5"
               >
                 {category}
-              </button>
+              </ChipButton>
             );
           })}
         </div>

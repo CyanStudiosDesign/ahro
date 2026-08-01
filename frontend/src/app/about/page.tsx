@@ -1,10 +1,8 @@
 import React from "react";
-import { Navbar } from "@/modules/layout/navbar";
 
 export default function AboutUs() {
   return (
     <>
-      <Navbar />
       <div className="w-full bg-white font-sans text-ink">
         <div className="max-w-4xl mx-auto py-24 sm:py-32 px-6 md:px-12 lg:px-16">
           {/* ======================================= */}

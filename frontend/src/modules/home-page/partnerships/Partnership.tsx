@@ -1,4 +1,5 @@
 import { defaultApplicationSteps, defaultApplyPageData } from "./index";
+import { BodyText, SectionHeading } from "@/components/ui/design-system";
 
 const cardClassName = [
   "min-w-0 border-t border-line px-page py-card-y",
@@ -51,9 +52,9 @@ export function HowToApply({ data }: HowToApplyProps) {
     >
       <div className="mx-auto w-full max-w-wide pb-0 pt-card-y sm:pb-16 lg:pt-card-x">
         <header className="px-page text-left sm:px-0 sm:text-center">
-          <h2
+          <SectionHeading
             id="how-to-apply-title"
-            className="text-display-mobile font-strong leading-display tracking-display sm:text-display"
+            className="mx-auto max-w-3xl"
           >
             {isPartnership ? (
               <>
@@ -69,12 +70,12 @@ export function HowToApply({ data }: HowToApplyProps) {
             ) : (
               <>{pageHeading}</>
             )}
-          </h2>
+          </SectionHeading>
 
           {isPartnership && (
-            <p className="mx-auto mt-6 max-w-2xl text-[16px] md:text-[18px] leading-[1.6] text-muted text-left sm:text-center">
+            <BodyText className="mx-auto mt-6 max-w-2xl text-left sm:text-center">
               {introText}
-            </p>
+            </BodyText>
           )}
 
           <nav

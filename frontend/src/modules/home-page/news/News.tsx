@@ -11,11 +11,17 @@ import {
 import { Carousel } from "@/components/ui/carousel/Carousel";
 import { urlFor } from "@/sanity/img";
 import newsItems from "./index";
+import {
+  BodyText,
+  Chip,
+  Eyebrow,
+  SectionHeading,
+} from "@/components/ui/design-system";
 
 interface NewsItem {
   _id: string;
   category?: string;
-  image?: any;
+  image?: unknown;
   publishedAt?: string;
   location?: string;
   title: string;
@@ -41,7 +47,7 @@ interface NewsCardItem {
 
 function NewsCard({ item }: { item: NewsCardItem }) {
   return (
-    <article className="h-full overflow-hidden rounded-[14px] bg-white shadow-[0_14px_30px_rgba(0,0,0,0.08)]">
+    <article className="h-full overflow-hidden rounded-lg bg-white">
       <div className="relative h-56.25 w-full">
         <Image
           src={item.image}
@@ -51,13 +57,13 @@ function NewsCard({ item }: { item: NewsCardItem }) {
           className="object-cover object-center"
         />
 
-        <span className="absolute left-5 top-5 rounded-full bg-white px-4 py-1.5 text-[11px] font-normal uppercase tracking-[0.18em] text-[#141719]">
+        <Chip className="absolute left-5 top-5 border-0 px-4 py-1.5 text-eyebrow uppercase tracking-[0.08em]">
           {item.category}
-        </span>
+        </Chip>
       </div>
 
       <div className="p-6">
-        <div className="flex items-center gap-2 text-[13px] font-normal text-[#4d524b]">
+        <div className="flex items-center gap-2 font-ui text-caption font-normal text-slate-2">
           <CalendarDays size={14} strokeWidth={1.7} />
           <span>{item.date}</span>
           <span>*</span>
@@ -65,15 +71,15 @@ function NewsCard({ item }: { item: NewsCardItem }) {
           <span>{item.location}</span>
         </div>
 
-        <h2 className="mt-4 text-[18px] font-[700] leading-[1.45] tracking-normal text-[#171a17]">
+        <h3 className="mt-4 font-heading text-h4 font-semibold leading-[1.3] text-ink">
           {item.title}
-        </h2>
+        </h3>
 
-        <p className="mt-3 text-[14px] font-normal leading-[1.65] tracking-normal text-[#4f544d]">
+        <BodyText className="mt-3 text-[14px]">
           {item.description}
-        </p>
+        </BodyText>
 
-        <p className="mt-7 inline-flex items-center gap-2 text-[15px] font-[700] text-[#333832]">
+        <p className="mt-7 inline-flex items-center gap-2 font-ui text-body font-semibold text-ink">
           Read More
           <ArrowRight size={15} strokeWidth={1.8} />
         </p>
@@ -86,7 +92,7 @@ export default function News({ data, intro }: NewsProps) {
   const displayItems = data && data.length > 0
     ? data.map((item) => ({
         category: item.category || "News",
-        image: (item.image && urlFor(item.image)?.url()) || "/content/A1.webp",
+        image: (item.image ? urlFor(item.image)?.url() : null) || "/content/A1.webp",
         date: item.publishedAt ? new Date(item.publishedAt).toLocaleDateString('en-US', { month: 'short', year: 'numeric' }) : "Recently",
         location: item.location || "Glasgow",
         title: item.title,
@@ -101,24 +107,23 @@ export default function News({ data, intro }: NewsProps) {
   const headingText = intro?.heading || "Stay Updated With AHRO's Research And Impact.";
 
   return (
-    <main className="min-h-screen bg-[#fbfcf8] px-6 py-16 font-sans">
+    <section className="min-h-svh bg-paper px-5 py-16 md:px-10 lg:px-20">
       <section className="mx-auto max-w-7xl">
         <div>
-          <p className="inline-flex items-center gap-2 rounded-full border border-[#d7decf] bg-[#f8fff0] px-4 py-1.5 text-[13px] font-normal uppercase tracking-[0.12em] text-[#202820]">
-            <Sparkles size={14} strokeWidth={1.8} className="text-[#315c25]" />
+          <Eyebrow icon={<Sparkles size={14} strokeWidth={1.7} />}>
             Latest News
-          </p>
+          </Eyebrow>
 
-          <h1 className="mt-6 max-w-[680px] text-[42px] font-[700] leading-[1.15] tracking-normal text-[#141719]">
+          <SectionHeading className="mt-6 max-w-[680px]">
             {headingText.includes("Research And Impact") ? (
               <>
                 Stay Updated With AHRO&apos;s{" "}
-                <span className="block text-[#315c25]">Research And Impact.</span>
+                <span className="block text-forest">Research And Impact.</span>
               </>
             ) : (
               headingText
             )}
-          </h1>
+          </SectionHeading>
         </div>
 
         <Carousel
@@ -135,13 +140,13 @@ export default function News({ data, intro }: NewsProps) {
         <div className="mt-12 flex justify-end">
           <button
             type="button"
-            className="inline-flex cursor-pointer items-center gap-2 rounded-full border-2 border-[#101510] bg-tint px-8 py-3 text-[16px] font-[700] text-[#3d403b]  hover:bg-surface focus-visible:z-10 focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-brand"
+            className="inline-flex cursor-pointer items-center gap-2 rounded-pill border border-forest bg-white px-6 py-3 font-ui text-body font-semibold text-forest transition-colors hover:bg-paper focus-visible:z-10 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-forest"
           >
             View All News
             <ArrowUpRight size={20} strokeWidth={1.8} />
           </button>
         </div>
       </section>
-    </main>
+    </section>
   );
 }

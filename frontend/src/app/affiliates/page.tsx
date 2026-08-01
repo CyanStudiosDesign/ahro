@@ -22,7 +22,7 @@ async function Affiliates() {
   }
 
   return (
-    <main>
+    <main className="pt-20 sm:pt-24">
       <FacultySection data={facultyData || undefined} />
       <AlumniSection data={alumniData || undefined} />
     </main>
@@ -30,4 +30,3 @@ async function Affiliates() {
 }
 
 export default Affiliates
-

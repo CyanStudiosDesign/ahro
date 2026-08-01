@@ -1,5 +1,4 @@
 import React from "react";
-import { Navbar } from "@/modules/layout/navbar";
 import { CommunityEngagement } from "@/modules/community-page";
 import { client } from "@/sanity/client";
 import { COMMUNITY_QUERY } from "@/sanity/queries";
@@ -16,9 +15,8 @@ export default async function CommunityPage() {
   }
 
   return (
-    <main className="min-h-screen bg-surface">
+    <main className="min-h-screen bg-surface pt-20 sm:pt-24">
       <CommunityEngagement programsData={communityData || undefined} />
     </main>
   );
 }
-

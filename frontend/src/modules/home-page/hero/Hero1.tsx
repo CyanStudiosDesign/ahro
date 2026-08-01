@@ -1,8 +1,9 @@
 "use client";
 
 import React from "react";
+import Link from "next/link";
 import { ArrowRight, FlaskConical, Handshake, Globe } from "lucide-react";
-import { Nav1 } from "@/modules/layout/nav1/Nav1";
+import { BodyText } from "@/components/ui/design-system";
 
 export interface HeroSectionProps {
   data?: {
@@ -14,7 +15,11 @@ export interface HeroSectionProps {
 }
 
 export const HeroSection: React.FC<HeroSectionProps> = ({ data }) => {
-  const mainHeading = data?.mainHeading || "AHRO Institute";
+  const suppliedHeading = data?.mainHeading?.trim();
+  const mainHeading =
+    suppliedHeading && suppliedHeading.length >= 3
+      ? suppliedHeading
+      : "AHRO Institute";
   const subHeading = data?.subHeading || "African Health Research Organisation";
   const description =
     data?.description ||
@@ -22,7 +27,7 @@ export const HeroSection: React.FC<HeroSectionProps> = ({ data }) => {
   const bgImageUrl = data?.bgImageUrl || "/content/Hero_Bg.jpeg";
 
   return (
-    <section className="relative min-h-screen w-full overflow-hidden font-sans text-white bg-slate-950 flex flex-col justify-between">
+    <section className="relative flex h-[85svh] min-h-0 w-full flex-col justify-between overflow-hidden bg-ink font-sans text-white lg:h-[85vh] lg:min-h-[42rem]">
       {/* 1. Background Image & Overlay */}
       <div className="absolute  inset-0 z-0">
         <img
@@ -34,84 +39,79 @@ export const HeroSection: React.FC<HeroSectionProps> = ({ data }) => {
         <div className="absolute inset-0 bg-linear-to-t from-black/65 via-black/25 to-black/35" />
       </div>
 
-      {/* 2. Top Header Navigation */}
-      <div className="relative z-30 pt-4">
-        <Nav1 />
-      </div>
-
-      {/* 3. Hero Main Content Container */}
-      <div className="relative z-20 flex flex-1 flex-col pt-15 px-4 pb-12 md:px-8 lg:px-12 max-w-8xl mx-auto w-full">
+      {/* Hero Main Content Container */}
+      <div className="relative z-20 mx-auto flex w-full max-w-7xl flex-1 flex-col px-5 pt-28 pb-12 md:px-10 md:pt-32 lg:px-20">
         <main className="grid grid-cols-1 items-end gap-10 lg:grid-cols-12 w-full">
           {/* Left Column: Typography, CTA, Stats Badges */}
           <div className="space-y-6 lg:col-span-6">
             {/* Title & Description Block */}
             <div className="space-y-2.5">
-              <h2 className="text-4xl sm:text-5xl md:text-6xl lg:text-8xl font-extrabold tracking-tight text-white font-heading drop-shadow-md">
+              <h1 className="whitespace-nowrap font-heading text-[26px] font-bold leading-[1.15] tracking-[-0.01em] text-white drop-shadow-md sm:text-[32px] lg:text-h1">
                 {mainHeading}
-              </h2>
-              <h2 className="text-xl sm:text-2xl md:text-4xl font-bold text-white/95 font-heading tracking-tight drop-shadow">
+              </h1>
+              <h2 className="font-heading text-[22px] font-bold leading-[1.2] tracking-[-0.005em] text-white/95 drop-shadow sm:text-[26px] lg:text-h2">
                 {subHeading}
               </h2>
-              <h5 className="max-w-84 text-xs sm:text-sm md:text-base leading-relaxed text-slate-100/90 font-body drop-shadow pt-1">
+              <BodyText className="max-w-[38rem] pt-1 text-white/90 drop-shadow">
                 {description}
-              </h5>
+              </BodyText>
             </div>
 
             {/* 1. Learn More Button */}
             <div className="pt-6">
-              <a
-                href="#about"
+              <Link
+                href="/about"
                 className="inline-flex items-center gap-3 rounded-full bg-forest hover:bg-forest/90 pl-6 pr-2 py-2 text-sm font-medium text-white shadow-lg backdrop-blur-sm transition-all duration-200 hover:scale-102 font-ui cursor-pointer no-underline"
               >
                 <span>Learn more</span>
                 <span className="flex h-7 w-7 items-center justify-center rounded-full bg-white text-forest shadow-sm">
                   <ArrowRight className="h-4 w-4" />
                 </span>
-              </a>
+              </Link>
             </div>
 
             {/* 2. Stats Grid Section - Refined with Global CSS & Premium Aesthetics */}
-            <div className="flex flex-col gap-4 pt-2 w-full max-w-xs">
+            <div className="grid w-full max-w-lg grid-cols-3 gap-3 pt-2 sm:gap-5">
               {/* Stat 1: Research Projects */}
-              <div className="flex items-center gap-4 group">
-                <div className="flex h-16 w-16 items-center justify-center rounded-2xl bg-white shadow-md shrink-0 transition-transform duration-300 group-hover:scale-105">
-                  <FlaskConical className="h-9 w-9 text-forest stroke-[1.75]" />
+              <div className="group flex flex-col items-center gap-2 text-center sm:flex-row sm:gap-3 sm:text-left">
+                <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-xl bg-white shadow-md transition-transform duration-300 group-hover:scale-105 sm:h-14 sm:w-14 sm:rounded-2xl">
+                  <FlaskConical className="h-7 w-7 text-forest stroke-[1.75] sm:h-8 sm:w-8" />
                 </div>
                 <div className="flex flex-col justify-center">
-                  <span className="text-2xl font-bold text-white font-heading leading-none tracking-tight">
+                  <span className="font-heading text-xl font-bold leading-none tracking-tight text-white sm:text-2xl">
                     100+
                   </span>
-                  <span className="text-sm font-medium text-white/90 font-body leading-tight mt-1 whitespace-nowrap">
+                  <span className="mt-1 text-xs font-medium leading-tight text-white/90 sm:text-sm">
                     Research Projects
                   </span>
                 </div>
               </div>
 
               {/* Stat 2: Partner Institutions */}
-              <div className="flex items-center gap-4 group">
-                <div className="flex h-16 w-16 items-center justify-center rounded-2xl bg-white shadow-md shrink-0 transition-transform duration-300 group-hover:scale-105">
-                  <Handshake className="h-9 w-9 text-forest stroke-[1.75]" />
+              <div className="group flex flex-col items-center gap-2 text-center sm:flex-row sm:gap-3 sm:text-left">
+                <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-xl bg-white shadow-md transition-transform duration-300 group-hover:scale-105 sm:h-14 sm:w-14 sm:rounded-2xl">
+                  <Handshake className="h-7 w-7 text-forest stroke-[1.75] sm:h-8 sm:w-8" />
                 </div>
                 <div className="flex flex-col justify-center">
-                  <span className="text-2xl font-bold text-white font-heading leading-none tracking-tight">
+                  <span className="font-heading text-xl font-bold leading-none tracking-tight text-white sm:text-2xl">
                     50+
                   </span>
-                  <span className="text-sm font-medium text-white/90 font-body leading-tight mt-1 whitespace-nowrap">
+                  <span className="mt-1 text-xs font-medium leading-tight text-white/90 sm:text-sm">
                     Partner Institutions
                   </span>
                 </div>
               </div>
 
               {/* Stat 3: Countries Impacted */}
-              <div className="flex items-center gap-4 group">
-                <div className="flex h-16 w-16 items-center justify-center rounded-2xl bg-white shadow-md shrink-0 transition-transform duration-300 group-hover:scale-105">
-                  <Globe className="h-9 w-9 text-forest stroke-[1.5]" />
+              <div className="group flex flex-col items-center gap-2 text-center sm:flex-row sm:gap-3 sm:text-left">
+                <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-xl bg-white shadow-md transition-transform duration-300 group-hover:scale-105 sm:h-14 sm:w-14 sm:rounded-2xl">
+                  <Globe className="h-7 w-7 text-forest stroke-[1.5] sm:h-8 sm:w-8" />
                 </div>
                 <div className="flex flex-col justify-center">
-                  <span className="text-2xl font-bold text-white font-heading leading-none tracking-tight">
+                  <span className="font-heading text-xl font-bold leading-none tracking-tight text-white sm:text-2xl">
                     15+
                   </span>
-                  <span className="text-sm font-medium text-white/90 font-body leading-tight mt-1 whitespace-nowrap">
+                  <span className="mt-1 text-xs font-medium leading-tight text-white/90 sm:text-sm">
                     Countries Impacted
                   </span>
                 </div>
@@ -123,7 +123,7 @@ export const HeroSection: React.FC<HeroSectionProps> = ({ data }) => {
           <div className="hidden lg:col-span-2 lg:block" />
 
           {/* Right Column: Inset Feature Card */}
-          <div className="lg:col-span-4">
+          <div className="hidden lg:col-span-4 lg:block">
             <div className="rounded-3xl bg-surface/95 p-6 text-ink shadow-2xl backdrop-blur-md border border-white/80 max-w-sm ml-auto transition-all duration-300 hover:shadow-2xl">
               <div className="mb-3 flex items-start justify-between gap-4">
                 <h3 className="text-lg font-bold leading-snug font-heading text-ink">

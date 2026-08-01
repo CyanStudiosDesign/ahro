@@ -3,6 +3,7 @@
 import React from "react";
 import Link from "next/link";
 import { holidayData } from "./index";
+import { BodyText, Chip, Eyebrow, SectionHeading } from "@/components/ui/design-system";
 
 interface SanityTermItem {
   _id: string;
@@ -22,8 +23,6 @@ interface AcademicCalendarProps {
 
 export default function AcademicCalendar({
   isToggled,
-  activeTab = "terms",
-  onTabChange,
   termsData,
 }: AcademicCalendarProps) {
   const { eyebrow, title, description, items: defaultItems, linkText, linkHref } = holidayData;
@@ -46,15 +45,15 @@ export default function AcademicCalendar({
 
         {/* Header */}
         <div className="max-w-2xl text-left mb-12">
-          <span className="inline-block text-xs font-bold tracking-[0.1em] uppercase text-[#3F6A35]">
+          <Eyebrow>
             {eyebrow}
-          </span>
-          <h2 className="mt-3 text-3xl sm:text-4xl font-bold tracking-tight text-slate-900">
+          </Eyebrow>
+          <SectionHeading className="mt-3">
             {title}
-          </h2>
-          <p className="mt-3 text-base italic text-slate-500 font-serif">
+          </SectionHeading>
+          <BodyText className="mt-3 italic">
             &ldquo;{description}&rdquo;
-          </p>
+          </BodyText>
         </div>
 
         {/* Timeline List */}
@@ -64,7 +63,7 @@ export default function AcademicCalendar({
             return (
               <div key={item.id} className="flex items-baseline gap-5 sm:gap-6">
                 {/* Date column */}
-                <div className="w-20 sm:w-24 text-right flex-shrink-0 text-sm font-medium text-slate-400">
+                <div className="w-20 flex-shrink-0 text-right font-ui text-caption font-medium text-slate-3 sm:w-24">
                   {item.date}
                 </div>
 
@@ -72,7 +71,7 @@ export default function AcademicCalendar({
                 <div className="flex items-center justify-center flex-shrink-0">
                   <span
                     className={`w-2.5 h-2.5 rounded-full inline-block ${
-                      isTerm ? "bg-[#2D4A27]" : "bg-[#9EC186]"
+                      isTerm ? "bg-forest" : "bg-lime"
                     }`}
                   />
                 </div>
@@ -80,15 +79,15 @@ export default function AcademicCalendar({
                 {/* Content details */}
                 <div className="flex-1 flex flex-col items-start">
                   <div className="flex flex-wrap items-center gap-3">
-                    <h3 className="text-base sm:text-lg font-bold text-slate-900">
+                    <h3 className="font-heading text-h5 font-medium text-ink sm:text-h4">
                       {item.title}
                     </h3>
-                    <span className="px-2.5 py-0.5 text-[10px] font-bold tracking-wider rounded-full uppercase bg-[#EAEFE9] text-[#2D4A27]">
+                    <Chip className="border-0 bg-mist-light px-2.5 py-0.5 text-[10px] font-semibold uppercase tracking-[0.08em] text-forest">
                       {item.type}
-                    </span>
+                    </Chip>
                   </div>
                   {item.subtitle && (
-                    <span className="text-xs sm:text-sm text-slate-400 mt-1">
+                    <span className="mt-1 font-ui text-caption text-slate-3">
                       {item.subtitle}
                     </span>
                   )}
@@ -102,7 +101,7 @@ export default function AcademicCalendar({
         <div className="mt-12 pl-[108px] sm:pl-[128px]">
           <Link
             href={linkHref}
-            className="inline-flex items-center gap-2 text-sm font-semibold text-[#2D4A27] hover:text-[#3F6A35] transition-colors duration-200"
+            className="inline-flex items-center gap-2 font-ui text-body font-semibold text-forest transition-colors duration-200 hover:text-meadow"
           >
             {linkText} <span aria-hidden="true">&rarr;</span>
           </Link>

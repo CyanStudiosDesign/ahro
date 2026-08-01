@@ -41,7 +41,7 @@ export interface SocialLinks {
   instagram: string;
 }
 
-export type FooterTheme = "ink" | "forest" | "navy";
+export type FooterTheme = "ink" | "forest" | "navy" | "surface";
 
 export interface FooterProps {
   theme?: FooterTheme;
@@ -63,6 +63,8 @@ const themeStyles: Record<
     socialBg: string;
     socialDisabledBg: string;
     border: string;
+    text: string;
+    muted: string;
   }
 > = {
   ink: {
@@ -73,6 +75,8 @@ const themeStyles: Record<
     socialBg: "bg-[#24282B]",
     socialDisabledBg: "bg-[#24282B]/50",
     border: "border-zinc-800",
+    text: "text-white",
+    muted: "text-zinc-400",
   },
   forest: {
     bg: "bg-[#1E380E]",
@@ -82,6 +86,8 @@ const themeStyles: Record<
     socialBg: "bg-[#274813]",
     socialDisabledBg: "bg-[#274813]/50",
     border: "border-[#345c1a]",
+    text: "text-white",
+    muted: "text-zinc-400",
   },
   navy: {
     bg: "bg-[var(--color-hero-sky-deep)]",
@@ -91,6 +97,19 @@ const themeStyles: Record<
     socialBg: "bg-[#0d4f7a]",
     socialDisabledBg: "bg-[#0d4f7a]/50",
     border: "border-[#1875b0]",
+    text: "text-white",
+    muted: "text-zinc-300",
+  },
+  surface: {
+    bg: "bg-surface",
+    heading: "text-brand-deep",
+    cardBg: "bg-tint",
+    cardBorder: "border-line",
+    socialBg: "bg-tint",
+    socialDisabledBg: "bg-tint/60",
+    border: "border-line",
+    text: "text-ink",
+    muted: "text-muted",
   },
 };
 
@@ -112,7 +131,7 @@ const Footer = ({
     >
       <section className="flex flex-col md:flex-row justify-between px-4 py-16">
         {/* LEFT: Logo */}
-        <div className="text-white flex md:block justify-center">
+        <div className={`${currentTheme.text} flex justify-center md:block`}>
           <img src={logoSrc} alt="Logo" className="w-40" />
         </div>
 
@@ -129,11 +148,11 @@ const Footer = ({
               value={column.heading}
               className={`border-b ${currentTheme.border}`}
             >
-              <AccordionTrigger className="w-full flex justify-between items-center py-5 text-white text-lg">
+              <AccordionTrigger className={`w-full flex justify-between items-center py-5 text-lg ${currentTheme.text}`}>
                 <span>{column.heading}</span>
               </AccordionTrigger>
               <AccordionContent>
-                <div className="flex flex-col gap-4 pb-5 text-white">
+                <div className={`flex flex-col gap-4 pb-5 ${currentTheme.text}`}>
                   {column.items?.map((item) => (
                     <Link
                       key={item.title}
@@ -159,7 +178,7 @@ const Footer = ({
               <p className={`text-xs font-semibold uppercase tracking-wider mb-4 mt-8 ${currentTheme.heading}`}>
                 {column.heading}
               </p>
-              <div className="flex flex-col gap-5 text-white text-md">
+              <div className={`flex flex-col gap-5 text-md ${currentTheme.text}`}>
                 {column.items?.map((item) => (
                   <Link
                     key={item.title}
@@ -189,18 +208,18 @@ const Footer = ({
               <div className="flex items-center gap-4 h-14 pl-8">
                 <div className="flex flex-col gap-1">
                   <h3
-                    className={`${notoSerifGeorgian.className} text-white text-2xl font-bold leading-none group-hover:text-zinc-800 transition`}
+                    className={`${notoSerifGeorgian.className} ${currentTheme.text} text-2xl font-bold leading-none group-hover:text-zinc-800 transition`}
                   >
                     {studioCard.name}
                   </h3>
-                  <p className="text-zinc-400 text-xs mt-1 pl-2 group-hover:text-zinc-500 transition">
+                  <p className={`${currentTheme.muted} text-xs mt-1 pl-2 group-hover:text-zinc-500 transition`}>
                     {studioCard.description}
                   </p>
                 </div>
               </div>
 
               {/* Right arrow icon */}
-              <div className="text-white group-hover:text-zinc-900 transition">
+              <div className={`${currentTheme.text} group-hover:text-zinc-900 transition`}>
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
                   fill="none"
@@ -244,7 +263,7 @@ const Footer = ({
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
                   viewBox="0 0 24 24"
-                  className="h-5 w-5 text-white group-hover:text-zinc-800 transition"
+                  className={`h-5 w-5 ${currentTheme.text} group-hover:text-zinc-800 transition`}
                 >
                   <path
                     fill="currentColor"
@@ -274,7 +293,7 @@ const Footer = ({
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
                   viewBox="0 0 20 20"
-                  className="h-5 w-5 text-white group-hover:text-zinc-800 transition"
+                  className={`h-5 w-5 ${currentTheme.text} group-hover:text-zinc-800 transition`}
                 >
                   <path
                     fill="currentColor"
@@ -308,7 +327,7 @@ const Footer = ({
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
                   viewBox="0 0 24 24"
-                  className="h-5 w-5 text-white group-hover:text-zinc-800 transition"
+                  className={`h-5 w-5 ${currentTheme.text} group-hover:text-zinc-800 transition`}
                 >
                   <path
                     fill="currentColor"
@@ -336,7 +355,7 @@ const Footer = ({
 
       {/* Legal section */}
       <div className="px-10 pb-10 pt-20">
-        <div className="flex flex-wrap gap-x-6 gap-y-3 text-white text-sm mb-6">
+        <div className={`flex flex-wrap gap-x-6 gap-y-3 text-sm mb-6 ${currentTheme.text}`}>
           {legalLinks.map((privacy) => (
             <Link
               key={privacy.title}
@@ -347,7 +366,7 @@ const Footer = ({
             </Link>
           ))}
         </div>
-        <p className="text-zinc-400 text-sm">{copyrightText}</p>
+        <p className={`${currentTheme.muted} text-sm`}>{copyrightText}</p>
       </div>
     </footer>
   );
