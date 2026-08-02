@@ -26,7 +26,13 @@ export default async function Home() {
 
   return (
     <main>
-      <Courses schools={schoolsData || undefined} intro={schoolsIntro || undefined} showViewAllButton={false} />
+      <Courses
+        schools={schoolsData?.list || undefined}
+        intro={schoolsIntro || undefined}
+        showViewAllButton={false}
+        hideMainCard={schoolsData?.controls?.hideMainSchoolCard}
+        limitToThree={false}
+      />
     </main>
   );
 }

@@ -147,7 +147,7 @@ export const FacultySection: React.FC<FacultySectionProps> = ({ data }) => {
 
           {/* "We are hiring!" Card */}
           <div
-            className="bg-paper/40 rounded-lg p-8 border border-line flex flex-col items-center justify-center text-center shadow-[0_2px_8px_rgba(0,0,0,0.01)] h-[240px]"
+            className="bg-paper/40 rounded-lg p-6 border border-line flex flex-col items-center justify-center text-center shadow-[0_2px_8px_rgba(0,0,0,0.01)]"
             style={{ borderRadius: "var(--radius-lg)" }}
           >
             <div className="w-12 h-12 rounded-full bg-forest/10 flex items-center justify-center text-forest mb-4">

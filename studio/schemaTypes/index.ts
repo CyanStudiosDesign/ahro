@@ -5,6 +5,7 @@ import applicationStep from './objects/applicationStep'
 
 // Documents
 import therapeuticArea from './documents/therapeuticArea'
+import researchCategory from './documents/researchCategory'
 import researchCard from './documents/researchCard'
 import news from './documents/news'
 import event from './documents/event'
@@ -29,6 +30,7 @@ export const schemaTypes = [
 
   // Documents
   therapeuticArea,
+  researchCategory,
   researchCard,
   news,
   event,

@@ -1,3 +1,4 @@
+import React from "react";
 import Link from "next/link";
 import Timeline from "@/components/ui/timeline/Timeline";
 import TimelineItem from "@/components/ui/timeline/TimelineItem";
@@ -21,9 +22,11 @@ interface EventsProps {
     heading?: string;
     description?: string;
   };
+  showViewAllButton?: boolean;
+  limitToFour?: boolean;
 }
 
-const Events = ({ data, isToggled, intro }: EventsProps) => {
+const Events = ({ data, isToggled, intro, showViewAllButton = true, limitToFour = true }: EventsProps) => {
   const displayItems = data && data.length > 0
     ? data.map((item) => ({
         id: item._id,
@@ -37,6 +40,8 @@ const Events = ({ data, isToggled, intro }: EventsProps) => {
         ...item,
         description: undefined, // Mock event items do not have descriptions in the mock dataset
       }));
+
+  const visibleItems = limitToFour ? displayItems.slice(0, 4) : displayItems;
 
   const headingText = intro?.heading || "Events & Milestones";
   const descText = intro?.description || "From international symposiums to global summits — AHRO has been convening health leaders since 2012.";
@@ -68,7 +73,7 @@ const Events = ({ data, isToggled, intro }: EventsProps) => {
 
         <div className="mt-16 lg:mt-24">
           <Timeline className="space-y-0">
-            {displayItems.map((event, index) => (
+            {visibleItems.map((event, index) => (
               <TimelineItem
                 key={event.id}
                 title={event.title}
@@ -77,7 +82,7 @@ const Events = ({ data, isToggled, intro }: EventsProps) => {
                 image={event.image}
                 description={event.description}
                 isFirst={index === 0}
-                isLast={index === displayItems.length - 1}
+                isLast={index === visibleItems.length - 1}
               />
             ))}
           </Timeline>
@@ -87,17 +92,19 @@ const Events = ({ data, isToggled, intro }: EventsProps) => {
         {/* View All Events */}
         {/* ========================= */}
 
-        <div className="mt-16 lg:ml-[120px]">
-          <Link
-            href="/events"
-            className="inline-flex items-center gap-2 font-ui text-body font-semibold text-forest transition-colors duration-300 hover:text-meadow"
-          >
-            View All Events
-            <span className="text-xl transition-transform duration-300 group-hover:translate-x-1">
-              →
-            </span>
-          </Link>
-        </div>
+        {showViewAllButton && (
+          <div className="mt-16 lg:ml-[120px]">
+            <Link
+              href="/events"
+              className="inline-flex items-center gap-2 font-ui text-body font-semibold text-forest transition-colors duration-300 hover:text-meadow"
+            >
+              View All Events
+              <span className="text-xl transition-transform duration-300 group-hover:translate-x-1">
+                →
+              </span>
+            </Link>
+          </div>
+        )}
       </div>
     </section>
   );

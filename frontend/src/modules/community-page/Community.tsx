@@ -94,7 +94,7 @@ export default function CommunityEngagement({ programsData }: CommunityEngagemen
 
         {/* Sub-quote / Subtext */}
         <div className="max-w-2xl mx-auto text-center pt-6">
-          <p className="text-slate-2 text-xs md:text-sm leading-relaxed font-body">
+          <p className="text-slate-2 text-xs md:text-sm mx-auto leading-relaxed font-body">
             {communityApproachData.quoteText}
           </p>
         </div>

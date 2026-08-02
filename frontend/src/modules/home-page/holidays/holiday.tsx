@@ -19,11 +19,15 @@ interface AcademicCalendarProps {
   activeTab?: "terms" | "events";
   onTabChange?: (tab: "terms" | "events") => void;
   termsData?: SanityTermItem[];
+  showViewAllButton?: boolean;
+  limitToSix?: boolean;
 }
 
 export default function AcademicCalendar({
   isToggled,
   termsData,
+  showViewAllButton = true,
+  limitToSix = true,
 }: AcademicCalendarProps) {
   const { eyebrow, title, description, items: defaultItems, linkText, linkHref } = holidayData;
 
@@ -36,6 +40,8 @@ export default function AcademicCalendar({
         subtitle: term.description || term.status,
       }))
     : defaultItems;
+
+  const visibleItems = limitToSix ? displayItems.slice(0, 6) : displayItems;
 
   return (
     <section className={`w-full bg-white ${isToggled ? "pb-16 sm:pb-20 lg:pb-24 pt-8" : "py-16 sm:py-20 lg:py-24"} font-sans text-ink`}>
@@ -58,7 +64,7 @@ export default function AcademicCalendar({
 
         {/* Timeline List */}
         <div className="space-y-8 max-w-2xl">
-          {displayItems.map((item) => {
+          {visibleItems.map((item) => {
             const isTerm = item.type === "TERM";
             return (
               <div key={item.id} className="flex items-baseline gap-5 sm:gap-6">
@@ -98,14 +104,16 @@ export default function AcademicCalendar({
         </div>
 
         {/* Action Link */}
-        <div className="mt-12 pl-[108px] sm:pl-[128px]">
-          <Link
-            href={linkHref}
-            className="inline-flex items-center gap-2 font-ui text-body font-semibold text-forest transition-colors duration-200 hover:text-meadow"
-          >
-            {linkText} <span aria-hidden="true">&rarr;</span>
-          </Link>
-        </div>
+        {showViewAllButton && (
+          <div className="mt-12 pl-[108px] sm:pl-[128px]">
+            <Link
+              href="/holidays"
+              className="inline-flex items-center gap-2 font-ui text-body font-semibold text-forest transition-colors duration-200 hover:text-meadow"
+            >
+              {linkText} <span aria-hidden="true">&rarr;</span>
+            </Link>
+          </div>
+        )}
 
       </div>
     </section>

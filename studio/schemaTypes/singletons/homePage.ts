@@ -100,7 +100,23 @@ export default defineType({
       description: 'Toggle on to hide the entire `<TherapeuticAreas />` component.',
     }),
 
-    // --- 4. SUSTAINABILITY / INFO SECTION ---
+    // --- 4. SCHOOLS / COURSES SECTION CONTROLS ---
+    defineField({
+      name: 'hideMainSchoolCard',
+      title: 'Hide Main School Spotlight Card',
+      type: 'boolean',
+      initialValue: false,
+      description: 'Toggle on to hide the large spotlight card from the homepage school section.',
+    }),
+    defineField({
+      name: 'limitSchoolsToThree',
+      title: 'Limit Homepage Schools to Three',
+      type: 'boolean',
+      initialValue: false,
+      description: 'Toggle on to display a maximum of 3 cards in the school listing grid on the homepage.',
+    }),
+
+    // --- 5. SUSTAINABILITY / INFO SECTION ---
     defineField({
       name: 'sustainabilityAccordions',
       title: 'Sustainability Accordion Items',
