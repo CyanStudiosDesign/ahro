@@ -9,6 +9,8 @@ interface TimelineItemProps {
   image?: string;
   isLast?: boolean;
   isFirst?: boolean;
+  dotColor?: string;
+  opacity?: number;
 }
 
 export default function TimelineItem({
@@ -19,6 +21,8 @@ export default function TimelineItem({
   image,
   isLast = false,
   isFirst = false,
+  dotColor,
+  opacity,
 }: TimelineItemProps) {
   return (
     <div className="grid grid-cols-1 gap-8 lg:grid-cols-[90px_30px_1fr_360px] lg:gap-10 text-left w-full">
@@ -37,14 +41,20 @@ export default function TimelineItem({
         )}
 
         {/* Green Dot */}
-        <div className="z-10 mt-2 h-3 w-3 rounded-full border-2 border-white bg-[#2F6B2D]" />
+        <div 
+          className="z-10 mt-2 h-3 w-3 rounded-full border-2 border-white" 
+          style={{ backgroundColor: dotColor || "#2F6B2D", opacity }}
+        />
       </div>
 
       {/* Content Layer */}
       <div className={cn("flex flex-col justify-start", !isLast && "pb-12 lg:pb-16")}>
         {/* Mobile Timeline */}
         <div className="mb-3 flex items-center gap-3 lg:hidden">
-          <div className="h-3 w-3 rounded-full bg-[#2F6B2D]" />
+          <div 
+            className="h-3 w-3 rounded-full" 
+            style={{ backgroundColor: dotColor || "#2F6B2D", opacity }}
+          />
 
           <span className="text-sm font-semibold text-gray-500">
             {date}

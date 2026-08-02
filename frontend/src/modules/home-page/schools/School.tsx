@@ -60,53 +60,47 @@ function SchoolIcon({
   return <LucideIcons.GraduationCap size={20} className="stroke-[1.7]" />;
 }
 
+interface SchoolData {
+  _id: string;
+  title: string;
+  categoryTag: string;
+  icon?: unknown;
+  description: string;
+  image?: unknown;
+}
+
 interface CoursesProps {
-  schools?: Array<{
-    _id: string;
-    title: string;
-    categoryTag: string;
-    icon?: unknown;
-    description: string;
-    isFeatured?: boolean;
-    image?: unknown;
-  }>;
+  spotlightSchool?: SchoolData;
+  gridSchools?: SchoolData[];
   intro?: {
     heading?: string;
     description?: string;
   };
   showViewAllButton?: boolean;
-  limit?: number;
-  hideMainCard?: boolean;
-  limitToThree?: boolean;
 }
 
 export function Courses({
-  schools,
+  spotlightSchool,
+  gridSchools: propGridSchools,
   intro,
   showViewAllButton = true,
-  limit,
-  hideMainCard = false,
-  limitToThree = false,
 }: CoursesProps) {
   // Determine spotlight school (either featured school in list or fallback)
-  const featuredSchoolFromProps = schools?.find((s) => s.isFeatured);
   const spotlightTitle =
-    featuredSchoolFromProps?.title || defaultSpotlightSchool.title;
+    spotlightSchool?.title || defaultSpotlightSchool.title;
   const spotlightCategory =
-    featuredSchoolFromProps?.categoryTag || defaultSpotlightSchool.categoryTag;
+    spotlightSchool?.categoryTag || defaultSpotlightSchool.categoryTag;
   const spotlightDesc =
-    featuredSchoolFromProps?.description || defaultSpotlightSchool.description;
+    spotlightSchool?.description || defaultSpotlightSchool.description;
 
-  const spotlightImage = featuredSchoolFromProps?.image
-    ? urlFor(featuredSchoolFromProps.image)?.url()
+  const spotlightImage = spotlightSchool?.image
+    ? urlFor(spotlightSchool.image)?.url()
     : defaultSpotlightSchool.imageUrl;
 
   // Build grid schools list from Sanity or fallback to mockups
-  const gridSchoolsAll =
-    schools && schools.length > 0
-      ? schools
-          .filter((s) => (hideMainCard ? true : s._id !== featuredSchoolFromProps?._id))
-          .map((s) => ({
+  const gridSchools =
+    propGridSchools && propGridSchools.length > 0
+      ? propGridSchools.map((s) => ({
             name: s.title,
             label: s.categoryTag,
             description: s.description,
@@ -114,17 +108,7 @@ export function Courses({
             icon: typeof s.icon === "string" ? s.icon : undefined,
             iconUrl: null,
           }))
-      : gridSchoolsFallback();
-
-  const gridSchools = limitToThree
-    ? gridSchoolsAll.slice(0, 3)
-    : limit
-    ? gridSchoolsAll.slice(0, limit)
-    : gridSchoolsAll;
-
-  function gridSchoolsFallback() {
-    return defaultSchools;
-  }
+      : defaultSchools;
 
   const suppliedHeading = intro?.heading?.trim();
   const headingText =
@@ -141,7 +125,7 @@ export function Courses({
       <div className="mx-auto w-full max-w-7xl">
         <header className="text-center animate-fade-in-up">
           <Eyebrow>
-            Research &amp; Programmes
+            Schools &amp; Programmes
           </Eyebrow>
           <SectionHeading
             id="courses-title"
@@ -159,8 +143,8 @@ export function Courses({
           </SectionHeading>
         </header>
 
-        {!hideMainCard && (
-          <article className="mt-10 grid overflow-hidden rounded-3xl bg-surface shadow-course md:min-h-course-feature md:grid-cols-2 animate-fade-in-up animation-delay-100">
+        {true && (
+          <article className="mt-10 grid overflow-hidden rounded-3xl bg-surface shadow-course md:min-h-course-feature md:grid-cols-2 animate-fade-in-up animation-delay-100 transition-all duration-300 ease-out hover:-translate-y-1.5 hover:shadow-2xl">
             <div className="relative aspect-course-feature-mobile md:aspect-auto">
               {spotlightImage && (
                 <Image
@@ -197,13 +181,13 @@ export function Courses({
         <div className="mt-11 grid gap-6 md:grid-cols-2 lg:grid-cols-3">
           {gridSchools.map((school, index) => (
             <article
-              className="group relative isolate aspect-course-card overflow-hidden rounded-3xl bg-copy shadow-course animate-fade-in-up"
+              className="cursor-pointer group relative isolate aspect-course-card overflow-hidden rounded-3xl bg-copy shadow-course animate-fade-in-up transition-all duration-300 ease-out hover:-translate-y-2 hover:shadow-2xl"
               style={{ animationDelay: `${200 + (index + 1) * 100}ms` }}
               key={school.name}
             >
               {school.image && (
                 <Image
-                  className="-z-20 object-cover transition-transform duration-500 group-hover:scale-[1.03]"
+                  className="-z-20 object-cover"
                   src={school.image}
                   alt=""
                   fill

@@ -28,7 +28,7 @@ export default defineType({
           name: 'mainHeading',
           title: 'Main Welcome Heading',
           type: 'string',
-          validation: (Rule) => Rule.required(),
+          // validation: (Rule) => Rule.required(),
         }),
         defineField({
           name: 'stats',
@@ -66,54 +66,59 @@ export default defineType({
 
     // --- 3. THERAPEUTIC SECTION ---
     defineField({
-      name: 'therapeuticIntro',
-      title: 'Therapeutic Section Intro Header',
-      type: 'sectionIntro',
-    }),
-    defineField({
       name: 'therapeuticDescription',
-      title: 'Therapeutic Section Main Narrative',
+      title: 'Therapeutic Section Intro Narrative',
       type: 'text',
       rows: 4,
-      description: 'The primary contextual description block displaying next to the therapeutic grid layout.',
+      description: 'The introductory narrative/paragraph displayed at the top right of the section.',
     }),
     defineField({
       name: 'therapeuticImage',
-      title: 'Therapeutic Section Image',
+      title: 'Therapeutic Section Side Image',
       type: 'image',
       options: { hotspot: true },
-      description: 'The featured photo shown next to the therapeutic tags list.'
-    }),
-    defineField({
-      name: 'videoHighlightsList',
-      title: 'Featured Video Highlights',
-      type: 'array',
-      description: 'Add and manage videos showcasing university achievements or healthcare facilities.',
-      of: [{ type: 'videoHighlight' }],
-      validation: (Rule) => Rule.max(4).error('We recommend capping highlights to 4 videos for visual symmetry.'),
+      description: 'The large cover photo displayed on the right side of the flowing menu.'
     }),
     defineField({
       name: 'hideTherapeuticSection',
       title: 'Hide Entire Therapeutic Section',
       type: 'boolean',
       initialValue: false,
-      description: 'Toggle on to hide the entire `<TherapeuticAreas />` component.',
+      description: 'Toggle on to hide the entire Therapeutic section from the homepage.',
     }),
 
     // --- 4. SCHOOLS / COURSES SECTION CONTROLS ---
     defineField({
-      name: 'hideMainSchoolCard',
-      title: 'Hide Main School Spotlight Card',
-      type: 'boolean',
-      initialValue: false,
-      description: 'Toggle on to hide the large spotlight card from the homepage school section.',
+      name: 'spotlightSchool',
+      title: 'Homepage Spotlight School',
+      type: 'reference',
+      to: [{ type: 'school' }],
+      description: 'Select the main spotlight school to show at the top of the homepage.',
     }),
     defineField({
-      name: 'limitSchoolsToThree',
-      title: 'Limit Homepage Schools to Three',
-      type: 'boolean',
-      initialValue: false,
-      description: 'Toggle on to display a maximum of 3 cards in the school listing grid on the homepage.',
+      name: 'homepageSchools',
+      title: 'Homepage Grid Schools (Exactly 3)',
+      type: 'array',
+      of: [
+        {
+          type: 'reference',
+          to: [{ type: 'school' }],
+          options: {
+            filter: ({ document }) => {
+              const spotlightId = (document?.spotlightSchool as any)?._ref;
+              if (spotlightId) {
+                return {
+                  filter: '!(_id in [$spotlightId])',
+                  params: { spotlightId }
+                };
+              }
+              return {};
+            }
+          }
+        }
+      ],
+      description: 'Select exactly 3 schools to show in the grid below the spotlight school on the homepage.',
+      validation: (Rule) => Rule.length(3).unique().error('You must select exactly 3 unique schools for the homepage grid.'),
     }),
 
     // --- 5. SUSTAINABILITY / INFO SECTION ---

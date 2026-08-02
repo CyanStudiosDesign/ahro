@@ -1,7 +1,7 @@
-export { TherapeuticAreas } from "./TherapeuticAreas";
+export { Therapeutic1 as TherapeuticAreas } from "./Therauptic1";
 
 export const defaultTherapeuticData = {
-  heading: "Driving High-Impact Health Research Across The Globe",
+  heading: "Therapeutic Areas",
   introText: "At African Health Research Organisation, we are dedicated to driving high-impact clinical research that addresses critical global health challenges.",
   mainImageUrl: "/content/A4.webp",
   categories: [
@@ -15,9 +15,4 @@ export const defaultTherapeuticData = {
     "Cardiovascular",
     "Metabolic",
   ] as const,
-  video: {
-    thumbnail: "/content/A1.webp",
-    title: "Video Highlights",
-    description: "At African Health Research Organization, we are dedicated to driving high-impact clinical research that addresses critical global health challenges.",
-  },
 };

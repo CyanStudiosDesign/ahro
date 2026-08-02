@@ -25,7 +25,6 @@ interface Therapeutic1Props {
 }
 
 export function Therapeutic1({ data }: Therapeutic1Props) {
-  const heading = data?.therapeuticIntro?.heading || "Therapeutic Areas";
   const description =
     data?.therapeuticDescription || defaultTherapeuticData.introText;
   const categories = data?.categories || [];
@@ -39,13 +38,13 @@ export function Therapeutic1({ data }: Therapeutic1Props) {
           ? urlFor(category.image)?.width(900).height(600).fit("crop").url()
           : featuredImage) || defaultTherapeuticData.mainImageUrl;
         return {
-          link: category.slug?.current ? `/therapeutic-areas/${category.slug.current}` : "#research",
+          link: "#",
           text: category.name,
           image: itemImage,
         };
       })
     : defaultTherapeuticData.categories.map((categoryName) => ({
-        link: "#research",
+        link: "#",
         text: categoryName,
         image: featuredImage || defaultTherapeuticData.mainImageUrl,
       }));
@@ -57,25 +56,20 @@ export function Therapeutic1({ data }: Therapeutic1Props) {
       aria-labelledby="therapeutic-list-title"
     >
       <div className="mx-auto max-w-7xl">
-        <header className="grid items-start gap-5 md:grid-cols-2 md:gap-10">
-          <SectionHeading
+        <header className="grid items-center gap-5 md:grid-cols-2 md:gap-10">
+          <h2
             id="therapeutic-list-title"
+            className="text-center sm:text-left text-3xl sm:text-5xl md:text-7xl font-heading font-bold leading-[1.1] tracking-tight"
           >
-            {heading === "Therapeutic Areas" ? (
-              <>
-                Therapeutic <span className="text-brand">Areas</span>
-              </>
-            ) : (
-              heading
-            )}
-          </SectionHeading>
-          <BodyText className="max-w-therapeutic-intro text-body-l">
+            Therapeutic <span className="text-brand">Areas</span>
+          </h2>
+          <BodyText className="text-center sm:text-left max-w-therapeutic-description text-body-l">
             {description}
           </BodyText>
         </header>
 
         <div className="mt-10 grid gap-6 md:mt-14 lg:grid-cols-2 lg:gap-8">
-          <div className="h-[min(42rem,75vh)] min-h-[32rem] overflow-hidden  border-line bg-surface ">
+          <div className="h-[min(42rem,75vh)] min-h-128 overflow-hidden  border-line bg-surface ">
             <FlowingMenu
               items={menuItems}
               speed={15}
