@@ -21,7 +21,7 @@ import News from "@/modules/home-page/news/News";
 import EventsHolidayToggle from "@/modules/home-page/toggle/EventsHolidayToggle";
 import Info from "@/modules/home-page/information/Info";
 import { HeroSection } from "@/modules/home-page/hero/Hero1";
-import Therapeutic1 from "@/modules/home-page/theraputic/Therauptic1";
+import { TherapeuticAreas } from "@/modules/home-page/theraputic";
 
 export const revalidate = 10; // revalidate page every 10 seconds for dynamic content updates
 
@@ -103,14 +103,13 @@ export default async function Home() {
       )}
 
       {!hideTherapeutic && (
-        <Therapeutic1 data={therapeuticData || undefined} />
+        <TherapeuticAreas data={therapeuticData || undefined} />
       )}
 
       <Courses
-        schools={schoolsData?.list || undefined}
+        spotlightSchool={schoolsData?.spotlightSchool || undefined}
+        gridSchools={schoolsData?.homepageSchools?.filter((s: any) => s._id !== schoolsData?.spotlightSchool?._id) || undefined}
         intro={schoolsIntro || undefined}
-        hideMainCard={schoolsData?.controls?.hideMainSchoolCard}
-        limitToThree={schoolsData?.controls?.limitSchoolsToThree}
       />
 
       <News data={newsData || undefined} intro={newsIntro || undefined} />

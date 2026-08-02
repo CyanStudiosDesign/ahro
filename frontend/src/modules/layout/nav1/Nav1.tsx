@@ -32,7 +32,7 @@ export const Nav1: React.FC<Nav1Props> = ({ activeTab: initialActive = 'Home' })
         <Link href="/" className="flex items-center gap-3 group text-decoration-none">
           <div className="relative flex items-center justify-center h-12 w-auto shrink-0">
             <img 
-              src="/content/Logo.png" 
+              src="/content/AHRO%20logo.png" 
               alt="AHRO Logo" 
               className="h-20 drop-shadow-sm transition-transform duration-200 group-hover:scale-105"
             />

@@ -87,7 +87,7 @@ export const Info: React.FC<InfoProps> = ({ accordionsData }) => {
           </div>
 
           {/* Accordion Component from UI library */}
-          <Accordion type="single" defaultValue="commitment" className="border-none bg-transparent shadow-none rounded-none divide-y divide-line">
+          <Accordion type="multiple" defaultValue={["commitment","education","research","environmental","financial","community"]} className="border-none bg-transparent shadow-none rounded-none divide-y divide-line">
             
             {/* Our Commitment */}
             <AccordionItem value="commitment" className="border-b border-line py-2">

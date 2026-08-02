@@ -38,14 +38,12 @@ export default defineType({
       title: 'Short Summary',
       type: 'text',
       rows: 3,
-      validation: (Rule) => Rule.required().max(600),
-    }),
-    defineField({
-      name: 'isFeatured',
-      title: 'Featured School',
-      type: 'boolean',
-      description: 'Toggle on to highlight or promote this school on the main listing interface.',
-      initialValue: false,
+      validation: (Rule) =>
+        Rule.required().custom((text) => {
+          if (!text) return true;
+          const wordCount = text.trim().split(/\s+/).filter(Boolean).length;
+          return wordCount <= 500 ? true : 'Description must be 500 words or less.';
+        }),
     }),
     defineField({
       name: 'isDisabled',

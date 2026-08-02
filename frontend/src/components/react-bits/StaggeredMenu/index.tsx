@@ -61,7 +61,7 @@ export const StaggeredMenu: React.FC<StaggeredMenuProps> = ({
   displayItemNumbering = true,
   className,
   headerClassName,
-  logoUrl = "/src/assets/logos/reactbits-gh-white.svg",
+  logoUrl = "/content/AHRO%20logo.png",
   menuButtonColor = "var(--color-white)",
   openMenuButtonColor = "var(--color-white)",
   changeMenuColorOnOpen = true,

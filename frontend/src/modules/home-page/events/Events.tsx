@@ -53,10 +53,21 @@ const Events = ({ data, isToggled, intro, showViewAllButton = true, limitToFour 
         {/* Section Header */}
         {/* ========================= */}
 
-        <div className="max-w-2xl">
-          <Eyebrow>
-            Events & Conferences
-          </Eyebrow>
+        <div className="">
+          <div className="w-full flex justify-between items-center">
+            <Eyebrow>
+              Events & Conferences
+            </Eyebrow>
+
+            {!showViewAllButton && (
+              <Link
+                href="/?tab=events#calendar-events-section"
+                className="inline-flex items-center gap-2 font-ui text-body font-semibold text-forest transition-colors duration-200 hover:text-meadow"
+              >
+                Back to Homepage <span aria-hidden="true">&rarr;</span>
+              </Link>
+            )}
+          </div>
 
           <SectionHeading className="mt-6">
             {headingText}
@@ -73,18 +84,25 @@ const Events = ({ data, isToggled, intro, showViewAllButton = true, limitToFour 
 
         <div className="mt-16 lg:mt-24">
           <Timeline className="space-y-0">
-            {visibleItems.map((event, index) => (
-              <TimelineItem
-                key={event.id}
-                title={event.title}
-                date={event.year}
-                location={event.location}
-                image={event.image}
-                description={event.description}
-                isFirst={index === 0}
-                isLast={index === visibleItems.length - 1}
-              />
-            ))}
+            {visibleItems.map((event, index) => {
+              const totalItems = visibleItems.length;
+              const opacity = totalItems > 1 ? 0.2 + (0.8 * (index / (totalItems - 1))) : 1.0;
+
+              return (
+                <TimelineItem
+                  key={event.id}
+                  title={event.title}
+                  date={event.year}
+                  location={event.location}
+                  image={event.image}
+                  description={event.description}
+                  isFirst={index === 0}
+                  isLast={index === visibleItems.length - 1}
+                  dotColor="var(--color-forest)"
+                  opacity={opacity}
+                />
+              );
+            })}
           </Timeline>
         </div>
 

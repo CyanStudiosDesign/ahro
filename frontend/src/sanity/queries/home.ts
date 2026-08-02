@@ -49,10 +49,6 @@ export const RESEARCH_QUERY = groq`
  */
 export const THERAPEUTIC_QUERY = groq`
   *[_type == "homePage"][0] {
-    therapeuticIntro {
-      tagLabel,
-      heading
-    },
     therapeuticDescription,
     therapeuticImage,
     hideTherapeuticSection,
@@ -76,18 +72,29 @@ export const THERAPEUTIC_QUERY = groq`
  * Pulls all active schools.
  */
 export const SCHOOLS_QUERY = groq`
-  {
-    "controls": *[_type == "homePage"][0] {
-      hideMainSchoolCard,
-      limitSchoolsToThree
-    },
-    "list": *[_type == "school" && isDisabled != true] {
+  *[_type == "homePage"][0] {
+    spotlightSchool-> {
       _id,
       title,
       categoryTag,
       icon,
       description,
-      isFeatured,
+      image
+    },
+    homepageSchools[]-> {
+      _id,
+      title,
+      categoryTag,
+      icon,
+      description,
+      image
+    },
+    "allSchools": *[_type == "school" && isDisabled != true] {
+      _id,
+      title,
+      categoryTag,
+      icon,
+      description,
       image
     }
   }

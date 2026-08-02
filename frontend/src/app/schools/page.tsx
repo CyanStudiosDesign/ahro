@@ -24,14 +24,25 @@ export default async function Home() {
     );
   }
 
+  const spotlightId = schoolsData?.spotlightSchool?._id;
+  const homepageIds = new Set(schoolsData?.homepageSchools?.map((s: any) => s._id) || []);
+
+  const remainingSchools = schoolsData?.allSchools?.filter(
+    (s: any) => s._id !== spotlightId && !homepageIds.has(s._id)
+  ) || [];
+
+  const gridSchools = [
+    ...(schoolsData?.homepageSchools || []),
+    ...remainingSchools
+  ];
+
   return (
     <main>
       <Courses
-        schools={schoolsData?.list || undefined}
+        spotlightSchool={schoolsData?.spotlightSchool || undefined}
+        gridSchools={gridSchools || undefined}
         intro={schoolsIntro || undefined}
         showViewAllButton={false}
-        hideMainCard={schoolsData?.controls?.hideMainSchoolCard}
-        limitToThree={false}
       />
     </main>
   );

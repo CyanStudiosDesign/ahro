@@ -116,7 +116,7 @@ const themeStyles: Record<
 // 3. The Pure Presentation Component
 const Footer = ({
   theme = "ink",
-  logoSrc = "/content/Logo.png",
+  logoSrc = "/content/AHRO%20logo.png",
   footerData = [],
   studioCard,
   iconsLink,

@@ -140,7 +140,7 @@ const MenuItem: React.FC<MenuItemProps> = ({
     };
   }, [text, image, repetitions, speed]);
 
-  const handleMouseEnter = (ev: React.MouseEvent<HTMLAnchorElement>) => {
+  const handleMouseEnter = (ev: React.MouseEvent<HTMLDivElement>) => {
     if (!itemRef.current || !marqueeRef.current || !marqueeInnerRef.current)
       return;
     const rect = itemRef.current.getBoundingClientRect();
@@ -158,7 +158,7 @@ const MenuItem: React.FC<MenuItemProps> = ({
       .to([marqueeRef.current, marqueeInnerRef.current], { y: "0%" }, 0);
   };
 
-  const handleMouseLeave = (ev: React.MouseEvent<HTMLAnchorElement>) => {
+  const handleMouseLeave = (ev: React.MouseEvent<HTMLDivElement>) => {
     if (!itemRef.current || !marqueeRef.current || !marqueeInnerRef.current)
       return;
     const rect = itemRef.current.getBoundingClientRect();
@@ -177,19 +177,18 @@ const MenuItem: React.FC<MenuItemProps> = ({
 
   return (
     <div
-      className="relative flex-1 overflow-hidden text-left"
+      className="relative flex-1 overflow-hidden text-center sm:text-left"
       ref={itemRef}
       style={{ borderTop: isFirst ? "none" : `1px solid ${borderColor}` }}
     >
-      <a
-        className="relative flex h-full cursor-pointer items-center justify-start px-5 text-left text-[clamp(1.25rem,3vw,2.5rem)] font-semibold uppercase no-underline sm:px-8"
-        href={link}
+      <div
+        className="relative flex h-full cursor-default items-center justify-center sm:justify-start px-5 text-[clamp(1.25rem,3vw,2.5rem)] font-semibold uppercase no-underline sm:px-8"
         onMouseEnter={handleMouseEnter}
         onMouseLeave={handleMouseLeave}
         style={{ color: textColor }}
       >
         {text}
-      </a>
+      </div>
       <div
         className="absolute top-0 left-0 w-full h-full overflow-hidden pointer-events-none translate-y-[101%]"
         ref={marqueeRef}

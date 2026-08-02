@@ -73,7 +73,7 @@ export function Navbar() {
       openMenuButtonColor="var(--color-ink)"
       changeMenuColorOnOpen
       colors={["var(--color-brand)", "var(--color-brand-deep)"]}
-      logoUrl="/content/Logo.png"
+      logoUrl="/content/AHRO%20logo.png"
       accentColor="var(--color-brand)"
       actionLabel="Apply Now"
       actionLink="/#programs"

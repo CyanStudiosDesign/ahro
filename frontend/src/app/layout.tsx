@@ -25,6 +25,11 @@ const inter = Inter({
 export const metadata: Metadata = {
   title: "How to Apply | AHRO Institute",
   description: "Apply to AHRO Institute in seven simple steps.",
+  icons: {
+    icon: "/content/AHRO%20logo.png",
+    shortcut: "/content/AHRO%20logo.png",
+    apple: "/content/AHRO%20logo.png",
+  },
 };
 
 const footerData = [
