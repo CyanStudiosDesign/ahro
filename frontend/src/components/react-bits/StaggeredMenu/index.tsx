@@ -46,6 +46,7 @@ export interface StaggeredMenuProps {
   isFixed?: boolean;
   actionLabel?: string;
   actionLink?: string;
+  actionOnClick?: (e: React.MouseEvent<HTMLAnchorElement>) => void;
   changeMenuColorOnOpen?: boolean;
   closeOnClickAway?: boolean;
   onMenuOpen?: () => void;
@@ -69,6 +70,7 @@ export const StaggeredMenu: React.FC<StaggeredMenuProps> = ({
   isFixed = false,
   actionLabel,
   actionLink,
+  actionOnClick,
   closeOnClickAway = true,
   onMenuOpen,
   onMenuClose,
@@ -535,10 +537,11 @@ export const StaggeredMenu: React.FC<StaggeredMenuProps> = ({
           </Link>
 
           <div className="relative z-50 pointer-events-auto flex items-center gap-2 sm:gap-4">
-            {actionLabel && actionLink && (
+            {actionLabel && (actionLink || actionOnClick) && (
               <a
-                href={actionLink}
-                className="rounded-full bg-brand-deep px-4 py-2 text-xs font-semibold text-surface shadow-navbar transition-colors hover:bg-brand sm:px-5 sm:py-2.5 sm:text-sm"
+                href={actionLink || "#"}
+                onClick={actionOnClick}
+                className="rounded-full bg-brand-deep px-4 py-2 text-xs font-semibold text-surface shadow-navbar transition-colors hover:bg-brand sm:px-5 sm:py-2.5 sm:text-sm cursor-pointer"
               >
                 {actionLabel}
               </a>
