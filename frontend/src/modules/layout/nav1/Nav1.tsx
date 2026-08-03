@@ -3,6 +3,8 @@
 import React, { useState } from 'react';
 import { ArrowRight, Menu, X } from 'lucide-react';
 import Link from 'next/link';
+import { Sheet, SheetTrigger, SheetContent } from "@/components/ui/sheet/sheet";
+import CollegeApplicationForm from '@/modules/apply-sheet/Application';
 
 export interface Nav1Props {
   activeTab?: string;
@@ -25,7 +27,8 @@ export const Nav1: React.FC<Nav1Props> = ({ activeTab: initialActive = 'Home' })
   ];
 
   return (
-    <header className="relative w-full z-50">
+    <Sheet side="right">
+      <header className="relative w-full z-50">
       <div className="sticky w-full flex items-center justify-between px-4 py-4 md:px-8 lg:px-12 max-w-8xl mx-auto">
         
         {/* 1. Brand / Logo Area */}
@@ -88,13 +91,10 @@ export const Nav1: React.FC<Nav1Props> = ({ activeTab: initialActive = 'Home' })
 
         {/* 3. Right Action Button & Mobile Menu Toggle */}
         <div className="flex items-center gap-3">
-          <a
-            href="#programs"
-            className="group hidden sm:flex items-center gap-2 rounded-full bg-[#1B5E20] hover:bg-[#144718] px-6 py-3 text-sm font-semibold text-white shadow-md transition-all duration-200 hover:shadow-lg hover:scale-102"
-          >
+          <SheetTrigger className="group hidden sm:flex items-center gap-2 rounded-full bg-[#1B5E20] hover:bg-[#144718] px-6 py-3 text-sm font-semibold text-white shadow-md transition-all duration-200 hover:shadow-lg hover:scale-102 cursor-pointer border-transparent">
             <span>Apply Now</span>
             <ArrowRight className="h-4 w-4 transition-transform duration-200 group-hover:translate-x-1" />
-          </a>
+          </SheetTrigger>
 
           {/* Mobile Hamburger Button */}
           <button
@@ -151,18 +151,22 @@ export const Nav1: React.FC<Nav1Props> = ({ activeTab: initialActive = 'Home' })
             );
           })}
           <div className="pt-2 border-t border-gray-100">
-            <a
-              href="#programs"
+            <SheetTrigger
               onClick={() => setMobileMenuOpen(false)}
-              className="flex items-center justify-center gap-2 w-full rounded-full bg-[#1B5E20] px-6 py-3 text-sm font-semibold text-white shadow-md"
+              className="flex items-center justify-center gap-2 w-full rounded-full bg-[#1B5E20] px-6 py-3 text-sm font-semibold text-white shadow-md cursor-pointer border-transparent"
             >
               <span>Apply Now</span>
               <ArrowRight className="h-4 w-4" />
-            </a>
+            </SheetTrigger>
           </div>
         </div>
       )}
-    </header>
+      </header>
+
+      <SheetContent className="w-full sm:w-[600px] md:rounded-l-[40px] border-l-0 p-8 bg-white text-black">
+        <CollegeApplicationForm contactEmail="hello@cyanstudios.com" />
+      </SheetContent>
+    </Sheet>
   );
 };
 

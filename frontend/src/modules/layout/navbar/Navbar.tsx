@@ -3,6 +3,8 @@
 import StaggeredMenu from "@/components/react-bits/StaggeredMenu";
 import { usePathname } from "next/navigation";
 import { useEffect, useRef, useState } from "react";
+import { Sheet, SheetContent } from "@/components/ui/sheet/sheet";
+import CollegeApplicationForm from "@/modules/apply-sheet/Application";
 
 const navigationItems = [
   { label: "Home", ariaLabel: "Go to home page", link: "/" },
@@ -32,6 +34,7 @@ export function Navbar() {
   const [isScrolled, setIsScrolled] = useState(false);
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isNavbarVisible, setIsNavbarVisible] = useState(true);
+  const [isApplyOpen, setIsApplyOpen] = useState(false);
   const lastScrollY = useRef(0);
 
   useEffect(() => {
@@ -63,32 +66,41 @@ export function Navbar() {
       : "var(--color-surface)";
 
   return (
-    <StaggeredMenu
-      position="right"
-      items={navigationItems}
-      socialItems={socialItems}
-      displaySocials
-      displayItemNumbering
-      menuButtonColor={menuButtonColor}
-      openMenuButtonColor="var(--color-ink)"
-      changeMenuColorOnOpen
-      colors={["var(--color-brand)", "var(--color-brand-deep)"]}
-      logoUrl="/content/AHRO%20logo.png"
-      accentColor="var(--color-brand)"
-      actionLabel="Apply Now"
-      actionLink="/#programs"
-      onMenuOpen={() => setIsMenuOpen(true)}
-      onMenuClose={() => setIsMenuOpen(false)}
-      headerClassName={
-        `${isMenuOpen || isNavbarVisible ? "translate-y-0" : "-translate-y-full"} ${
-          isMenuOpen
-            ? "border-transparent bg-transparent shadow-none"
-            : isScrolled
-              ? "border-line/60 bg-surface/80 shadow-navbar backdrop-blur-xl"
-              : "border-transparent bg-transparent"
-        }`
-      }
-      isFixed
-    />
+    <Sheet open={isApplyOpen} onOpenChange={setIsApplyOpen} side="right">
+      <StaggeredMenu
+        position="right"
+        items={navigationItems}
+        socialItems={socialItems}
+        displaySocials
+        displayItemNumbering
+        menuButtonColor={menuButtonColor}
+        openMenuButtonColor="var(--color-ink)"
+        changeMenuColorOnOpen
+        colors={["var(--color-brand)", "var(--color-brand-deep)"]}
+        logoUrl="/content/AHRO%20logo.png"
+        accentColor="var(--color-brand)"
+        actionLabel="Apply Now"
+        actionOnClick={(e) => {
+          e.preventDefault();
+          setIsApplyOpen(true);
+        }}
+        onMenuOpen={() => setIsMenuOpen(true)}
+        onMenuClose={() => setIsMenuOpen(false)}
+        headerClassName={
+          `${isMenuOpen || isNavbarVisible ? "translate-y-0" : "-translate-y-full"} ${
+            isMenuOpen
+              ? "border-transparent bg-transparent shadow-none"
+              : isScrolled
+                ? "border-line/60 bg-surface/80 shadow-navbar backdrop-blur-xl"
+                : "border-transparent bg-transparent"
+          }`
+        }
+        isFixed
+      />
+
+      <SheetContent className="w-full sm:w-[600px] md:rounded-l-[40px] border-l-0 p-8 bg-white text-black">
+        <CollegeApplicationForm contactEmail="hello@cyanstudios.com" />
+      </SheetContent>
+    </Sheet>
   );
 }
