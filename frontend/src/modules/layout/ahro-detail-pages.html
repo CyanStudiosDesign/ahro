@@ -1,0 +1,504 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AHRO — Inner Page Concepts</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Cabin:wght@500;600;700&family=Reddit+Sans:wght@400;500;600&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --forest-dark:#2D5016;
+    --forest:#358840;
+    --lime-bg:#EFF7E4;
+    --mist:#F5F5F0;
+    --ink:#14170F;
+    --ink-soft:#5B5F55;
+    --line:#E3E4DC;
+    --white:#FFFFFF;
+    --radius:14px;
+  }
+  *{box-sizing:border-box; margin:0; padding:0;}
+  body{
+    font-family:'Reddit Sans', sans-serif;
+    color:var(--ink);
+    background:var(--white);
+    -webkit-font-smoothing:antialiased;
+  }
+  h1,h2,h3,h4{font-family:'Cabin', sans-serif; font-weight:600; letter-spacing:-0.01em;}
+  .eyebrow{font-family:'Inter', sans-serif; font-size:12px; font-weight:600; letter-spacing:0.14em; text-transform:uppercase; color:var(--forest);}
+  a{color:inherit; text-decoration:none;}
+
+  /* ---- Mockup switcher (not part of the real site) ---- */
+  .devbar{
+    position:sticky; top:0; z-index:50;
+    background:var(--ink); color:var(--white);
+    display:flex; align-items:center; gap:10px;
+    padding:12px 24px; font-family:'Inter', sans-serif; font-size:13px;
+    flex-wrap:wrap;
+  }
+  .devbar span.lbl{color:#9AA08D; margin-right:4px;}
+  .devbar button{
+    font-family:'Inter', sans-serif; font-size:13px; font-weight:500;
+    background:transparent; color:#C9CFC0; border:1px solid #3A3E33;
+    padding:7px 14px; border-radius:100px; cursor:pointer; transition:.15s;
+  }
+  .devbar button.active{background:var(--forest); border-color:var(--forest); color:var(--white);}
+  .devbar button:hover:not(.active){border-color:#5B5F55; color:var(--white);}
+
+  .page{display:none;}
+  .page.active{display:block;}
+
+  /* ---- Shared site chrome ---- */
+  header.site{
+    display:flex; align-items:center; justify-content:space-between;
+    padding:20px 48px; border-bottom:1px solid var(--line);
+  }
+  .logo{font-family:'Cabin'; font-weight:700; font-size:18px; display:flex; align-items:center; gap:8px;}
+  .logo .mark{width:28px; height:28px; border-radius:8px; background:var(--forest-dark);}
+  nav.site-nav{display:flex; gap:32px; font-family:'Inter'; font-size:14px; font-weight:500; color:var(--ink);}
+  .apply-btn{
+    background:var(--ink); color:var(--white); font-family:'Inter'; font-size:13px; font-weight:600;
+    padding:11px 20px; border-radius:100px;
+  }
+  .breadcrumbs{
+    padding:18px 48px 0; font-family:'Inter'; font-size:13px; color:var(--ink-soft);
+    display:flex; gap:8px; align-items:center;
+  }
+  .breadcrumbs a:hover{color:var(--forest);}
+  footer.site{
+    margin-top:80px; background:var(--ink); color:#C9CFC0; padding:56px 48px 28px;
+    font-family:'Inter'; font-size:13px;
+  }
+  footer.site .foot-top{display:flex; justify-content:space-between; flex-wrap:wrap; gap:40px; padding-bottom:32px; border-bottom:1px solid #2A2D24;}
+  footer.site h5{font-family:'Inter'; font-size:12px; letter-spacing:0.1em; text-transform:uppercase; color:#8A9080; margin-bottom:14px; font-weight:600;}
+  footer.site ul{list-style:none;}
+  footer.site li{margin-bottom:8px;}
+  footer.site .bottom{padding-top:20px; display:flex; justify-content:space-between; color:#767C6C;}
+
+  .btn-round{
+    width:44px; height:44px; border-radius:50%; background:var(--white); border:1px solid var(--line);
+    display:flex; align-items:center; justify-content:center; flex-shrink:0;
+  }
+  .pill{
+    display:inline-flex; align-items:center; padding:6px 14px; border-radius:100px;
+    font-family:'Inter'; font-size:11px; font-weight:600; letter-spacing:0.06em; text-transform:uppercase;
+  }
+  .pill-dark{background:var(--ink); color:var(--white);}
+  .pill-white{background:var(--white); color:var(--ink); border:1px solid var(--line);}
+
+  section{padding:0 48px;}
+  .container{max-width:1160px; margin:0 auto;}
+
+  /* ===================================================== */
+  /* RESEARCH DETAIL PAGE                                    */
+  /* ===================================================== */
+  .research-hero{padding:32px 48px 0;}
+  .research-hero .frame{
+    position:relative; border-radius:20px; overflow:hidden; height:420px;
+    background:linear-gradient(135deg,#3a2a4a,#7a1f5c 45%,#e0c341);
+  }
+  .research-hero .frame img{width:100%; height:100%; object-fit:cover; display:block;}
+  .research-hero .frame::after{
+    content:""; position:absolute; inset:0;
+    background:linear-gradient(0deg, rgba(0,0,0,.55) 0%, rgba(0,0,0,0) 45%);
+  }
+  .research-hero .overlay{
+    position:absolute; left:32px; bottom:28px; right:32px; color:var(--white); z-index:2;
+  }
+  .research-hero .overlay .eyebrow{color:#D7EAB8;}
+  .research-hero .overlay h1{font-size:38px; margin-top:8px; max-width:640px;}
+  .research-meta-row{
+    display:flex; gap:28px; padding:22px 0 0; border-bottom:1px solid var(--line); margin-bottom:36px;
+    font-family:'Inter'; font-size:13px; color:var(--ink-soft);
+  }
+  .research-meta-row .item{display:flex; flex-direction:column; gap:4px; padding-bottom:18px;}
+  .research-meta-row .item b{font-family:'Cabin'; color:var(--ink); font-size:16px; font-weight:600;}
+
+  .research-grid{
+    display:grid; grid-template-columns:1fr 340px; gap:56px; padding:8px 0 64px;
+  }
+  .research-grid p{font-size:16px; line-height:1.75; color:var(--ink-soft); margin-bottom:20px;}
+  .research-grid h2{font-size:24px; margin:36px 0 14px;}
+  .focus-list{display:flex; flex-direction:column; gap:14px; margin-top:8px;}
+  .focus-item{
+    display:flex; gap:16px; padding:18px; border:1px solid var(--line); border-radius:12px; align-items:flex-start;
+  }
+  .focus-num{font-family:'Cabin'; font-weight:700; color:var(--forest); font-size:15px; min-width:24px;}
+  .focus-item h4{font-size:15px; margin-bottom:4px;}
+  .focus-item p{margin:0; font-size:14px; line-height:1.55;}
+
+  .side-card{background:var(--mist); border-radius:16px; padding:26px; margin-bottom:20px;}
+  .side-card h4{font-size:14px; text-transform:uppercase; letter-spacing:.06em; font-family:'Inter'; color:var(--forest); margin-bottom:14px; font-weight:600;}
+  .stat-row{display:flex; justify-content:space-between; padding:10px 0; border-bottom:1px solid var(--line); font-family:'Inter'; font-size:13px;}
+  .stat-row:last-child{border-bottom:none;}
+  .stat-row b{font-family:'Cabin'; font-size:17px;}
+  .cta-card{background:var(--forest-dark); color:var(--white); border-radius:16px; padding:26px;}
+  .cta-card h4{font-family:'Cabin'; font-size:18px; margin-bottom:8px;}
+  .cta-card p{font-size:13px; color:#CFE0BF; margin-bottom:18px; line-height:1.5;}
+  .cta-card a.btn{
+    display:inline-block; background:var(--white); color:var(--ink); font-family:'Inter'; font-size:13px; font-weight:600;
+    padding:11px 18px; border-radius:100px;
+  }
+
+  .related-strip{background:var(--lime-bg); padding:56px 48px;}
+  .related-strip .eyebrow{margin-bottom:8px;}
+  .related-strip h2{font-size:26px; margin-bottom:28px;}
+  .related-cards{display:grid; grid-template-columns:repeat(3,1fr); gap:22px;}
+  .rcard{background:var(--white); border-radius:16px; overflow:hidden;}
+  .rcard .thumb{height:150px; background-size:cover; background-position:center;}
+  .rcard .body{padding:18px;}
+  .rcard h4{font-size:15px; line-height:1.35; margin-bottom:6px;}
+  .rcard p{font-family:'Inter'; font-size:12px; color:var(--ink-soft);}
+
+  /* ===================================================== */
+  /* SCHOOL DETAIL PAGE                                       */
+  /* ===================================================== */
+  .school-hero{padding:36px 48px 0;}
+  .school-hero-inner{display:grid; grid-template-columns:1.1fr .9fr; gap:48px; align-items:center; padding-bottom:44px; border-bottom:1px solid var(--line);}
+  .school-hero-inner .thumb{
+    height:360px; border-radius:20px; background:linear-gradient(160deg,#1c2b1a,#3a5230 60%,#8fae63);
+  }
+  .school-hero-inner h1{font-size:36px; margin:14px 0 16px; line-height:1.15;}
+  .school-hero-inner p.lead{font-size:16px; color:var(--ink-soft); line-height:1.7;}
+  .badges-row{display:flex; gap:10px; margin-bottom:14px;}
+
+  .school-facts{display:grid; grid-template-columns:repeat(4,1fr); gap:1px; background:var(--line); margin:0; border-radius:14px; overflow:hidden; margin-top:-1px;}
+  .school-facts .fact{background:var(--white); padding:22px 24px;}
+  .school-facts .fact span{display:block; font-family:'Inter'; font-size:11px; text-transform:uppercase; letter-spacing:.08em; color:var(--ink-soft); margin-bottom:8px;}
+  .school-facts .fact b{font-family:'Cabin'; font-size:18px;}
+
+  .school-body{display:grid; grid-template-columns:1fr 320px; gap:56px; padding:52px 0 60px;}
+  .school-body h2{font-size:24px; margin-bottom:16px;}
+  .school-body p{font-size:16px; line-height:1.75; color:var(--ink-soft); margin-bottom:20px;}
+  .curric-list{display:flex; flex-direction:column; gap:0; margin-top:8px; border-top:1px solid var(--line);}
+  .curric-item{display:flex; justify-content:space-between; align-items:center; padding:16px 0; border-bottom:1px solid var(--line);}
+  .curric-item span:first-child{font-family:'Cabin'; font-size:15px;}
+  .curric-item span:last-child{font-family:'Inter'; font-size:12px; color:var(--ink-soft);}
+
+  .apply-card{background:var(--ink); color:var(--white); border-radius:16px; padding:28px; margin-bottom:20px;}
+  .apply-card h4{font-family:'Cabin'; font-size:19px; margin-bottom:10px;}
+  .apply-card p{font-family:'Inter'; font-size:13px; color:#B9BEAE; line-height:1.55; margin-bottom:20px;}
+  .apply-card a.btn{
+    display:block; text-align:center; background:var(--forest); color:var(--white); font-family:'Inter'; font-size:13px; font-weight:600;
+    padding:13px; border-radius:100px; margin-bottom:10px;
+  }
+  .apply-card a.btn.secondary{background:transparent; border:1px solid #4A4E40; color:var(--white); margin-bottom:0;}
+
+  .req-card{border:1px solid var(--line); border-radius:16px; padding:24px;}
+  .req-card h4{font-family:'Inter'; font-size:12px; text-transform:uppercase; letter-spacing:.06em; color:var(--forest); margin-bottom:14px; font-weight:600;}
+  .req-card ul{list-style:none; font-family:'Inter'; font-size:13px; display:flex; flex-direction:column; gap:10px; color:var(--ink-soft);}
+  .req-card li{display:flex; gap:10px;}
+  .req-card li:before{content:"—"; color:var(--forest);}
+
+  .other-schools{padding:56px 48px 0;}
+  .other-schools h2{font-size:24px; margin-bottom:22px;}
+  .os-grid{display:grid; grid-template-columns:repeat(3,1fr); gap:20px;}
+  .os-card{position:relative; height:220px; border-radius:16px; overflow:hidden; background-size:cover; background-position:center; display:flex; align-items:flex-end; padding:18px;}
+  .os-card::after{content:""; position:absolute; inset:0; background:linear-gradient(0deg, rgba(0,0,0,.65), rgba(0,0,0,0) 55%);}
+  .os-card span{position:relative; z-index:2; color:var(--white); font-family:'Cabin'; font-weight:600; font-size:16px;}
+
+  /* ===================================================== */
+  /* NEWS ARTICLE PAGE                                        */
+  /* ===================================================== */
+  .article-head{max-width:760px; margin:0 auto; padding:36px 48px 0; text-align:left;}
+  .article-head .pill-dark{margin-bottom:18px;}
+  .article-head h1{font-size:34px; line-height:1.2; margin-bottom:18px;}
+  .article-byline{display:flex; align-items:center; gap:14px; font-family:'Inter'; font-size:13px; color:var(--ink-soft); padding-bottom:28px; border-bottom:1px solid var(--line); margin-bottom:0;}
+  .article-byline .dot{width:4px; height:4px; border-radius:50%; background:var(--ink-soft);}
+  .article-hero-img{
+    max-width:1000px; margin:32px auto 0; height:440px; border-radius:20px;
+    background:linear-gradient(135deg,#233b1c,#3f6b2f 55%,#a6c96a);
+  }
+  .article-body{max-width:760px; margin:0 auto; padding:40px 48px 20px; display:grid; grid-template-columns:60px 1fr; gap:32px;}
+  .share-col{display:flex; flex-direction:column; gap:12px; position:sticky; top:90px; height:fit-content;}
+  .share-col .btn-round{font-family:'Inter'; font-size:12px;}
+  .article-content p{font-size:17px; line-height:1.85; color:#33362C; margin-bottom:22px;}
+  .article-content h3{font-size:20px; margin:32px 0 12px;}
+  .article-content blockquote{
+    border-left:3px solid var(--forest); padding-left:20px; margin:28px 0; font-family:'Cabin'; font-size:20px; color:var(--ink); line-height:1.5;
+  }
+  .tags-row{display:flex; gap:8px; margin-top:32px; flex-wrap:wrap;}
+  .tag{font-family:'Inter'; font-size:12px; color:var(--ink-soft); border:1px solid var(--line); padding:6px 12px; border-radius:100px;}
+
+  .more-news{background:var(--lime-bg); padding:56px 48px; margin-top:56px;}
+  .more-news .container > .eyebrow{margin-bottom:8px;}
+  .more-news h2{font-size:24px; margin-bottom:26px;}
+  .news-cards{display:grid; grid-template-columns:repeat(3,1fr); gap:20px;}
+  .ncard{background:var(--white); border-radius:16px; overflow:hidden;}
+  .ncard .thumb{height:140px; background-size:cover; background-position:center; position:relative;}
+  .ncard .thumb span{position:absolute; top:12px; left:12px;}
+  .ncard .body{padding:16px;}
+  .ncard .meta{font-family:'Inter'; font-size:11px; color:var(--ink-soft); margin-bottom:8px;}
+  .ncard h4{font-size:14.5px; line-height:1.35;}
+
+  @media (max-width:900px){
+    header.site, .breadcrumbs, section{padding-left:20px; padding-right:20px;}
+    .research-grid, .school-body{grid-template-columns:1fr;}
+    .school-hero-inner{grid-template-columns:1fr;}
+    .related-cards, .os-grid, .news-cards{grid-template-columns:1fr;}
+    .article-body{grid-template-columns:1fr;}
+    .share-col{flex-direction:row; position:static;}
+    .school-facts{grid-template-columns:repeat(2,1fr);}
+  }
+</style>
+</head>
+<body>
+
+<div class="devbar">
+  <span class="lbl">Preview:</span>
+  <button class="tabbtn active" data-page="research">Research area page</button>
+  <button class="tabbtn" data-page="school">School page</button>
+  <button class="tabbtn" data-page="news">News article page</button>
+</div>
+
+<!-- =========================================================== -->
+<!-- 1. RESEARCH AREA DETAIL                                      -->
+<!-- =========================================================== -->
+<div class="page active" id="page-research">
+  <header class="site">
+    <div class="logo"><div class="mark"></div>AHRO Institute</div>
+    <nav class="site-nav"><a>About</a><a>Schools</a><a>Faculty &amp; Alumni</a><a>Community</a><a>Contact</a></nav>
+    <a class="apply-btn">Apply Now</a>
+  </header>
+
+  <div class="breadcrumbs"><a>Home</a><span>/</span><a>Research</a><span>/</span><a style="color:var(--ink)">Cancer Research &amp; Precision Oncology</a></div>
+
+  <div class="research-hero">
+    <div class="frame">
+      <div class="overlay">
+        <span class="eyebrow">Research Area · Oncology</span>
+        <h1>Cancer Research &amp; Precision Oncology</h1>
+      </div>
+    </div>
+  </div>
+
+  <section>
+    <div class="container">
+      <div class="research-meta-row">
+        <div class="item"><span>Lead department</span><b>School of Biomedical Sciences</b></div>
+        <div class="item"><span>Active studies</span><b>12 ongoing</b></div>
+        <div class="item"><span>Partner institutions</span><b>9 across 3 countries</b></div>
+        <div class="item"><span>Focus since</span><b>2019</b></div>
+      </div>
+
+      <div class="research-grid">
+        <div>
+          <p>AHRO's oncology programme advances personalised cancer diagnosis and treatment by combining genomics, molecular biology, and AI-driven analysis. Researchers work across the full arc of the disease — from early molecular detection to therapy selection guided by a patient's own tumour profile.</p>
+          <p>The programme is built around collaborative, multi-site trials that pair laboratory discovery with clinical application, so findings move from bench to bedside faster and remain grounded in the realities of care across the region.</p>
+
+          <h2>Key focus areas</h2>
+          <div class="focus-list">
+            <div class="focus-item"><div class="focus-num">01</div><div><h4>Genomic profiling</h4><p>Sequencing tumour samples to identify actionable mutations and match patients to targeted therapies.</p></div></div>
+            <div class="focus-item"><div class="focus-num">02</div><div><h4>AI-assisted diagnostics</h4><p>Machine learning models trained on regional imaging and pathology data to speed up early detection.</p></div></div>
+            <div class="focus-item"><div class="focus-num">03</div><div><h4>Immunotherapy trials</h4><p>Multi-year clinical studies evaluating personalised immunotherapy for solid tumours.</p></div></div>
+          </div>
+
+          <h2>Why it matters</h2>
+          <p>Cancer incidence across the continent is rising while access to precision diagnostics remains uneven. This programme exists to close that gap — building local capacity for genomic testing and training the next generation of oncology researchers.</p>
+        </div>
+
+        <aside>
+          <div class="side-card">
+            <h4>Programme at a glance</h4>
+            <div class="stat-row"><span>Researchers</span><b>34</b></div>
+            <div class="stat-row"><span>Published studies</span><b>58</b></div>
+            <div class="stat-row"><span>Patients enrolled</span><b>2,400+</b></div>
+            <div class="stat-row"><span>Grant funding</span><b>$4.2M</b></div>
+          </div>
+          <div class="cta-card">
+            <h4>Collaborate with this programme</h4>
+            <p>Research partnerships, joint grants, and clinical trial collaboration are open to qualified institutions.</p>
+            <a class="btn">Get in touch →</a>
+          </div>
+        </aside>
+      </div>
+    </div>
+  </section>
+
+  <div class="related-strip">
+    <div class="container">
+      <span class="eyebrow">Related</span>
+      <h2>In the news from this programme</h2>
+      <div class="related-cards">
+        <div class="rcard"><div class="thumb" style="background-image:linear-gradient(135deg,#2a1a3a,#7a1f5c)"></div><div class="body"><h4>Faculty researchers secure grant for cancer immunotherapy study</h4><p>Jul 2026 · Toronto, Canada</p></div></div>
+        <div class="rcard"><div class="thumb" style="background-image:linear-gradient(135deg,#1c2b1a,#8fae63)"></div><div class="body"><h4>School of Biomedical Sciences announces new genomics programme</h4><p>Jul 2026 · Boston, USA</p></div></div>
+        <div class="rcard"><div class="thumb" style="background-image:linear-gradient(135deg,#233b1c,#a6c96a)"></div><div class="body"><h4>AHRO Institute launches new biomedical research hub</h4><p>Aug 2026 · London, UK</p></div></div>
+      </div>
+    </div>
+  </div>
+
+  <footer class="site">
+    <div class="foot-top">
+      <div style="max-width:220px"><div class="logo" style="color:var(--white)"><div class="mark"></div>AHRO</div></div>
+      <div><h5>Quick links</h5><ul><li>Home</li><li>About Us</li><li>Schools</li><li>Faculty &amp; Alumni</li></ul></div>
+      <div><h5>Support</h5><ul><li>Email Us</li><li>Contact Us</li></ul></div>
+    </div>
+    <div class="bottom"><span>© 2026 AHRO Institute.</span><span>Built by Cyan Studios</span></div>
+  </footer>
+</div>
+
+<!-- =========================================================== -->
+<!-- 2. SCHOOL DETAIL                                              -->
+<!-- =========================================================== -->
+<div class="page" id="page-school">
+  <header class="site">
+    <div class="logo"><div class="mark"></div>AHRO Institute</div>
+    <nav class="site-nav"><a>About</a><a>Schools</a><a>Faculty &amp; Alumni</a><a>Community</a><a>Contact</a></nav>
+    <a class="apply-btn">Apply Now</a>
+  </header>
+
+  <div class="breadcrumbs"><a>Home</a><span>/</span><a>Schools</a><span>/</span><a style="color:var(--ink)">School of Biomedical Sciences</a></div>
+
+  <div class="school-hero">
+    <div class="school-hero-inner">
+      <div>
+        <div class="badges-row"><span class="pill-dark">Postgraduate</span><span class="pill-white">On campus</span></div>
+        <h1>School of Biomedical Sciences</h1>
+        <p class="lead">Advancing the frontiers of healthcare through excellence in education, research, and scientific innovation — equipping students to understand the biological basis of health, disease, and modern therapies.</p>
+      </div>
+      <div class="thumb"></div>
+    </div>
+    <div class="school-facts">
+      <div class="fact"><span>Duration</span><b>2 years, full-time</b></div>
+      <div class="fact"><span>Intake</span><b>Fall &amp; Spring</b></div>
+      <div class="fact"><span>Location</span><b>Accra Campus</b></div>
+      <div class="fact"><span>Students enrolled</span><b>310</b></div>
+    </div>
+  </div>
+
+  <section>
+    <div class="container">
+      <div class="school-body">
+        <div>
+          <h2>About the programme</h2>
+          <p>The School of Biomedical Sciences provides a dynamic, interdisciplinary learning environment spanning molecular biology, genetics, microbiology, immunology, biochemistry, physiology, cell biology, pharmacology, and biotechnology — a comprehensive foundation for modern biomedical research.</p>
+          <p>Students work alongside active research faculty from their first term, with lab placements embedded directly into AHRO's ongoing clinical and translational studies.</p>
+
+          <h2>Curriculum</h2>
+          <div class="curric-list">
+            <div class="curric-item"><span>Molecular Biology &amp; Genetics</span><span>Year 1</span></div>
+            <div class="curric-item"><span>Immunology &amp; Microbiology</span><span>Year 1</span></div>
+            <div class="curric-item"><span>Pharmacology &amp; Biotechnology</span><span>Year 2</span></div>
+            <div class="curric-item"><span>Applied Research Thesis</span><span>Year 2</span></div>
+          </div>
+        </div>
+
+        <aside>
+          <div class="apply-card">
+            <h4>Ready to apply?</h4>
+            <p>Applications for the Fall 2026 intake are open through 30 September.</p>
+            <a class="btn">Start application</a>
+            <a class="btn secondary">Download prospectus</a>
+          </div>
+          <div class="req-card">
+            <h4>Admission requirements</h4>
+            <ul>
+              <li>Bachelor's degree in a life science field</li>
+              <li>Minimum 3.0 GPA or equivalent</li>
+              <li>Two academic references</li>
+              <li>Statement of research interest</li>
+            </ul>
+          </div>
+        </aside>
+      </div>
+    </div>
+  </section>
+
+  <div class="other-schools">
+    <div class="container">
+      <h2>Explore other schools</h2>
+      <div class="os-grid">
+        <div class="os-card" style="background-image:linear-gradient(135deg,#233b1c,#3f6b2f)"><span>School of Rehabilitation Sciences</span></div>
+        <div class="os-card" style="background-image:linear-gradient(135deg,#1c2b3a,#2f4a6b)"><span>School of Health Informatics</span></div>
+        <div class="os-card" style="background-image:linear-gradient(135deg,#3a2a1c,#6b4a2f)"><span>School of Dentistry</span></div>
+      </div>
+    </div>
+  </div>
+
+  <footer class="site">
+    <div class="foot-top">
+      <div style="max-width:220px"><div class="logo" style="color:var(--white)"><div class="mark"></div>AHRO</div></div>
+      <div><h5>Quick links</h5><ul><li>Home</li><li>About Us</li><li>Schools</li><li>Faculty &amp; Alumni</li></ul></div>
+      <div><h5>Support</h5><ul><li>Email Us</li><li>Contact Us</li></ul></div>
+    </div>
+    <div class="bottom"><span>© 2026 AHRO Institute.</span><span>Built by Cyan Studios</span></div>
+  </footer>
+</div>
+
+<!-- =========================================================== -->
+<!-- 3. NEWS ARTICLE DETAIL                                        -->
+<!-- =========================================================== -->
+<div class="page" id="page-news">
+  <header class="site">
+    <div class="logo"><div class="mark"></div>AHRO Institute</div>
+    <nav class="site-nav"><a>About</a><a>Schools</a><a>Faculty &amp; Alumni</a><a>Community</a><a>Contact</a></nav>
+    <a class="apply-btn">Apply Now</a>
+  </header>
+
+  <div class="breadcrumbs"><a>Home</a><span>/</span><a>News</a><span>/</span><a style="color:var(--ink)">AHRO Institute Launches New Biomedical Research Hub</a></div>
+
+  <div class="article-head">
+    <span class="pill-dark">Research</span>
+    <h1>AHRO Institute Launches New Biomedical Research Hub</h1>
+    <div class="article-byline">
+      <span>By AHRO Communications</span><span class="dot"></span><span>Aug 2026</span><span class="dot"></span><span>London, UK</span><span class="dot"></span><span>4 min read</span>
+    </div>
+  </div>
+
+  <div class="article-hero-img"></div>
+
+  <div class="article-body">
+    <div class="share-col">
+      <div class="btn-round">in</div>
+      <div class="btn-round">𝕏</div>
+      <div class="btn-round">↗</div>
+    </div>
+    <div class="article-content">
+      <p>A state-of-the-art research facility has been inaugurated to foster innovation in biomedical sciences, translational medicine, and collaborative healthcare research. The hub brings together faculty, postgraduate researchers, and industry partners under one roof for the first time.</p>
+      <p>The 4,000 sq. metre facility houses genomics sequencing labs, a clinical trials unit, and shared imaging equipment previously spread across three separate sites — a change institute leadership say will meaningfully cut the time between discovery and clinical application.</p>
+      <blockquote>"This hub is designed around collaboration first — the walls between disciplines are the first thing we removed."</blockquote>
+      <h3>What the hub enables</h3>
+      <p>Early priority projects include expanded genomic profiling capacity for the oncology programme, a new digital health testing environment, and additional bench space for postgraduate thesis research.</p>
+      <p>The facility officially opens to students and visiting researchers this September, alongside the start of the Fall 2026 term.</p>
+      <div class="tags-row">
+        <span class="tag">Research</span><span class="tag">Biomedical Sciences</span><span class="tag">London</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="more-news">
+    <div class="container">
+      <span class="eyebrow">Latest news</span>
+      <h2>More from AHRO</h2>
+      <div class="news-cards">
+        <div class="ncard"><div class="thumb" style="background-image:linear-gradient(135deg,#1c2b1a,#8fae63)"><span class="pill-white">Events</span></div><div class="body"><div class="meta">Jul 2026 · Singapore</div><h4>International Symposium on Digital Healthcare concludes successfully</h4></div></div>
+        <div class="ncard"><div class="thumb" style="background-image:linear-gradient(135deg,#2a1a3a,#7a1f5c)"><span class="pill-white">Academics</span></div><div class="body"><div class="meta">Jul 2026 · Boston, USA</div><h4>School of Biomedical Sciences announces new genomics programme</h4></div></div>
+        <div class="ncard"><div class="thumb" style="background-image:linear-gradient(135deg,#3a2a1c,#c98f4a)"><span class="pill-white">Achievements</span></div><div class="body"><div class="meta">Jul 2026 · Melbourne, Australia</div><h4>Students recognised for innovation in medical technology challenge</h4></div></div>
+      </div>
+    </div>
+  </div>
+
+  <footer class="site">
+    <div class="foot-top">
+      <div style="max-width:220px"><div class="logo" style="color:var(--white)"><div class="mark"></div>AHRO</div></div>
+      <div><h5>Quick links</h5><ul><li>Home</li><li>About Us</li><li>Schools</li><li>Faculty &amp; Alumni</li></ul></div>
+      <div><h5>Support</h5><ul><li>Email Us</li><li>Contact Us</li></ul></div>
+    </div>
+    <div class="bottom"><span>© 2026 AHRO Institute.</span><span>Built by Cyan Studios</span></div>
+  </footer>
+</div>
+
+<script>
+  document.querySelectorAll('.tabbtn').forEach(btn=>{
+    btn.addEventListener('click',()=>{
+      document.querySelectorAll('.tabbtn').forEach(b=>b.classList.remove('active'));
+      document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));
+      btn.classList.add('active');
+      document.getElementById('page-'+btn.dataset.page).classList.add('active');
+      window.scrollTo({top:0});
+    });
+  });
+</script>
+</body>
+</html>

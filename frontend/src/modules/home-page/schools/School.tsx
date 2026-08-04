@@ -29,6 +29,19 @@ function ArrowIcon() {
   );
 }
 
+function slugify(text: string): string {
+  return text
+    .toString()
+    .toLowerCase()
+    .normalize('NFD')
+    .replace(/[\u0300-\u036f]/g, '')
+    .replace(/\s+/g, '-')
+    .replace(/[^\w\-]+/g, '')
+    .replace(/\-\-+/g, '-')
+    .replace(/^-+/, '')
+    .replace(/-+$/, '');
+}
+
 function SchoolIcon({
   icon,
   iconUrl,
@@ -67,6 +80,9 @@ interface SchoolData {
   icon?: unknown;
   description: string;
   image?: unknown;
+  slug?: {
+    current: string;
+  };
 }
 
 interface CoursesProps {
@@ -93,6 +109,8 @@ export function Courses({
   const spotlightDesc =
     spotlightSchool?.description || defaultSpotlightSchool.description;
 
+  const spotlightSlug = spotlightSchool?.slug?.current || slugify(spotlightTitle);
+
   const spotlightImage = spotlightSchool?.image
     ? urlFor(spotlightSchool.image)?.url()
     : defaultSpotlightSchool.imageUrl;
@@ -107,8 +125,12 @@ export function Courses({
             image: s.image ? urlFor(s.image)?.url() : "/content/A1.webp",
             icon: typeof s.icon === "string" ? s.icon : undefined,
             iconUrl: null,
+            slug: s.slug?.current || slugify(s.title || ""),
           }))
-      : defaultSchools;
+      : defaultSchools.map((s) => ({
+            ...s,
+            slug: slugify(s.name || ""),
+          }));
 
   const suppliedHeading = intro?.heading?.trim();
   const headingText =
@@ -144,8 +166,9 @@ export function Courses({
         </header>
 
         {true && (
-          <article className="mt-10 grid overflow-hidden rounded-3xl bg-surface shadow-course md:min-h-course-feature md:grid-cols-2 animate-fade-in-up animation-delay-100 transition-all duration-300 ease-out hover:-translate-y-1.5 hover:shadow-2xl">
-            <div className="relative aspect-course-feature-mobile md:aspect-auto">
+          <Link href={spotlightSlug ? `/schools/${spotlightSlug}` : '#programs'} className="block mt-10">
+            <article className="cursor-pointer grid overflow-hidden rounded-3xl bg-surface shadow-course md:min-h-course-feature md:grid-cols-2 animate-fade-in-up animation-delay-100 transition-all duration-300 ease-out hover:-translate-y-1.5 hover:shadow-2xl">
+              <div className="relative aspect-course-feature-mobile md:aspect-auto">
               {spotlightImage && (
                 <Image
                   className="object-cover object-center"
@@ -176,15 +199,20 @@ export function Courses({
               </p>
             </div>
           </article>
+          </Link>
         )}
 
         <div className="mt-11 grid gap-6 md:grid-cols-2 lg:grid-cols-3">
           {gridSchools.map((school, index) => (
-            <article
-              className="cursor-pointer group relative isolate aspect-course-card overflow-hidden rounded-3xl bg-copy shadow-course animate-fade-in-up transition-all duration-300 ease-out hover:-translate-y-2 hover:shadow-2xl"
-              style={{ animationDelay: `${200 + (index + 1) * 100}ms` }}
+            <Link
+              href={school.slug ? `/schools/${school.slug}` : '#programs'}
               key={school.name}
+              className="block"
             >
+              <article
+                className="cursor-pointer group relative isolate aspect-course-card overflow-hidden rounded-3xl bg-copy shadow-course animate-fade-in-up transition-all duration-300 ease-out hover:-translate-y-2 hover:shadow-2xl h-full"
+                style={{ animationDelay: `${200 + (index + 1) * 100}ms` }}
+              >
               {school.image && (
                 <Image
                   className="-z-20 object-cover"
@@ -226,7 +254,8 @@ export function Courses({
                   </button>
                 </div>
               </div>
-            </article>
+              </article>
+            </Link>
           ))}
         </div>
 

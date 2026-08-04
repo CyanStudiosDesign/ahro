@@ -31,6 +31,7 @@ export const RESEARCH_QUERY = groq`
     },
     "cards": *[_type == "researchCard" && isDisabled != true] {
       _id,
+      slug,
       title,
       description,
       image,
@@ -75,6 +76,7 @@ export const SCHOOLS_QUERY = groq`
   *[_type == "homePage"][0] {
     spotlightSchool-> {
       _id,
+      slug,
       title,
       categoryTag,
       icon,
@@ -83,6 +85,7 @@ export const SCHOOLS_QUERY = groq`
     },
     homepageSchools[]-> {
       _id,
+      slug,
       title,
       categoryTag,
       icon,
@@ -91,6 +94,7 @@ export const SCHOOLS_QUERY = groq`
     },
     "allSchools": *[_type == "school" && isDisabled != true] {
       _id,
+      slug,
       title,
       categoryTag,
       icon,
@@ -106,6 +110,7 @@ export const SCHOOLS_QUERY = groq`
 export const NEWS_QUERY = groq`
   *[_type == "news" && isDisabled != true] | order(publishedAt desc) {
     _id,
+    slug,
     title,
     category,
     location,
