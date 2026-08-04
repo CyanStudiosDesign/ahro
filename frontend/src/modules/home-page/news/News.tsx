@@ -3,6 +3,7 @@
 import * as React from "react";
 import Image from "next/image";
 import Link from "next/link";
+import { cn } from "@/lib/utils";
 import {
   ArrowRight,
   ArrowUpRight,
@@ -22,12 +23,26 @@ import {
 
 interface NewsItem {
   _id: string;
+  slug?: { current: string };
   category?: string;
   image?: unknown;
   publishedAt?: string;
   location?: string;
   title: string;
   excerpt?: string;
+}
+
+function slugify(text: string): string {
+  return text
+    .toString()
+    .toLowerCase()
+    .normalize('NFD')
+    .replace(/[\u0300-\u036f]/g, '')
+    .replace(/\s+/g, '-')
+    .replace(/[^\w\-]+/g, '')
+    .replace(/\-\-+/g, '-')
+    .replace(/^-+/, '')
+    .replace(/-+$/, '');
 }
 
 interface NewsProps {
@@ -41,6 +56,7 @@ interface NewsProps {
 }
 
 interface NewsCardItem {
+  slug: string;
   category: string;
   image: string;
   date: string;
@@ -49,48 +65,40 @@ interface NewsCardItem {
   description: string;
 }
 
-function NewsCard({ item }: { item: NewsCardItem }) {
+function NewsCard({ item, isGridView = false }: { item: NewsCardItem; isGridView?: boolean }) {
+  const authorName = "Demi Wilkinson";
+  const authorAvatar = "https://randomuser.me/api/portraits/women/44.jpg";
+
   return (
-    <article className="h-full overflow-hidden rounded-lg bg-white ">
-      <div className="relative h-56.25 w-full">
-        <Image
-          src={item.image}
-          alt={item.title}
-          fill
-          sizes="(min-width: 768px) 33vw, 100vw"
-          className="object-cover object-center"
-        />
-
-        <Chip className="absolute left-5 top-5 border-0 px-4 py-1.5 text-eyebrow uppercase tracking-[0.08em]">
-          {item.category}
-        </Chip>
-      </div>
-
-      <div className="p-6 flex flex-col justify-between h-auto min-h-[220px]">
-        <div>
-          <div className="flex items-center gap-2 font-ui text-caption font-normal text-slate-2">
-            <CalendarDays size={14} strokeWidth={1.7} />
-            <span>{item.date}</span>
-            <span className="text-slate-4">|</span>
-            <MapPin size={14} strokeWidth={1.7} />
-            <span>{item.location}</span>
-          </div>
-
-          <h3 className="mt-4 font-heading text-h4 font-semibold leading-[1.3] text-ink line-clamp-2">
-            {item.title}
-          </h3>
-
-          <BodyText className="mt-3 text-[14px] line-clamp-3">
-            {item.description}
-          </BodyText>
+    <Link href={item.slug ? `/news/${item.slug}` : "#"} className="block h-full cursor-pointer group">
+      <article className="flex flex-col cursor-pointer h-full">
+        <div className="w-full aspect-[16/10] rounded-2xl overflow-hidden mb-5 relative">
+          <Image
+            src={item.image}
+            alt={item.title}
+            fill
+            sizes="(min-width: 768px) 33vw, 100vw"
+            className="w-full h-full object-cover block object-center"
+          />
         </div>
-
-        <p className="mt-7 inline-flex items-center gap-2 font-ui text-body font-semibold text-ink">
-          Read More
-          <ArrowRight size={15} strokeWidth={1.8} />
-        </p>
-      </div>
-    </article>
+        <div className="flex items-start justify-between gap-2">
+          <h3 className="text-xl font-semibold leading-[1.35] text-[#181D27] m-0 group-hover:text-[#358840] transition-colors">{item.title}</h3>
+          <ArrowUpRight className="w-5 h-5 text-[#181D27] shrink-0 mt-1 transition-all duration-300 group-hover:translate-x-0.5 group-hover:-translate-y-0.5 group-hover:text-[#358840]" />
+        </div>
+        <p className="text-sm leading-relaxed text-[#535862] mt-3 mb-5 line-clamp-3">{item.description}</p>
+        <div className="flex items-center gap-3 mt-auto">
+          <img
+            src={authorAvatar}
+            alt={authorName}
+            className="w-10 h-10 rounded-full object-cover"
+          />
+          <span className="text-sm text-[#414651]">
+            <span className="font-semibold text-[#181D27]">{authorName}</span>
+            {" • " + item.date}
+          </span>
+        </div>
+      </article>
+    </Link>
   );
 }
 
@@ -115,6 +123,7 @@ export default function News({ data, intro, showViewAllButton = true, isGridView
 
   const displayItems = data && data.length > 0
     ? data.map((item) => ({
+        slug: item.slug?.current || slugify(item.title || ""),
         category: item.category || "News",
         image: (item.image ? urlFor(item.image)?.url() : null) || "/content/A1.webp",
         date: item.publishedAt ? new Date(item.publishedAt).toLocaleDateString('en-US', { month: 'short', year: 'numeric' }) : "Recently",
@@ -122,16 +131,19 @@ export default function News({ data, intro, showViewAllButton = true, isGridView
         title: item.title,
         description: item.excerpt || "",
       }))
-    : newsItems;
+    : newsItems.map(item => ({
+        ...item,
+        slug: slugify(item.title || ""),
+      }));
 
   const newsSlides = displayItems.map((item) => (
-    <NewsCard key={item.title} item={item} />
+    <NewsCard key={item.title} item={item} isGridView={false} />
   ));
 
   const headingText = intro?.heading || "Stay Updated With AHRO's Research And Impact.";
 
   return (
-    <section className="min-h-svh bg-paper px-5 py-16 md:px-10 lg:px-20">
+    <section className="min-h-svh bg-white px-5 py-16 md:px-10 lg:px-20">
       <section className="mx-auto max-w-7xl">
         <div className={isGridView ? "text-center flex flex-col items-center justify-center mb-12" : "mb-10"}>
           <Eyebrow icon={<Sparkles size={14} strokeWidth={1.7} />}>
@@ -151,9 +163,9 @@ export default function News({ data, intro, showViewAllButton = true, isGridView
         </div>
 
         {isGridView ? (
-          <div className="mt-11 grid gap-6 md:grid-cols-2 lg:grid-cols-3">
+          <div className="mt-11 grid gap-x-6 gap-y-10 md:grid-cols-2 lg:grid-cols-3">
             {displayItems.map((item, index) => (
-              <NewsCard key={item.title || index} item={item} />
+              <NewsCard key={item.title || index} item={item} isGridView={true} />
             ))}
           </div>
         ) : (

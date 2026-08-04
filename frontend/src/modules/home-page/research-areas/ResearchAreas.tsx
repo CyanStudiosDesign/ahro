@@ -5,12 +5,26 @@ import Image from "next/image";
 import { researchCards as defaultResearchCards, defaultResearchIntro } from "./index";
 import { urlFor } from "@/sanity/img";
 import Carousel from "@/components/ui/carousel/Carousel";
+import Link from "next/link";
 import {
   BodyText,
   ChipButton,
   Eyebrow,
   SectionHeading,
 } from "@/components/ui/design-system";
+
+function slugify(text: string): string {
+  return text
+    .toString()
+    .toLowerCase()
+    .normalize('NFD')
+    .replace(/[\u0300-\u036f]/g, '')
+    .replace(/\s+/g, '-')
+    .replace(/[^\w\-]+/g, '')
+    .replace(/\-\-+/g, '-')
+    .replace(/^-+/, '')
+    .replace(/-+$/, '');
+}
 
 interface ResearchAreasProps {
   intro?: {
@@ -21,6 +35,7 @@ interface ResearchAreasProps {
   };
   cards?: Array<{
     _id: string;
+    slug?: { current: string };
     image: unknown;
     title: string;
     description: string;
@@ -60,12 +75,13 @@ export default function ResearchAreas({ intro, cards, categories }: ResearchArea
   const rawCards = cards && cards.length > 0 
     ? cards.map((card) => ({
         id: card._id,
+        slug: card.slug?.current || slugify(card.title || ""),
         image: card.image ? urlFor(card.image)?.url() : null,
         title: card.title,
         description: card.description,
         categories: card.categories?.map(c => c.name) || [],
       }))
-    : defaultResearchCards.map(c => ({ ...c, categories: [] }));
+    : defaultResearchCards.map(c => ({ ...c, categories: [], slug: slugify(c.title || "") }));
 
   // Filter cards by category if active category is selected and not 'All'
   const filteredCards = activeCategory === "All" || !activeCategory
@@ -83,9 +99,10 @@ export default function ResearchAreas({ intro, cards, categories }: ResearchArea
     .map((card, index) => {
       const isOdd = index % 2 === 0;
       return (
-        <div
+        <Link
           key={card.id}
-          className="flex flex-col group w-full aspect-[3/4.6] bg-transparent text-left"
+          href={card.slug ? `/research/${card.slug}` : "#"}
+          className="flex flex-col group w-full aspect-[3/4.6] bg-transparent text-left cursor-pointer"
         >
           <div
             className={`h-0 w-full flex-1 overflow-hidden rounded-lg bg-mist-light transition-all duration-300 ${
@@ -103,7 +120,7 @@ export default function ResearchAreas({ intro, cards, categories }: ResearchArea
 
           {isOdd && (
             <div className="px-2 flex-none">
-              <h4 className="mb-1 font-heading text-h4 font-semibold leading-[1.3] text-ink">
+              <h4 className="mb-1 font-heading text-h4 font-semibold leading-[1.3] text-ink group-hover:text-[#358840] transition-colors">
                 {card.title}
               </h4>
               <BodyText className="max-w-[95%] line-clamp-2 text-[14px]">
@@ -111,7 +128,7 @@ export default function ResearchAreas({ intro, cards, categories }: ResearchArea
               </BodyText>
             </div>
           )}
-        </div>
+        </Link>
       );
     });
 
