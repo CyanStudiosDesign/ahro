@@ -12,6 +12,7 @@ import {
   Eyebrow,
   SectionHeading,
 } from "@/components/ui/design-system";
+import SplitText from "@/components/react-bits/SplitText";
 
 function slugify(text: string): string {
   return text
@@ -120,9 +121,12 @@ export default function ResearchAreas({ intro, cards, categories }: ResearchArea
 
           {isOdd && (
             <div className="px-2 flex-none">
-              <h4 className="mb-1 font-heading text-h4 font-semibold leading-[1.3] text-ink group-hover:text-[#358840] transition-colors">
+              <SplitText
+                as="h4"
+                className="mb-1 font-heading text-h4 font-semibold leading-[1.3] text-ink group-hover:text-[#358840] transition-colors"
+              >
                 {card.title}
-              </h4>
+              </SplitText>
               <BodyText className="max-w-[95%] line-clamp-2 text-[14px]">
                 {card.description}
               </BodyText>

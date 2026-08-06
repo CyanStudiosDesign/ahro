@@ -4,6 +4,7 @@ import Image from "next/image";
 import Link from "next/link";
 import React, { useCallback, useLayoutEffect, useRef, useState } from "react";
 import { gsap } from "gsap";
+import Magnet from "@/components/react-bits/Magnet";
 
 function SocialIcon({ label }: { label: string }) {
   const key = label.toLowerCase();
@@ -514,7 +515,7 @@ export const StaggeredMenu: React.FC<StaggeredMenuProps> = ({
         </div>
 
         <header
-          className={`staggered-menu-header absolute top-0 left-0 z-20 flex w-full items-center justify-between border-b p-4 transition-[transform,background-color,border-color,box-shadow] duration-300 sm:px-6 lg:px-10 ${
+          className={`staggered-menu-header absolute top-0 left-0 z-20 flex w-full will-change-transform items-center justify-between border-b p-4 transition-[transform,opacity,background-color,border-color,box-shadow] duration-500 ease-[cubic-bezier(0.22,1,0.36,1)] sm:px-6 lg:px-10 ${
             headerClassName || "border-transparent bg-transparent"
           }`}
           aria-label="Main navigation header"
@@ -538,13 +539,15 @@ export const StaggeredMenu: React.FC<StaggeredMenuProps> = ({
 
           <div className="relative z-50 pointer-events-auto flex items-center gap-2 sm:gap-4">
             {actionLabel && (actionLink || actionOnClick) && (
-              <a
-                href={actionLink || "#"}
-                onClick={actionOnClick}
-                className="rounded-full bg-brand-deep px-4 py-2 text-xs font-semibold text-surface shadow-navbar transition-colors hover:bg-brand sm:px-5 sm:py-2.5 sm:text-sm cursor-pointer"
-              >
-                {actionLabel}
-              </a>
+              <Magnet padding={80} magnetStrength={3}>
+                <a
+                  href={actionLink || "#"}
+                  onClick={actionOnClick}
+                  className="inline-flex items-center rounded-full bg-brand-deep px-4 py-2 text-xs font-semibold text-surface shadow-navbar transition-colors hover:bg-brand sm:px-5 sm:py-2.5 sm:text-sm cursor-pointer"
+                >
+                  {actionLabel}
+                </a>
+              </Magnet>
             )}
 
             <button

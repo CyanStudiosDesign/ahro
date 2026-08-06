@@ -1,5 +1,6 @@
 import { defaultApplicationSteps, defaultApplyPageData } from "./index";
 import { BodyText, SectionHeading } from "@/components/ui/design-system";
+import SplitText from "@/components/react-bits/SplitText";
 
 const cardClassName = [
   "min-w-0 border-t border-line px-page py-card-y",
@@ -105,9 +106,9 @@ export function HowToApply({ data }: HowToApplyProps) {
 
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3">
           <div className={`${cardClassName} border-t-0 sm:border-t-0 lg:border-t-0`}>
-            <h2 className={cardHeadingClassName}>
+            <SplitText as="h2" className={cardHeadingClassName}>
               {isPartnership ? "Partnership Opportunities" : `${steps.length} Simple Steps`}
-            </h2>
+            </SplitText>
             <p
               className={`${cardBodyClassName} sm:max-w-copy-intro lg:max-w-copy-intro`}
             >
@@ -129,10 +130,10 @@ export function HowToApply({ data }: HowToApplyProps) {
                 className={`${cardClassName} ${isFirstRowLG ? "lg:border-t-0" : ""} ${isFirstRowSM ? "sm:border-t-0" : ""}`}
                 key={step.title}
               >
-                <h2 className={cardHeadingClassName}>
+                <SplitText as="h2" className={cardHeadingClassName}>
                   {!isPartnership && <span aria-hidden="true">{index + 1}. </span>}
                   {displayTitle}
-                </h2>
+                </SplitText>
                 <p className={cardBodyClassName}>{step.description}</p>
               </article>
             );

@@ -9,6 +9,7 @@ import {
   Eyebrow,
   SectionHeading,
 } from "@/components/ui/design-system";
+import SplitText from "@/components/react-bits/SplitText";
 
 interface SanityTermItem {
   _id: string;
@@ -126,9 +127,12 @@ export default function AcademicCalendar({
 
                 {/* Content details */}
                 <div className="flex-1 flex flex-col items-start">
-                  <h3 className="font-heading text-h5 font-medium text-ink sm:text-h4">
+                  <SplitText
+                    as="h3"
+                    className="font-heading text-h5 font-medium text-ink sm:text-h4"
+                  >
                     {item.title}
-                  </h3>
+                  </SplitText>
 
                   <span className="border-0  py-1 text-eyebrow font-semibold uppercase text-forest">
                     {item.type}

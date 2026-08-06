@@ -1,5 +1,6 @@
 import Image from "next/image";
 import { cn } from "@/lib/utils";
+import SplitText from "@/components/react-bits/SplitText";
 
 interface TimelineItemProps {
   title: string;
@@ -62,9 +63,12 @@ export default function TimelineItem({
         </div>
 
         {/* Title */}
-        <h3 className="text-xl font-semibold leading-snug text-gray-900">
+        <SplitText
+          as="h3"
+          className="text-xl font-semibold leading-snug text-gray-900"
+        >
           {title}
-        </h3>
+        </SplitText>
 
         {/* Location */}
         {location && (

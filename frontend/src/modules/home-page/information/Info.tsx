@@ -19,6 +19,7 @@ import {
   AccordionTrigger,
 } from "@/components/ui/accordion";
 import { BodyText, SectionHeading } from "@/components/ui/design-system";
+import SplitText from "@/components/react-bits/SplitText";
 
 interface AccordionItemData {
   id: string;
@@ -62,9 +63,12 @@ export const Info: React.FC<InfoProps> = ({ accordionsData }) => {
                 Sustainability is a fundamental principle that underpins the mission, strategy, and operations of AHRO Institute.
               </blockquote>
               <div>
-                <h4 className="font-ui text-caption font-semibold text-white">
+                <SplitText
+                  as="h4"
+                  className="font-ui text-caption font-semibold text-white"
+                >
                   Institutional Charter
-                </h4>
+                </SplitText>
                 <p className="mt-1.5 font-ui text-eyebrow font-semibold uppercase tracking-[0.08em] text-lime">
                   SUSTAINABILITY FRAMEWORK 2024
                 </p>

@@ -22,6 +22,7 @@ import EventsHolidayToggle from "@/modules/home-page/toggle/EventsHolidayToggle"
 import Info from "@/modules/home-page/information/Info";
 import { HeroSection } from "@/modules/home-page/hero/Hero1";
 import { TherapeuticAreas } from "@/modules/home-page/theraputic";
+import AnimatedContent from "@/components/react-bits/AnimatedContent";
 
 export const revalidate = 10; // revalidate page every 10 seconds for dynamic content updates
 
@@ -92,36 +93,55 @@ export default async function Home() {
 
   return (
     <main>
-      <HeroSection data={heroData || undefined} />
+      <AnimatedContent distance={0} duration={0.5}>
+        <HeroSection data={heroData || undefined} />
+      </AnimatedContent>
 
       {!hideResearch && (
-        <ResearchAreas
-          intro={researchData?.intro || undefined}
-          cards={researchData?.cards || undefined}
-          categories={researchData?.categories || undefined}
-        />
+        <AnimatedContent>
+          <ResearchAreas
+            intro={researchData?.intro || undefined}
+            cards={researchData?.cards || undefined}
+            categories={researchData?.categories || undefined}
+          />
+        </AnimatedContent>
       )}
 
       {!hideTherapeutic && (
-        <TherapeuticAreas data={therapeuticData || undefined} />
+        <AnimatedContent>
+          <TherapeuticAreas data={therapeuticData || undefined} />
+        </AnimatedContent>
       )}
 
-      <Courses
-        spotlightSchool={schoolsData?.spotlightSchool || undefined}
-        gridSchools={schoolsData?.homepageSchools?.filter((s: any) => s._id !== schoolsData?.spotlightSchool?._id) || undefined}
-        intro={schoolsIntro || undefined}
-      />
+      <AnimatedContent>
+        <Courses
+          spotlightSchool={schoolsData?.spotlightSchool || undefined}
+          gridSchools={schoolsData?.homepageSchools?.filter(
+            (school: { _id?: string }) =>
+              school._id !== schoolsData?.spotlightSchool?._id,
+          ) || undefined}
+          intro={schoolsIntro || undefined}
+        />
+      </AnimatedContent>
 
-      <News data={newsData || undefined} intro={newsIntro || undefined} />
-      <EventsHolidayToggle
-        eventsData={eventsData || undefined}
-        termsData={termsData || undefined}
-        eventsIntro={eventsIntro || undefined}
-      />
+      <AnimatedContent>
+        <News data={newsData || undefined} intro={newsIntro || undefined} />
+      </AnimatedContent>
+      <AnimatedContent>
+        <EventsHolidayToggle
+          eventsData={eventsData || undefined}
+          termsData={termsData || undefined}
+          eventsIntro={eventsIntro || undefined}
+        />
+      </AnimatedContent>
 
-      <Info accordionsData={sustainabilityData || undefined} />
+      <AnimatedContent>
+        <Info accordionsData={sustainabilityData || undefined} />
+      </AnimatedContent>
 
-      <HowToApply data={applyData || undefined} />
+      <AnimatedContent>
+        <HowToApply data={applyData || undefined} />
+      </AnimatedContent>
     </main>
   );
 }

@@ -4,7 +4,9 @@ import Image from "next/image";
 import FlowingMenu from "@/components/react-bits/FlowingMenu";
 import { urlFor } from "@/sanity/img";
 import { defaultTherapeuticData } from "./index";
-import { BodyText, SectionHeading } from "@/components/ui/design-system";
+import { BodyText } from "@/components/ui/design-system";
+import SplitText from "@/components/react-bits/SplitText";
+import { TiltedCard } from "@/modules/home-page/hero/TiltedCard";
 
 interface TherapeuticData {
   therapeuticIntro?: {
@@ -57,12 +59,13 @@ export function Therapeutic1({ data }: Therapeutic1Props) {
     >
       <div className="mx-auto max-w-7xl">
         <header className="grid items-center gap-5 md:grid-cols-2 md:gap-10">
-          <h2
+          <SplitText
+            as="h2"
             id="therapeutic-list-title"
             className="text-center sm:text-left text-3xl sm:text-5xl md:text-7xl font-heading font-bold leading-[1.1] tracking-tight"
           >
             Therapeutic <span className="text-brand">Areas</span>
-          </h2>
+          </SplitText>
           <BodyText className="text-center sm:text-left max-w-therapeutic-description text-body-l">
             {description}
           </BodyText>
@@ -81,7 +84,12 @@ export function Therapeutic1({ data }: Therapeutic1Props) {
             />
           </div>
 
-          <div className="relative aspect-[4/3] overflow-hidden rounded-3xl bg-tint  lg:aspect-auto lg:h-[min(42rem,75vh)] lg:min-h-[32rem]">
+          <TiltedCard
+            wrapperClassName="h-full"
+            className="relative aspect-[4/3] overflow-hidden rounded-3xl bg-tint shadow-media will-change-transform lg:aspect-auto lg:h-[min(42rem,75vh)] lg:min-h-[32rem]"
+            rotateAmplitude={8}
+            scaleOnHover={1.025}
+          >
             <Image
               src={featuredImage || defaultTherapeuticData.mainImageUrl}
               alt="Healthcare research and community care"
@@ -89,7 +97,7 @@ export function Therapeutic1({ data }: Therapeutic1Props) {
               className="object-cover"
               sizes="(max-width: 1023px) calc(100vw - 2.5rem), 50vw"
             />
-          </div>
+          </TiltedCard>
         </div>
       </div>
     </section>

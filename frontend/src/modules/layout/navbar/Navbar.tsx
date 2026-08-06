@@ -87,7 +87,7 @@ export function Navbar() {
         onMenuOpen={() => setIsMenuOpen(true)}
         onMenuClose={() => setIsMenuOpen(false)}
         headerClassName={
-          `${isMenuOpen || isNavbarVisible ? "translate-y-0" : "-translate-y-full"} ${
+          `${isMenuOpen || isNavbarVisible ? "translate-y-0 opacity-100" : "-translate-y-[calc(100%+1rem)] opacity-0"} ${
             isMenuOpen
               ? "border-transparent bg-transparent shadow-none"
               : isScrolled

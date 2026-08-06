@@ -131,8 +131,10 @@ const Footer = ({
     >
       <section className="flex flex-col md:flex-row justify-between px-4 py-16">
         {/* LEFT: Logo */}
-        <div className={`${currentTheme.text} flex justify-center md:block`}>
-          <img src={logoSrc} alt="Logo" className="w-40" />
+        <div
+          className={`${currentTheme.text} flex w-full  justify-center md:block`}
+        >
+          <img src={logoSrc} alt="Logo" className="w-40 mb-5 ml-0 sm:ml-20" />
         </div>
 
         {/* RIGHT: Links */}
@@ -140,7 +142,7 @@ const Footer = ({
         {/* Mobile Accordion sections */}
         <Accordion
           type="single"
-          className="flex flex-col px-8 md:hidden w-full"
+          className="flex flex-col px-8 md:hidden border-0 w-full"
         >
           {footerData.map((column) => (
             <AccordionItem
@@ -148,11 +150,15 @@ const Footer = ({
               value={column.heading}
               className={`border-b ${currentTheme.border}`}
             >
-              <AccordionTrigger className={`w-full flex justify-between items-center py-5 text-lg ${currentTheme.text}`}>
+              <AccordionTrigger
+                className={`w-full flex justify-between items-center py-5 text-lg ${currentTheme.text}`}
+              >
                 <span>{column.heading}</span>
               </AccordionTrigger>
               <AccordionContent>
-                <div className={`flex flex-col gap-4 pb-5 ${currentTheme.text}`}>
+                <div
+                  className={`flex flex-col gap-4 pb-5 ${currentTheme.text}`}
+                >
                   {column.items?.map((item) => (
                     <Link
                       key={item.title}
@@ -171,14 +177,15 @@ const Footer = ({
         {/* Desktop Footer columns */}
         <div className="hidden md:grid md:grid-cols-2 lg:grid-cols-3 gap-12 w-[60%]">
           {footerData.map((column) => (
-            <div
-              key={column.heading}
-              className="flex flex-col"
-            >
-              <p className={`text-xs font-semibold uppercase tracking-wider mb-4 mt-8 ${currentTheme.heading}`}>
+            <div key={column.heading} className="flex flex-col">
+              <p
+                className={`text-xs font-semibold uppercase tracking-wider mb-4 mt-8 ${currentTheme.heading}`}
+              >
                 {column.heading}
               </p>
-              <div className={`flex flex-col gap-5 text-md ${currentTheme.text}`}>
+              <div
+                className={`flex flex-col gap-5 text-md ${currentTheme.text}`}
+              >
                 {column.items?.map((item) => (
                   <Link
                     key={item.title}
@@ -204,7 +211,9 @@ const Footer = ({
             rel="noopener noreferrer"
             className="w-full md:w-auto"
           >
-            <div className={`group ${currentTheme.cardBg} border ${currentTheme.cardBorder} rounded-3xl px-4 py-4 w-full md:w-[320px] flex items-center mt-10 md:mt-0 justify-between hover:bg-white transition cursor-pointer`}>
+            <div
+              className={`group ${currentTheme.cardBg} border ${currentTheme.cardBorder} rounded-3xl px-4 py-4 w-full md:w-[320px] flex items-center mt-10 md:mt-0 justify-between hover:bg-white transition cursor-pointer`}
+            >
               <div className="flex items-center gap-4 h-14 pl-8">
                 <div className="flex flex-col gap-1">
                   <h3
@@ -212,14 +221,18 @@ const Footer = ({
                   >
                     {studioCard.name}
                   </h3>
-                  <p className={`${currentTheme.muted} text-xs mt-1 pl-2 group-hover:text-zinc-500 transition`}>
+                  <p
+                    className={`${currentTheme.muted} text-xs mt-1 pl-2 group-hover:text-zinc-500 transition`}
+                  >
                     {studioCard.description}
                   </p>
                 </div>
               </div>
 
               {/* Right arrow icon */}
-              <div className={`${currentTheme.text} group-hover:text-zinc-900 transition`}>
+              <div
+                className={`${currentTheme.text} group-hover:text-zinc-900 transition`}
+              >
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
                   fill="none"
@@ -259,7 +272,9 @@ const Footer = ({
               target="_blank"
               rel="noopener noreferrer"
             >
-              <span className={`h-12 w-12 rounded-full ${currentTheme.socialBg} flex items-center justify-center hover:bg-white transition cursor-pointer group`}>
+              <span
+                className={`h-12 w-12 rounded-full ${currentTheme.socialBg} flex items-center justify-center hover:bg-white transition cursor-pointer group`}
+              >
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
                   viewBox="0 0 24 24"
@@ -273,7 +288,9 @@ const Footer = ({
               </span>
             </a>
           ) : (
-            <span className={`h-12 w-12 rounded-full ${currentTheme.socialDisabledBg} flex items-center justify-center cursor-not-allowed group`}>
+            <span
+              className={`h-12 w-12 rounded-full ${currentTheme.socialDisabledBg} flex items-center justify-center cursor-not-allowed group`}
+            >
               <svg
                 xmlns="http://www.w3.org/2000/svg"
                 viewBox="0 0 24 24"
@@ -289,7 +306,9 @@ const Footer = ({
           {/* X / Twitter */}
           {iconsLink?.X ? (
             <a href={iconsLink.X} target="_blank" rel="noopener noreferrer">
-              <span className={`h-12 w-12 rounded-full ${currentTheme.socialBg} flex items-center justify-center cursor-pointer group hover:bg-white transition`}>
+              <span
+                className={`h-12 w-12 rounded-full ${currentTheme.socialBg} flex items-center justify-center cursor-pointer group hover:bg-white transition`}
+              >
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
                   viewBox="0 0 20 20"
@@ -303,7 +322,9 @@ const Footer = ({
               </span>
             </a>
           ) : (
-            <span className={`h-12 w-12 rounded-full ${currentTheme.socialDisabledBg} flex items-center justify-center cursor-not-allowed group`}>
+            <span
+              className={`h-12 w-12 rounded-full ${currentTheme.socialDisabledBg} flex items-center justify-center cursor-not-allowed group`}
+            >
               <svg
                 xmlns="http://www.w3.org/2000/svg"
                 viewBox="0 0 20 20"
@@ -323,7 +344,9 @@ const Footer = ({
               target="_blank"
               rel="noopener noreferrer"
             >
-              <span className={`h-12 w-12 rounded-full ${currentTheme.socialBg} flex items-center justify-center cursor-pointer group hover:bg-white transition`}>
+              <span
+                className={`h-12 w-12 rounded-full ${currentTheme.socialBg} flex items-center justify-center cursor-pointer group hover:bg-white transition`}
+              >
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
                   viewBox="0 0 24 24"
@@ -337,7 +360,9 @@ const Footer = ({
               </span>
             </a>
           ) : (
-            <span className={`h-12 w-12 rounded-full ${currentTheme.socialDisabledBg} flex items-center justify-center cursor-not-allowed group`}>
+            <span
+              className={`h-12 w-12 rounded-full ${currentTheme.socialDisabledBg} flex items-center justify-center cursor-not-allowed group`}
+            >
               <svg
                 xmlns="http://www.w3.org/2000/svg"
                 viewBox="0 0 24 24"
@@ -355,7 +380,9 @@ const Footer = ({
 
       {/* Legal section */}
       <div className="px-10 pb-10 pt-20">
-        <div className={`flex flex-wrap gap-x-6 gap-y-3 text-sm mb-6 ${currentTheme.text}`}>
+        <div
+          className={`flex flex-wrap gap-x-6 gap-y-3 text-sm mb-6 ${currentTheme.text}`}
+        >
           {legalLinks.map((privacy) => (
             <Link
               key={privacy.title}

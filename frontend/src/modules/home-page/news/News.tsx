@@ -20,6 +20,7 @@ import {
   Eyebrow,
   SectionHeading,
 } from "@/components/ui/design-system";
+import SplitText from "@/components/react-bits/SplitText";
 
 interface NewsItem {
   _id: string;
@@ -82,7 +83,12 @@ function NewsCard({ item, isGridView = false }: { item: NewsCardItem; isGridView
           />
         </div>
         <div className="flex items-start justify-between gap-2">
-          <h3 className="text-xl font-semibold leading-[1.35] text-[#181D27] m-0 group-hover:text-[#358840] transition-colors">{item.title}</h3>
+          <SplitText
+            as="h3"
+            className="text-xl font-semibold leading-[1.35] text-[#181D27] m-0 group-hover:text-[#358840] transition-colors"
+          >
+            {item.title}
+          </SplitText>
           <ArrowUpRight className="w-5 h-5 text-[#181D27] shrink-0 mt-1 transition-all duration-300 group-hover:translate-x-0.5 group-hover:-translate-y-0.5 group-hover:text-[#358840]" />
         </div>
         <p className="text-sm leading-relaxed text-[#535862] mt-3 mb-5 line-clamp-3">{item.description}</p>

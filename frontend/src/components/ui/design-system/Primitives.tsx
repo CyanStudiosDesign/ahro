@@ -3,6 +3,7 @@ import type {
   HTMLAttributes,
   ReactNode,
 } from "react";
+import SplitText from "@/components/react-bits/SplitText";
 
 function joinClassNames(...classes: Array<string | undefined | false>) {
   return classes.filter(Boolean).join(" ");
@@ -88,7 +89,8 @@ export function SectionHeading({
   ...props
 }: SectionHeadingProps) {
   return (
-    <Heading
+    <SplitText
+      as={Heading}
       className={joinClassNames(
         "font-heading text-[22px] font-bold leading-[1.2] tracking-[-0.005em] text-ink sm:text-[26px] lg:text-h2",
         className
@@ -96,7 +98,7 @@ export function SectionHeading({
       {...props}
     >
       {children}
-    </Heading>
+    </SplitText>
   );
 }
 
