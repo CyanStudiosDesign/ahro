@@ -135,7 +135,6 @@ export const StaggeredMenu: React.FC<StaggeredMenuProps> = ({
       gsap.set(icon, { rotate: 0, transformOrigin: "50% 50%" });
 
       gsap.set(textInner, { yPercent: 0 });
-
     });
     scope?.setAttribute("data-ready", "true");
 
@@ -175,8 +174,7 @@ export const StaggeredMenu: React.FC<StaggeredMenuProps> = ({
     const panelStart = offscreen;
 
     if (itemEls.length) gsap.set(itemEls, { yPercent: 140, rotate: 10 });
-    if (numberEls.length)
-      gsap.set(numberEls, { "--sm-num-opacity": 0 });
+    if (numberEls.length) gsap.set(numberEls, { "--sm-num-opacity": 0 });
     if (socialTitle) gsap.set(socialTitle, { opacity: 0 });
     if (socialLinks.length) gsap.set(socialLinks, { y: 25, opacity: 0 });
 
@@ -307,8 +305,7 @@ export const StaggeredMenu: React.FC<StaggeredMenuProps> = ({
             ".sm-panel-list[data-numbering] .sm-panel-item"
           )
         ) as HTMLElement[];
-        if (numberEls.length)
-          gsap.set(numberEls, { "--sm-num-opacity": 0 });
+        if (numberEls.length) gsap.set(numberEls, { "--sm-num-opacity": 0 });
 
         const socialTitle = panel.querySelector(
           ".sm-socials-title"
@@ -537,9 +534,9 @@ export const StaggeredMenu: React.FC<StaggeredMenuProps> = ({
             />
           </Link>
 
-          <div className="relative z-50 pointer-events-auto flex items-center gap-2 sm:gap-4">
+          <div className="relative z-50 pointer-events-auto flex items-center gap-4 sm:gap-4">
             {actionLabel && (actionLink || actionOnClick) && (
-              <Magnet padding={80} magnetStrength={3}>
+              <Magnet padding={15} magnetStrength={3}>
                 <a
                   href={actionLink || "#"}
                   onClick={actionOnClick}
