@@ -3,6 +3,7 @@ import { Cabin, Reddit_Sans, Inter } from "next/font/google";
 import "./globals.css";
 import Footer from "@/modules/layout/footer/Footer";
 import { Navbar } from "@/modules/layout/navbar";
+import { Analytics } from "@vercel/analytics/next";
 
 const cabin = Cabin({
   variable: "--font-cabin",
@@ -80,9 +81,10 @@ export default function RootLayout({
       className={`${cabin.variable} ${redditSans.variable} ${inter.variable} h-full antialiased`}
     >
       <body className="min-h-full flex flex-col">
+        <Analytics />
         <Navbar />
         {children}
-        <Footer 
+        <Footer
           theme="surface"
           footerData={footerData}
           studioCard={studioCard}
